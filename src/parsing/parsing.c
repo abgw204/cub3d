@@ -1,6 +1,11 @@
 #include "../../include/cub3d.h"
 
-int	invalid_extension(char *file)
+/*int	validate_map(int map_fd)
+{
+
+}*/
+
+static int	invalid_extension(char *file)
 {
 	char	*dot;
 	
@@ -13,22 +18,16 @@ int	invalid_extension(char *file)
 	return (1);
 }
 
-int	open_map(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	return (fd);
-}
-
 int	parse_map_file(char *file)
 {
-	int	map_fd;
+	int		map_fd;
 
 	if (invalid_extension(file))
 		return (print_error("Invalid file extension!"));
-	map_fd = open_map(file);
+	map_fd = open(file, O_RDONLY);
 	if (map_fd < 0)
 		return (print_perror());
+	//if (validate_map(map_fd));
+	//	return (1);
 	return (0);
 }
