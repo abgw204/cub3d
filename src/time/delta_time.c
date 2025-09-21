@@ -6,7 +6,7 @@ static double	get_time_in_seconds(void)
 {
 	struct timeval	tv;
 	gettimeofday(&tv, NULL);
-	return (tv.tv_sec + tv.tv_sec / 1000000.0);
+	return (tv.tv_sec + tv.tv_usec / 1000000.0);
 }
 
 void	set_delta_time(void)
@@ -14,7 +14,7 @@ void	set_delta_time(void)
 	static double	last_time = 0.0;
 	double	current_time = get_time_in_seconds();
 
-	delta_time = current_time = last_time;
+	delta_time = current_time - last_time;
 	if (last_time == 0)
 		delta_time = 0;
 	last_time = current_time;

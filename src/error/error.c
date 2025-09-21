@@ -1,5 +1,15 @@
 #include "../../include/cub3d.h"
 
+int	print_error_free(t_game *game, char *error_message)
+{
+	ft_putendl_fd("Error", 2);
+	ft_putendl_fd(error_message, 2);
+	free(game->map);
+	if (game->mlx)
+		mlx_destroy_display(game->mlx);
+	return (1);
+}
+
 int	print_error(char *error_message)
 {
 	ft_putendl_fd("Error", 2);

@@ -1,10 +1,14 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
 FUNCTIONS = src/parsing/parsing.c \
-			src/error/error.c
+			src/error/error.c \
+			src/time/delta_time.c \
+			src/game/menu_screen/main_menu.c \
+			src/render/draw/draw_pixel_in_image.c \
+			src/game/start/init_game.c
 
 FUNCTIONS_BONUS =
 
@@ -23,7 +27,7 @@ NAME_BONUS = cub3d_bonus
 all: $(NAME_LIB) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(FLAGS) src/main.c $(OBJS) -Llib/libft -lft -o $(NAME)
+	@$(CC) $(FLAGS) src/main.c $(OBJS) -Llib/libft -lft -Llib/minilibx-linux -lmlx_Linux -lX11 -lXext -lm -o $(NAME)
 	@echo "\033[46mcub3d compiled successfully!\033[0m"
 
 $(NAME_BONUS): $(OBJS_BONUS) $(LIBFT)
