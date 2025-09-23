@@ -46,7 +46,9 @@ FUNCTIONS = 	ft_strdup.c \
 		ft_lstadd_front_bonus.c \
 		ft_lstadd_back_bonus.c \
 		ft_lstlast_bonus.c \
+		ft_len_matrix.c \
 		create_matrix.c \
+		free_matrix.c \
 		$(DIR_GNL)/get_next_line_utils.c \
 		$(DIR_GNL)/get_next_line.c
 

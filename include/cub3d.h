@@ -20,7 +20,15 @@
 # define MAIN_MENU 0
 # define IN_GAME 1
 
-extern double	delta_time;
+extern double	g_delta_time;
+
+typedef struct Data
+{
+	char	**textures[5];
+	char	**fc_colors[3];
+	char	**map_matrix;
+	char	*map;
+}	t_data;
 
 typedef struct	Image
 {
@@ -68,5 +76,6 @@ int		init_game(t_game *game);
 int		main_menu_inputs(int mouse_btn, int x, int y, void *param);
 int		render_main_menu(t_game *game);
 void	set_delta_time(void);
+t_data	*get_data(void);
 
 #endif

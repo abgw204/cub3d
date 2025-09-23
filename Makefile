@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror -Wno-cast-function-type
+FLAGS = -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 

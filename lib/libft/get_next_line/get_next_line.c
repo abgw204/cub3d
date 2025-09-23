@@ -5,109 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 18:53:01 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/05/08 19:56:28 by vfidelis         ###   ########.fr       */
+/*   Created: 2024/10/28 18:34:52 by vfidelis          #+#    #+#             */
+/*   Updated: 2024/11/05 18:38:11 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*get_rest(char *buffer)
-{
-	int		line_len;
-	int		j;
-	char	*rest;
-
-	line_len = 0;
-	while (buffer[line_len] && buffer[line_len] != '\n')
-		line_len++;
-	if (!buffer[line_len])
-	{
-		free(buffer);
-		return (NULL);
-	}
-	rest = ft_calloc_gnl((ft_strlen_gnl(buffer) - line_len + 1), sizeof(char));
-	line_len++;
-	j = 0;
-	while (buffer[line_len])
-		rest[j++] = buffer[line_len++];
-	free(buffer);
-	return (rest);
-}
-
-char	*join(char *buffer, char *temp)
-{
-	char	*full;
-
-	full = ft_strjoin_gnl(buffer, temp);
-	if (buffer)
-		free(buffer);
-	return (full);
-}
-
-static char	*get_line(char *buffer)
+char	*line_break(char **buffer)
 {
 	char	*line;
-	int		i;
+	size_t	i;
 
 	i = 0;
-	if (!buffer[i])
+	while ((*buffer)[i] && (*buffer)[i] != '\n')
+		i++;
+	line = (char *)malloc(sizeof(char) * (i + 2));
+	if (!line)
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
-		i++;
-	if (buffer[i] == '\n')
-		line = ft_calloc_gnl(i + 2, sizeof(char));
-	else
-		line = ft_calloc_gnl(i + 1, sizeof(char));
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	if (buffer[i] && buffer[i] == '\n')
+	ft_memcpy(line, *buffer, i);
+	if ((*buffer)[i] == '\n')
 		line[i++] = '\n';
+	line[i] = '\0';
+	new_pos(buffer, *buffer + i);
 	return (line);
 }
 
-static char	*reading(int fd, char *buffer)
+void	reading(int fd, char **buffer, int *receiver)
 {
-	char	*temp;
-	int		bytes_read;
+	char	*str;
 
-	if (!buffer)
-		buffer = ft_calloc_gnl(1, 1);
-	temp = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));
-	bytes_read = 1;
-	while (bytes_read > 0)
+	if (!*buffer)
 	{
-		bytes_read = read(fd, temp, BUFFER_SIZE);
-		if (bytes_read == -1)
-		{
-			free(temp);
-			free(buffer);
-			return (NULL);
-		}
-		temp[bytes_read] = '\0';
-		buffer = join(buffer, temp);
-		if (ft_strchr_gnl(buffer, '\n'))
-			break ;
+		*buffer = (char *)malloc(1);
+		(*buffer)[0] = '\0';
 	}
-	free(temp);
-	return (buffer);
+	str = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	while (!ft_strchr(*buffer, '\n'))
+	{
+		*receiver = read(fd, str, BUFFER_SIZE);
+		if (*receiver < 0)
+		{
+			free(str);
+			free(*buffer);
+			*buffer = NULL;
+			return ;
+		}
+		if (*receiver == 0)
+			break ;
+		str[*receiver] = '\0';
+		ft_realloc(buffer, str);
+	}
+	free(str);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
-	char		*return_line;
+	int			receiver;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = reading(fd, buffer);
-	if (!buffer)
-		return (NULL);
-	return_line = get_line(buffer);
-	buffer = get_rest(buffer);
-	return (return_line);
+	receiver = 0;
+	reading(fd, &buffer, &receiver);
+	if (receiver > 0 || (buffer && buffer[0] != '\0'))
+		return (line_break(&buffer));
+	if (buffer)
+	{
+		free(buffer);
+		buffer = NULL;
+	}
+	return (NULL);
 }
+/*
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int	main(void)
+{
+	int		fd;
+	char	*line;
+
+	fd = open("fd.txt", O_RDWR);
+	line = (void *)1;
+	for (int i = 0; line; i++)
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+		free(line);
+	}
+	close(fd);
+	return (0);
+}*/

@@ -7,7 +7,6 @@ static int	update(void *param)
 	game = (t_game *)param;
 	set_delta_time();
 	mlx_clear_window(game->mlx, game->win);
-	mlx_clear_window(game->mlx, game->win);
 	if (game->state == MAIN_MENU)
 		return (render_main_menu(game));
 	if (game->state == IN_GAME)

@@ -1,5 +1,12 @@
 #include "../include/cub3d.h"
 
+t_data *get_data(void)
+{
+	static t_data	data_cub;
+
+	return (&data_cub);
+}
+
 static void	init_vars(t_game *game)
 {
 	game->state = MAIN_MENU; // não estará presente no mandatório

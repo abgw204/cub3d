@@ -3,79 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 18:53:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/05/08 19:47:52 by vfidelis         ###   ########.fr       */
+/*   Created: 2024/10/28 18:34:55 by vfidelis          #+#    #+#             */
+/*   Updated: 2025/09/23 16:26:41 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc_gnl(size_t num, size_t size)
+void	ft_realloc(char **str1, char *str2)
 {
-	void			*ptr;
-	size_t			total_size;
-	size_t			i;
-	unsigned char	*str;
+	char	*new_str;
+	size_t	len1;
+	size_t	len2;
 
-	i = 0;
-	if (num != 0 && (num * size) / num != size)
-		return (NULL);
-	total_size = num * size;
-	ptr = malloc(total_size);
-	if (!ptr)
-		return (NULL);
-	str = (unsigned char *)ptr;
-	while (i < total_size)
-		str[i++] = '\0';
-	return (ptr);
+	len1 = ft_strlen(*str1);
+	len2 = ft_strlen(str2);
+	new_str = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!new_str)
+		return ;
+	ft_memcpy(new_str, *str1, len1);
+	ft_memcpy(new_str + len1, str2, len2);
+	new_str[len1 + len2] = '\0';
+	free(*str1);
+	*str1 = new_str;
 }
 
-char	*ft_strchr_gnl(const char *s1, int c)
+void	new_pos(char **buffer, char *pos)
 {
-	while (*s1)
-	{
-		if ((unsigned char)*s1 == (unsigned char)c)
-			return ((char *)s1);
-		s1++;
-	}
-	if ((unsigned char)c == '\0')
-		return ((char *)s1);
-	return (0);
-}
+	char	*temp;
+	size_t	len;
 
-char	*ft_strjoin_gnl(char *s1, char *s2)
-{
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*ptr;
-	size_t	i;
-	size_t	j;
-
-	s1_len = ft_strlen_gnl(s1);
-	s2_len = ft_strlen_gnl(s2);
-	i = 0;
-	j = 0;
-	ptr = (char *)malloc(s1_len + s2_len + 2);
-	if (!ptr)
-		return (NULL);
-	while (s1[j])
-		ptr[i++] = s1[j++];
-	if (s1[j - 1] != ' ')
-		ptr[i++] = ' ';
-	while (*s2)
-		ptr[i++] = *s2++;
-	ptr[i] = '\0';
-	return (ptr);
-}
-
-size_t	ft_strlen_gnl(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	len = ft_strlen(pos);
+	temp = (char *)malloc(sizeof(char) * (len + 1));
+	if (!temp)
+		return ;
+	ft_memcpy(temp, pos, len);
+	temp[len] = '\0';
+	free(*buffer);
+	*buffer = temp;
 }
