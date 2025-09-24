@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:34:05 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/23 18:58:13 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:25:23 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_list
 }			t_list;
 
 int			ft_len_matrix(char **matrix);
-int			free_matrix(char **matrix, int size);
+int			free_matrix(char **matrix);
 char		**ft_split(const char *str, char c);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);

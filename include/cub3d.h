@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
+/*   Updated: 2025/09/24 17:56:19 by gada-sil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -67,6 +79,9 @@ typedef struct	GameData
 }			t_game;
 
 int		parse_map_file(char *file);
+int		parse_textures(int map_fd, char **textures, int i);
+void	free_stack_matrix_array(char ***arr);
+void	initialize_matrix(char **matrix, int size);
 void	draw_circle(t_vector2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 int		print_error(char *error_message);

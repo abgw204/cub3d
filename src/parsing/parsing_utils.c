@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_matrix.c                                      :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 18:54:42 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:30:18 by gada-sil         ###   ########.fr       */
+/*   Created: 2025/09/24 17:01:51 by gada-sil          #+#    #+#             */
+/*   Updated: 2025/09/24 17:35:26 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "../../include/cub3d.h"
 
-int	free_matrix(char **matrix)
+void	free_stack_matrix_array(char ***arr)
 {
-    int	i;
-	
+	int	i;
+
 	i = 0;
-	if (!matrix || !*matrix)
-		return (1);
-	while (matrix[i])
-		free(matrix[i++]);
-	free(matrix);
-	return (1);
+	if (!arr || !*arr)
+		return ;
+	while (arr[i])
+		free_matrix(arr[i++]);
+}
+
+void	initialize_matrix(char **matrix, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+		matrix[i++] = NULL;
 }

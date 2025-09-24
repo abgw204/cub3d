@@ -1,9 +1,11 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 
 FUNCTIONS = src/parsing/parsing.c \
+			src/parsing/parsing_utils.c \
+			src/parsing/parse_textures.c \
 			src/error/error.c \
 			src/time/delta_time.c \
 			src/game/menu_screen/main_menu.c \

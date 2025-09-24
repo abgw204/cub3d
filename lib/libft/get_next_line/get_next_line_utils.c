@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 18:34:55 by vfidelis          #+#    #+#             */
-/*   Updated: 2025/09/23 16:26:41 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:53:25 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ void	new_pos(char **buffer, char *pos)
 	size_t	len;
 
 	len = ft_strlen(pos);
+	if (len == 0)
+	{
+		free(*buffer);
+		*buffer = NULL;
+		return ;
+	}
 	temp = (char *)malloc(sizeof(char) * (len + 1));
 	if (!temp)
 		return ;
