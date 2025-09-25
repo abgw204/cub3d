@@ -12,15 +12,21 @@
 
 #include "../../include/cub3d.h"
 
-int	validate_map(int map_fd)
+static char	**create_symbols_matrix(void)
 {
-	char	**file[4];
+	char	**matrix;
 
-	if (parse_textures(map_fd, file[0], 0))
-		return (1);
-	//if (parse_fc_colors(map_fd, file[1]))
-	//	return (1);
-	return (0);
+	matrix = malloc(7 * sizeof(char *));
+	if (!matrix)
+		return (NULL);
+	matrix[0] = ft_strdup("NO");
+	matrix[1] = ft_strdup("SO");
+	matrix[2] = ft_strdup("WE");
+	matrix[3] = ft_strdup("EA");
+	matrix[4] = ft_strdup("F");
+	matrix[5] = ft_strdup("C");
+	matrix[6] = NULL;
+	return (matrix);
 }
 
 static int	invalid_extension(char *file)
@@ -36,7 +42,23 @@ static int	invalid_extension(char *file)
 	return (1);
 }
 
-int	parse_map_file(char *file)
+static int	validate_map(int map_fd)
+{
+	char	**file;
+	char	**possible_symbols;
+
+	file = NULL;
+	get_data()->config[6] = NULL;
+	possible_symbols = create_symbols_matrix();
+	if (!possible_symbols)
+		return (print_error("malloc error!"));
+	if (parse_file(map_fd, file, possible_symbols, 0))
+		return (free_matrix(possible_symbols));
+	free_matrix(possible_symbols);
+	return (0);
+}
+
+int	parse_given_file(char *file)
 {
 	int		map_fd;
 

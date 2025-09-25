@@ -27,7 +27,8 @@ typedef struct s_list
 
 int			ft_len_matrix(char **matrix);
 int			free_matrix(char **matrix);
-char		**ft_split(const char *str, char c);
+char		**ft_split(const char *str, char *sep);
+int			compare_sep(char c, char *sep);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_strcmp(const char *s1, const char *s2);

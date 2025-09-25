@@ -21,6 +21,13 @@ t_data *get_data(void)
 
 static void	init_vars(t_game *game)
 {
+	t_vector2	p_pos;
+	t_vector2	p_dir;
+
+	p_pos.x = 0;
+	p_pos.y = 0;
+	p_dir.x = 0;
+	p_dir.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
 	game->mlx = NULL;
 	game->win = NULL;
@@ -30,8 +37,6 @@ static void	init_vars(t_game *game)
 	game->keys = ft_calloc(1, 256);
 	ft_memset(game->keys, '0', 256);
 	game->player.speed = 50.0f;
-	t_vector2	p_pos = {0};
-	t_vector2	p_dir = {0};
 	game->player.pos = p_pos;
 	game->player.dir = p_dir;
 }
@@ -42,7 +47,7 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 		return (print_error("Invalid number of parameters!"));
-	if (parse_map_file(argv[1]))
+	if (parse_given_file(argv[1]))
 		return (1);
 	init_vars(&game);
 	//if (parsing_and_map_stuff(&game))

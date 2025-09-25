@@ -34,6 +34,10 @@ int	init_game(t_game *game)
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "cub3d");
 	if (!game->win)
 		return (print_error_free(game, "mlx window did not work correctly"));
+	game->img.img = mlx_new_image(game->mlx, 140, 140);
+	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.line_len, &game->img.endian);
+	t_vector2 pos = {.x = 70, .y = 70};
+	draw_circle(pos, 50, 16777215, &game->img);
 	mlx_loop_hook(game->mlx, (int (*)())update, game);
 	mlx_hook(game->win, 5, 1L<<3, (int (*)())main_menu_inputs, game);
 	mlx_loop(game->mlx);

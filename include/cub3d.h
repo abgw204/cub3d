@@ -36,10 +36,10 @@ extern double	g_delta_time;
 
 typedef struct Data
 {
-	char	**textures[5];
-	char	**fc_colors[3];
+	char	**config[7];
 	char	**map_matrix;
-	char	*map;
+	int		f_color;
+	int		c_color;
 }	t_data;
 
 typedef struct	Image
@@ -51,7 +51,7 @@ typedef struct	Image
 	int		endian;
 	int		width;
 	int		height;
-}		t_image;
+}	t_image;
 
 typedef struct	Vector2
 {
@@ -68,18 +68,24 @@ typedef struct	Player
 
 typedef struct	GameData
 {
+	t_image		img;
 	void		*win;
 	void		*mlx;
 	char		*map;
 	int			map_w;
 	int			map_h;
 	int			state;
+	int			f_color;
+	int			c_color;
 	t_player	player;
-	char *		keys;
+	char		*keys;
 }			t_game;
 
-int		parse_map_file(char *file);
-int		parse_textures(int map_fd, char **textures, int i);
+int		parse_given_file(char *file);
+int		parse_file(int map_fd, char **config, char **symbols, int i);
+int		parse_fc_colors(int	map_fd, char **colors, char **symbols, int i);
+int		compare_symbols(char *str, char **symbols);
+int		free_all(char **textures_matrix, char ***textures_array, char *error_msg);
 void	free_stack_matrix_array(char ***arr);
 void	initialize_matrix(char **matrix, int size);
 void	draw_circle(t_vector2 pos, int radius, int color, t_image *image);

@@ -12,7 +12,7 @@
 
 #include "../../include/libft.h"
 
-static size_t	count_words(char const *s, char c)
+static size_t	count_words(char const *s, char *sep)
 {
 	int	i;
 	int	counter;
@@ -23,19 +23,19 @@ static size_t	count_words(char const *s, char c)
 	flag = 0;
 	while (s[i])
 	{
-		if (s[i] != c && flag == 0)
+		if (!compare_sep(s[i], sep) && flag == 0)
 		{
 			counter++;
 			flag = 1;
 		}
-		else if (s[i] == c)
+		else if (compare_sep(s[i], sep))
 			flag = 0;
 		i++;
 	}
 	return (counter);
 }
 
-static size_t	find_size(char const *str, char c, int *index)
+static size_t	find_size(char const *str, char *sep, int *index)
 {
 	size_t	size;
 	size_t	flag;
@@ -44,19 +44,19 @@ static size_t	find_size(char const *str, char c, int *index)
 	flag = 0;
 	while (str[*index])
 	{
-		if (str[*index] != c && str[*index])
+		if (!compare_sep(str[*index], sep))
 		{
 			size++;
 			flag = 1;
 		}
-		else if (str[*index] == c && flag == 1)
+		else if (compare_sep(str[*index], sep) && flag == 1)
 			return (size);
 		(*index)++;
 	}
 	return (size);
 }
 
-static void	transform(char **array, char const *s, char c)
+static void	transform(char **array, char const *s, char *sep)
 {
 	size_t	i;
 	size_t	k;
@@ -67,9 +67,9 @@ static void	transform(char **array, char const *s, char c)
 	pos = 0;
 	while (s[pos])
 	{
-		while (s[pos] == c)
+		while (compare_sep(s[pos], sep))
 			pos++;
-		while (s[pos] && s[pos] != c)
+		while (s[pos] && !compare_sep(s[pos], sep))
 			array[i][k++] = s[pos++];
 		k = 0;
 		i++;
@@ -90,7 +90,7 @@ static char	**verify(char **array, size_t i)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char *sep)
 {
 	char		**array;
 	size_t		i;
@@ -101,18 +101,18 @@ char	**ft_split(char const *s, char c)
 	index = 0;
 	if (!s)
 		return (NULL);
-	array = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
+	array = (char **)malloc((count_words(s, sep) + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
-	while (i < count_words(s, c))
+	while (i < count_words(s, sep))
 	{
-		size = find_size(s, c, &index);
+		size = find_size(s, sep, &index);
 		array[i] = (char *)ft_calloc(size + 1, 1);
 		if (!array[i])
 			return (verify(array, i));
 		i++;
 	}
-	transform(array, s, c);
+	transform(array, s, sep);
 	array[i] = NULL;
 	return (array);
 }
