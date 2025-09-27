@@ -12,6 +12,22 @@
 
 #include "../../include/cub3d.h"
 
+static int	check_commas_number(char *str)
+{
+	int	n;
+
+	n = 0;
+	while (*str)
+	{
+		if (*str == ',')
+			n++;
+		str++;
+	}
+	if (n != 2)
+		return (1);
+	return (0);
+}
+
 static	int check_double_comma(char *str)
 {
 	char	*pos;
@@ -31,7 +47,7 @@ static char	**parse_symbol(char *str, char **symbols)
 	char	**matrix;
 	int		len;
 
-	matrix = ft_split(str, " ");
+	matrix = ft_split(str, " \t");
 	if (!matrix)
 		return (NULL);
 	len = ft_strlen(matrix[0]);
@@ -43,9 +59,9 @@ static char	**parse_symbol(char *str, char **symbols)
 	else if (len == 1)
 	{
 		free_matrix(matrix);
-		if (check_double_comma(str))
+		if (check_double_comma(str) || check_commas_number(str))
 			return (NULL);
-		matrix = ft_split(str, " ,");
+		matrix = ft_split(str, " ,\t");
 		if (compare_symbols(matrix[0], symbols))
 			return (matrix);
 	}

@@ -10,6 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+int	ft_rgb_atoi(const char *str)
+{
+	int	res;
+
+	res = 0;
+	if (!str)
+		return (0);
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if (!(*str >= '0' && *str <= '9'))
+	{
+		if (*str == '-')
+			return (-1);
+		else if (*str != '+')
+			return (0);
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+		res = res * 10 + (*str++ - 48);
+	if (res > 255)
+		return (-1);
+	return (res);
+}
+
 int	ft_atoi(const char *str)
 {
 	int	res;
@@ -17,6 +41,8 @@ int	ft_atoi(const char *str)
 
 	res = 0;
 	sign = 1;
+	if (!str)
+		return (0);
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
 	if (!(*str >= '0' && *str <= '9'))

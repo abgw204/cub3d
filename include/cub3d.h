@@ -83,7 +83,9 @@ typedef struct	GameData
 
 int		parse_given_file(char *file);
 int		parse_file(int map_fd, char **config, char **symbols, int i);
-int		parse_fc_colors(int	map_fd, char **colors, char **symbols, int i);
+int		parse_fc_colors(char ***config);
+char	*rgb_to_hex(int rgb);
+int		hex_str_to_int(char *str, char *hex);
 int		compare_symbols(char *str, char **symbols);
 int		free_all(char **textures_matrix, char ***textures_array, char *error_msg);
 void	free_stack_matrix_array(char ***arr);

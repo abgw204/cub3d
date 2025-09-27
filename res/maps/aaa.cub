@@ -1,12 +1,7 @@
-NO awd
-SO daw
-WE a
+NO ./res/textures/NO.xpm
+SO ./res/textures/SO.xpm
+WE ./res/textures/WE.xpm
+EA ./res/textures/EA.xpm
 
-
-EA Awd
-F 255,255,255
-C awd,2
-
-adawda
-awdawa
-awdad
+F 230, 40, 255
+C 10, 2, 1
