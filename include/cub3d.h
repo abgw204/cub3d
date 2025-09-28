@@ -22,15 +22,20 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+// SCREEN SIZE
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
+// KEYS
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+
+// GAME STATES
 # define MAIN_MENU 0
 # define IN_GAME 1
+# define IN_SETTINGS 2
 
 extern double	g_delta_time;
 
@@ -51,6 +56,8 @@ typedef struct	Image
 	int		endian;
 	int		width;
 	int		height;
+	int		x;
+	int		y;
 }	t_image;
 
 typedef struct	Vector2
@@ -66,22 +73,32 @@ typedef struct	Player
 	float		speed;
 }	t_player;
 
+typedef struct	Config
+{
+	int		show_fps;
+}	t_config;
+
 typedef struct	GameData
 {
-	t_image		img;
 	void		*win;
 	void		*mlx;
 	char		*map;
 	int			map_w;
 	int			map_h;
 	int			state;
-	int			f_color;
-	int			c_color;
+	t_config	game_config;
+	t_image		menu_images[3];
+	t_data		*data;
 	t_player	player;
 	char		*keys;
 }			t_game;
 
+double	get_time_in_seconds(void);
+void	limit_fps(double target_fps);
 int		parse_given_file(char *file);
+int		mouse_move(int x, int y, void *param);
+void	revert_colors(t_image *image, int color);
+int		load_menu_images(t_game *game);
 int		parse_file(int map_fd, char **config, char **symbols, int i);
 int		parse_fc_colors(char ***config);
 char	*rgb_to_hex(int rgb);
@@ -96,9 +113,12 @@ int		print_error(char *error_message);
 int		print_error_free(t_game *game, char *error_message);
 int		print_perror(void);
 int		init_game(t_game *game);
-int		main_menu_inputs(int mouse_btn, int x, int y, void *param);
-int		render_main_menu(t_game *game);
-void	set_delta_time(void);
+int		mouse_input(int mouse_btn, int x, int y, void *param);
+int		show_main_menu(t_game *game);
+int		show_settings(t_game *game);
+void	set_delta_time(t_game *game);
+int		check_btn_collision(t_image *img, int x, int y);
+void	set_buttons_pos(t_image *menu_images);
 t_data	*get_data(void);
 
 #endif

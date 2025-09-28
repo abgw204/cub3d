@@ -11,8 +11,12 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/parsing/compare_symbols.c \
 			src/parsing/hex_int_conversions.c \
 			src/error/error.c \
+			src/load_images/main_menu_images.c \
 			src/time/delta_time.c \
+			src/time/limit_fps.c \
 			src/game/menu_screen/main_menu.c \
+			src/game/menu_screen/settings.c \
+			src/hooks/mouse_handler/mouse.c \
 			src/render/draw/draw_pixel_in_image.c \
 			src/game/start/init_game.c
 

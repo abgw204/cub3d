@@ -32,6 +32,7 @@ static void	init_vars(t_game *game)
 	game->mlx = NULL;
 	game->win = NULL;
 	game->map = NULL;
+	game->data = get_data();
 	game->map_w = 0;
 	game->map_h = 0;
 	game->keys = ft_calloc(1, 256);
@@ -39,6 +40,11 @@ static void	init_vars(t_game *game)
 	game->player.speed = 50.0f;
 	game->player.pos = p_pos;
 	game->player.dir = p_dir;
+}
+
+void	init_config(t_config *config)
+{
+	config->show_fps = 1;
 }
 
 int main(int argc, char **argv)
@@ -50,8 +56,7 @@ int main(int argc, char **argv)
 	if (parse_given_file(argv[1]))
 		return (1);
 	init_vars(&game);
-	//if (parsing_and_map_stuff(&game))
-	//	return (1);
+	init_config(&game.game_config);
 	if (init_game(&game))
 		return (1);
 	return (0);
