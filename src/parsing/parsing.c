@@ -98,7 +98,5 @@ int	parse_given_file(char *file)
 		return (1);
 	// if (parse_map(file_fd))
 		//return (1);
-	printf("F: %d\n", get_data()->f_color);
-	printf("C: %d\n", get_data()->c_color);
 	return (0);
 }

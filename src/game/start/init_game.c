@@ -37,13 +37,8 @@ int	init_game(t_game *game)
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	if (!game->win)
 		return (print_error_free(game, "Mlx window did not work correctly!"));
-	if (load_menu_images(game))
-		return (print_error_free(game, "Missing game files!"));
-	set_buttons_pos(game->menu_images);
-	game->menu_images[1].addr = mlx_get_data_addr(game->menu_images[1].img,
-		&game->menu_images[1].bpp,
-		&game->menu_images[1].line_len,
-		&game->menu_images[1].endian);
+	if (configure_menu_images(game))
+		return (print_error_free(game, NULL));
 	mlx_loop_hook(game->mlx, (int (*)())update, game);
 	mlx_hook(game->win, 5, 1L<<3, (int (*)())mouse_input, game);
 	mlx_hook(game->win, 6, 1L<<6, (int (*)())mouse_move, game);

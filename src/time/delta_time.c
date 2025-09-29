@@ -21,7 +21,7 @@ double	get_time_in_seconds(void)
 	return (tv.tv_sec + tv.tv_usec / 1000000.0);
 }
 
-static char	*get_fps_str(int frames, double fps_timer)
+static void	print_fps(t_game *game, int frames, double fps_timer)
 {
 	char	*res;
 	char	*fps;
@@ -31,8 +31,45 @@ static char	*get_fps_str(int frames, double fps_timer)
 	else
 		fps = ft_strdup("00");
 	res = ft_strjoin("FPS: ", fps);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, res);
 	free(fps);
-	return (res);
+	free(res);
+
+	// DEBUG INFO
+
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][0]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][1]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 80), 0xFFFFFF, game->data->config[1][0]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 80), 0xFFFFFF, game->data->config[1][1]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 100), 0xFFFFFF, game->data->config[2][0]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 100), 0xFFFFFF, game->data->config[2][1]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 120), 0xFFFFFF, game->data->config[3][0]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 120), 0xFFFFFF, game->data->config[3][1]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 140), 0xFFFFFF, game->data->config[4][0]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 140), 0xFF0000, game->data->config[4][1]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 75),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 140), 0x00FF00, game->data->config[4][2]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 140), 0x6666FF, game->data->config[4][3]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0xFFFFFF, game->data->config[5][0]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0xFF0000, game->data->config[5][1]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 75),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x00FF00, game->data->config[5][2]);
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x6666FF, game->data->config[5][3]);
 }
 
 void	set_delta_time(t_game *game)
@@ -40,9 +77,9 @@ void	set_delta_time(t_game *game)
 	static double	last_time = 0.0;
 	static double	fps_timer = 0.0;
 	static int		frames = 0;
-	double			current_time = get_time_in_seconds();
-	char			*fps;
+	double			current_time;
 
+	current_time = get_time_in_seconds();
 	g_delta_time = current_time - last_time;
 	if (last_time == 0)
 		g_delta_time = 0;
@@ -56,9 +93,6 @@ void	set_delta_time(t_game *game)
 			frames = 0;
 			fps_timer = 0.0;
 		}
-		fps = get_fps_str(frames, fps_timer);
-		mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-			SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, fps);
-		free(fps);
+		print_fps(game, frames, fps_timer);
 	}
 }

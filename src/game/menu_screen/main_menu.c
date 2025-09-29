@@ -12,17 +12,25 @@
 
 #include "../../../include/cub3d.h"
 
-void	set_buttons_pos(t_image *menu_images)
+void	set_buttons_pos(t_image *menu_btns)
 {
-	menu_images[0].x = SCREEN_WIDTH/2 - 300;
-	menu_images[0].y = SCREEN_WIDTH/2 - 750;
-	menu_images[1].x = SCREEN_WIDTH/2 - 88;
-	menu_images[1].y = SCREEN_WIDTH/2 - 420;
-	menu_images[2].x = SCREEN_WIDTH/2 - 161;
-	menu_images[2].y = SCREEN_WIDTH/2 - 320;
+	menu_btns[0].x = SCREEN_WIDTH / 2 - (menu_btns[0].width / 2);
+	menu_btns[0].y = 170;
+	menu_btns[1].x = menu_btns[0].x + (menu_btns[0].width / 2)
+		- menu_btns[1].width / 2;
+	menu_btns[1].y = menu_btns[0].y + 280 + (menu_btns[0].height / 2)
+		- menu_btns[1].height / 2;
+	menu_btns[2].x = menu_btns[1].x + (menu_btns[1].width / 2)
+		- menu_btns[2].width / 2;
+	menu_btns[2].y = menu_btns[1].y + 90 + (menu_btns[1].height / 2)
+		- menu_btns[2].height / 2;
+	menu_btns[3].x = menu_btns[2].x + (menu_btns[2].width / 2)
+		- menu_btns[3].width / 2;
+	menu_btns[3].y = menu_btns[2].y + 90 + (menu_btns[2].height / 2)
+		- menu_btns[3].height / 2;
 }
 
-void	revert_colors(t_image *image, int color)
+void	revert_colors(t_image *image, unsigned int color1, unsigned int color2)
 {
 	int				i;
 	unsigned int	*pixel;
@@ -31,10 +39,8 @@ void	revert_colors(t_image *image, int color)
 	while (i < image->width * image->height * (image->bpp / 8))
 	{
 		pixel = (unsigned int *)(image->addr + i);
-		if (*pixel == 0xFFFFFF)
-			*pixel = color;
-		else if (*pixel == 0x00FF00)
-			*pixel = color;
+		if (*pixel == color1)
+			*pixel = color2;
 		i += image->bpp / 8;
 	}
 }
@@ -51,19 +57,33 @@ int	check_btn_collision(t_image *img, int x, int y)
 int	show_main_menu(t_game *game)
 {
 	mlx_put_image_to_window(game->mlx, game->win,
-						 game->menu_images[0].img,
-						 game->menu_images[0].x,
-						 game->menu_images[0].y);
+						 game->menu_btns[0].img,
+						 game->menu_btns[0].x,
+						 game->menu_btns[0].y);
 	mlx_put_image_to_window(game->mlx,
 						 game->win,
-						 game->menu_images[1].img,
-						 game->menu_images[1].x,
-						 game->menu_images[1].y);
+						 game->menu_btns[1].img,
+						 game->menu_btns[1].x,
+						 game->menu_btns[1].y);
 	mlx_put_image_to_window(game->mlx,
 						 game->win,
-						 game->menu_images[2].img,
-						 game->menu_images[2].x,
-						 game->menu_images[2].y);
+						 game->menu_btns[2].img,
+						 game->menu_btns[2].x,
+						 game->menu_btns[2].y);
+	mlx_put_image_to_window(game->mlx,
+						 game->win,
+						 game->menu_btns[3].img,
+						 game->menu_btns[3].x,
+						 game->menu_btns[3].y);
 	// eventualmente trocar game->state de MAIN_MENU para IN_GAME
+	return (0);
+}
+
+int	configure_menu_images(t_game *game)
+{
+	if (load_menu_images(game))
+		return (1);
+	set_buttons_pos(game->menu_btns);
+	set_menu_images_info(game->menu_btns);
 	return (0);
 }

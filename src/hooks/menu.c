@@ -10,37 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../include/cub3d.h"
+#include "../../include/cub3d.h"
 
-int	mouse_move(int x, int y, void *param)
+static int	get_button_pos(const char *imgs)
 {
-	t_game		*game;
+	int	i;
 
-	game = (t_game *)param;
-	(void)game;
-	/*if (game->state == IN_GAME)
-		return (mouse_move_in_game(game, x, y));*/
-	if (game->state == MAIN_MENU)
-		return (mouse_move_menu(game, x, y));
-	/*if (game->state == IN_SETTINGS)
-		return (mouse_move_in_settings(game, x, y));*/
-	return (0);
+	i = 0;
+	while (i < 4)
+	{
+		if (imgs[i] == '1')
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
-int	mouse_input(int mouse_btn, int x, int y, void *param)
+int	mouse_move_menu(t_game *game, int x, int y)
 {
-	t_game	*game;
+	static char	imgs[5] = "0000";
+	int			i;
 
-	game = (t_game *)param;
-	(void)mouse_btn;
-	(void)x;
-	(void)y;
-	(void)game;
-	/*if (game->state == IN_GAME)
-		return (mouse_input_in_game(game, x, y, mouse_btn));
-	if (game->state == MAIN_MENU)
-		return (mouse_input_menu(game, x, y, mouse_btn));
-	if (game->state == IN_SETTINGS)
-		return (mouse_input_in_settings(game, x, y, mouse_btn));*/
+	i = 1;
+	while (i < 4)
+	{
+		if (check_btn_collision(&game->menu_btns[i], x, y))
+			break ;
+		i++;
+	}
+	if (i != 4 && imgs[i] == '0')
+	{
+		revert_colors(&game->menu_btns[i], 0x000000, 0xFFFFFE);
+		imgs[i] = '1';
+		return (0);
+	}
+	else if (i == 4 && get_button_pos(imgs) != -1)
+	{
+		if (!check_btn_collision(&game->menu_btns[get_button_pos(imgs)], x, y))
+		{
+			revert_colors(&game->menu_btns[get_button_pos(imgs)], 0xFFFFFE, 0x000000);
+			imgs[get_button_pos(imgs)] = '0';
+		}
+	}
 	return (0);
 }

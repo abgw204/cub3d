@@ -46,7 +46,6 @@ static int	set_color(char **config)
 	rgb = join_colors(config);
 	if (!rgb)
 		return (-1);
-	printf("hex_str: %s\n", rgb);
 	return (hex_str_to_int(rgb, "0123456789ABCDEF"));
 }
 

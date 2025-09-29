@@ -12,32 +12,39 @@
 
 #include "../../include/cub3d.h"
 
+static int	images_error(t_game *game)
+{
+	if (game->menu_btns[0].img)
+		mlx_destroy_image(game->mlx, game->menu_btns[0].img);
+	if (game->menu_btns[1].img)
+		mlx_destroy_image(game->mlx, game->menu_btns[1].img);
+	if (game->menu_btns[2].img)
+		mlx_destroy_image(game->mlx, game->menu_btns[2].img);
+	if (game->menu_btns[3].img)
+		mlx_destroy_image(game->mlx, game->menu_btns[3].img);
+	return (print_error("One or more images failed to load!"));
+}
+
 int	load_menu_images(t_game *game)
 {
-	game->menu_images[0].img = mlx_xpm_file_to_image(game->mlx,
-												  "res/textures/cub3d.xpm",
-												  &game->menu_images[0].width,
-												  &game->menu_images[0].height);
-	if (!game->menu_images[0].img)
-		return (1);
-	game->menu_images[1].img = mlx_xpm_file_to_image(game->mlx,
-												  "res/textures/start.xpm",
-												  &game->menu_images[1].width,
-												  &game->menu_images[1].height);
-	if (!game->menu_images[1].img)
-	{
-		mlx_destroy_image(game->mlx, game->menu_images[0].img);
-		return (1);
-	}
-	game->menu_images[2].img = mlx_xpm_file_to_image(game->mlx,
-												  "res/textures/settings.xpm",
-												  &game->menu_images[2].width,
-												  &game->menu_images[2].height);
-	if (!game->menu_images[2].img)
-	{
-		mlx_destroy_image(game->mlx, game->menu_images[0].img);
-		mlx_destroy_image(game->mlx, game->menu_images[1].img);
-		return (1);
-	}
+	game->menu_btns[0].img = mlx_xpm_file_to_image(game->mlx,
+												  "res/textures/menu/cub3d.xpm",
+												  &game->menu_btns[0].width,
+												  &game->menu_btns[0].height);
+	game->menu_btns[1].img = mlx_xpm_file_to_image(game->mlx,
+												  "res/textures/menu/start.xpm",
+												  &game->menu_btns[1].width,
+												  &game->menu_btns[1].height);
+	game->menu_btns[2].img = mlx_xpm_file_to_image(game->mlx,
+												  "res/textures/menu/settings.xpm",
+												  &game->menu_btns[2].width,
+												  &game->menu_btns[2].height);
+	game->menu_btns[3].img = mlx_xpm_file_to_image(game->mlx,
+												  "res/textures/menu/exit.xpm",
+												  &game->menu_btns[3].width,
+												  &game->menu_btns[3].height);
+	if (!game->menu_btns[0].img || !game->menu_btns[1].img
+		|| !game->menu_btns[2].img || !game->menu_btns[3].img)
+		return (images_error(game));
 	return (0);
 }
