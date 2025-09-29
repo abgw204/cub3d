@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:58 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:59 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/29 18:47:52 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	print_fps(t_game *game, int frames, double fps_timer)
 
 	// DEBUG INFO
 
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+	/*mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][0]);
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][1]);
@@ -69,7 +69,7 @@ static void	print_fps(t_game *game, int frames, double fps_timer)
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 75),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x00FF00, game->data->config[5][2]);
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x6666FF, game->data->config[5][3]);
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x6666FF, game->data->config[5][3]);*/
 }
 
 void	set_delta_time(t_game *game)

@@ -1,11 +1,12 @@
+C 10, 240, 1
 NO ./res/textures/NO.xpm
+F 230,	40,	255
 SO ./res/textures/SO.xpm
 WE ./res/textures/WE.xpm
 EA ./res/textures/EA.xpm
 
-F 230, 40, 255
-C 10, 240, 1
 
-11111
-10001
-11111
+111111
+100001
+100001
+111101

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:34:05 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:25:23 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:42:29 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct s_list
 {
-	void			*content;
+	char			*content;
 	struct s_list	*next;
 }			t_list;
 
@@ -67,7 +67,7 @@ void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putchar_fd(char c, int fd);
 void		ft_putnbr_fd(int nb, int fd);
-t_list		*ft_lstnew(void *content);
+t_list		*ft_lstnew(char *content);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 int			ft_lstsize(t_list *lst);

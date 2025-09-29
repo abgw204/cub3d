@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:56:19 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/29 19:33:33 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ extern double	g_delta_time;
 typedef struct Data
 {
 	char	**config[7];
-	char	**map_matrix;
+	t_list	*map_list;
 	int		f_color;
 	int		c_color;
 }	t_data;
@@ -77,6 +77,12 @@ typedef struct	Config
 {
 	int		show_fps;
 }	t_config;
+
+typedef struct Map
+{
+	char		*line;
+	struct Map	*next;
+}	t_map;
 
 typedef struct	GameData
 {
