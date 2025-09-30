@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/29 20:16:50 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:57:35 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	init_game(t_game *game)
 	if (configure_settings_images(game))
 		return (print_error_free(game, NULL));
 	mlx_loop_hook(game->mlx, (int (*)())update, game);
-	mlx_hook(game->win, 5, 1L<<3, (int (*)())mouse_input, game);
+	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);
 	mlx_hook(game->win, 6, 1L<<6, (int (*)())mouse_move, game);
 	mlx_loop(game->mlx);
 	return (0);

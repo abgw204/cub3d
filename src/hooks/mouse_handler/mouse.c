@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:48:41 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	mouse_move(int x, int y, void *param)
 	t_game		*game;
 
 	game = (t_game *)param;
-	(void)game;
 	/*if (game->state == IN_GAME)
 		return (mouse_move_in_game(game, x, y));*/
 	if (game->state == MAIN_MENU)
@@ -31,6 +30,7 @@ int	mouse_input(int mouse_btn, int x, int y, void *param)
 {
 	t_game	*game;
 
+	printf("AA|AA\n");
 	game = (t_game *)param;
 	/*if (game->state == IN_GAME)
 		return (mouse_input_in_game(game, x, y, mouse_btn));
