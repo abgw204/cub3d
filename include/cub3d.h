@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/29 19:33:33 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:51:57 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct Data
 {
 	char	**config[7];
 	t_list	*map_list;
+	int		map_w;
+	int		map_h;
 	int		f_color;
 	int		c_color;
 }	t_data;
@@ -103,6 +105,7 @@ void	limit_fps(double target_fps);
 int		parse_given_file(char *file);
 int		parse_file(int map_fd, char **config, char **symbols, int i);
 int		parse_fc_colors(char ***config);
+int 	parse_map(int file_fd);
 char	*rgb_to_hex(int rgb);
 int		hex_str_to_int(char *str, char *hex);
 int		compare_symbols(char *str, char **symbols);
@@ -111,6 +114,7 @@ int		free_all(char **textures_matrix, char ***textures_array,
 void	free_stack_matrix_array(char ***arr);
 void	initialize_matrix(char **matrix, int size);
 void	trim_newline_chars(char ***config);
+void	trim_newlines_map(t_list *map);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);

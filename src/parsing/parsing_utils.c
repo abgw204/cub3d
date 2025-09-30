@@ -6,11 +6,24 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:01:51 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:35:26 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:57:58 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	trim_newlines_map(t_list *map)
+{
+	char	*temp;
+
+	while (map)
+	{
+		temp = map->content;
+		map->content = ft_strtrim(temp, "\n");
+		free(temp);
+		map = map->next;
+	}	
+}
 
 void	trim_newline_chars(char ***config)
 {

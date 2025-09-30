@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/29 19:47:05 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/30 17:47:53 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	parse_given_file(char *file)
 	if (parse_fc_colors(get_data()->config))
 		return (1);
 	trim_newline_chars(get_data()->config);
-	//if (parse_map(file_fd))
-		//return (1);
+	if (parse_map(file_fd))
+		return (1);
 	return (0);
 }

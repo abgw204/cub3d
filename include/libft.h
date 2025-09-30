@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 15:34:05 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/29 19:42:29 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/09/30 18:09:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memchr(const void *s, int c, size_t n);
 void		ft_bzero(void *s, size_t n);
 char		*ft_itoa(int n);
-void		handle_jump(const char *s, int *i, char chr_jump);
-void		jump_index(int *index, size_t *size, const char *str);
 void		*ft_calloc(size_t num, size_t size);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
@@ -85,8 +83,5 @@ int			ft_putnbr_u(unsigned int nb);
 int			ft_print_pointer(void *pointer, const char *hex);
 char		*get_next_line(int fd);
 size_t		ft_strlen_gnl(const char *str);
-char		*ft_strchr_gnl(const char *s1, int c);
-char		*ft_strjoin_gnl(char *s1, char *s2);
-void		*ft_calloc_gnl(size_t num, size_t size);
 
 #endif

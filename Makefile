@@ -9,6 +9,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/parsing/parse_fc_colors.c \
 			src/parsing/free_all.c \
 			src/parsing/compare_symbols.c \
+			src/parsing/parse_map.c \
 			src/parsing/hex_int_conversions.c \
 			src/error/error.c \
 			src/load_images/main_menu_images.c \
