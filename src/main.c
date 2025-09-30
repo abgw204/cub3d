@@ -44,7 +44,7 @@ static void	init_vars(t_game *game)
 
 void	init_config(t_config *config)
 {
-	config->show_fps = 1;
+	config->show_fps = 0;
 }
 
 int main(int argc, char **argv)
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	if (parse_given_file(argv[1]))
 		return (1);
 	init_vars(&game);
-	init_config(&game.game_config);
+	init_config(&game.config);
 	if (init_game(&game))
 		return (1);
 	return (0);

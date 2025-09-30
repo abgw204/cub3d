@@ -84,7 +84,7 @@ void	set_delta_time(t_game *game)
 	if (last_time == 0)
 		g_delta_time = 0;
 	last_time = current_time;
-	if (game->game_config.show_fps)
+	if (game->config.show_fps)
 	{
 		frames++;
 		fps_timer += g_delta_time;

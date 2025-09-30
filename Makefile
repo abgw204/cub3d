@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
@@ -12,7 +12,9 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/parsing/hex_int_conversions.c \
 			src/error/error.c \
 			src/load_images/main_menu_images.c \
+			src/load_images/settings_images.c \
 			src/time/delta_time.c \
+			src/free/free_and_exit.c \
 			src/time/limit_fps.c \
 			src/game/menu_screen/main_menu.c \
 			src/game/menu_screen/set_img_info.c \

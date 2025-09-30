@@ -12,7 +12,7 @@
 
 #include "../../../include/cub3d.h"
 
-void	set_buttons_pos(t_image *menu_btns)
+void	set_buttons_pos_menu(t_image *menu_btns)
 {
 	menu_btns[0].x = SCREEN_WIDTH / 2 - (menu_btns[0].width / 2);
 	menu_btns[0].y = 170;
@@ -54,6 +54,15 @@ int	check_btn_collision(t_image *img, int x, int y)
 	return (0);
 }
 
+int	configure_menu_images(t_game *game)
+{
+	if (load_menu_images(game))
+		return (1);
+	set_buttons_pos_menu(game->menu_btns);
+	set_menu_images_info(game->menu_btns);
+	return (0);
+}
+
 int	show_main_menu(t_game *game)
 {
 	mlx_put_image_to_window(game->mlx, game->win,
@@ -76,14 +85,5 @@ int	show_main_menu(t_game *game)
 						 game->menu_btns[3].x,
 						 game->menu_btns[3].y);
 	// eventualmente trocar game->state de MAIN_MENU para IN_GAME
-	return (0);
-}
-
-int	configure_menu_images(t_game *game)
-{
-	if (load_menu_images(game))
-		return (1);
-	set_buttons_pos(game->menu_btns);
-	set_menu_images_info(game->menu_btns);
 	return (0);
 }

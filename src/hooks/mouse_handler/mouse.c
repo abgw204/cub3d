@@ -22,8 +22,8 @@ int	mouse_move(int x, int y, void *param)
 		return (mouse_move_in_game(game, x, y));*/
 	if (game->state == MAIN_MENU)
 		return (mouse_move_menu(game, x, y));
-	/*if (game->state == IN_SETTINGS)
-		return (mouse_move_in_settings(game, x, y));*/
+	if (game->state == IN_SETTINGS)
+		return (mouse_move_settings(game, x, y));
 	return (0);
 }
 
@@ -32,15 +32,12 @@ int	mouse_input(int mouse_btn, int x, int y, void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
-	(void)mouse_btn;
-	(void)x;
-	(void)y;
-	(void)game;
 	/*if (game->state == IN_GAME)
 		return (mouse_input_in_game(game, x, y, mouse_btn));
+	*/
 	if (game->state == MAIN_MENU)
 		return (mouse_input_menu(game, x, y, mouse_btn));
 	if (game->state == IN_SETTINGS)
-		return (mouse_input_in_settings(game, x, y, mouse_btn));*/
+		return (mouse_input_in_settings(game, x, y, mouse_btn));
 	return (0);
 }

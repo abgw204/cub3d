@@ -78,12 +78,6 @@ typedef struct	Config
 	int		show_fps;
 }	t_config;
 
-typedef struct Map
-{
-	char		*line;
-	struct Map	*next;
-}	t_map;
-
 typedef struct	GameData
 {
 	void		*win;
@@ -92,7 +86,7 @@ typedef struct	GameData
 	int			map_w;
 	int			map_h;
 	int			state;
-	t_config	game_config;
+	t_config	config;
 	t_image		menu_btns[4];
 	t_image		settings[3];
 	t_data		*data;
@@ -129,9 +123,15 @@ int		show_main_menu(t_game *game);
 int		check_btn_collision(t_image *img, int x, int y);
 void	set_buttons_pos(t_image *menu_btns);
 void	set_menu_images_info(t_image *images);
+int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 
 /* SETTINGS */
 int		show_settings(t_game *game);
+int		load_settings_images(t_game *game);
+void	set_settings_images_info(t_image *images);
+int		configure_settings_images(t_game *game);
+int		mouse_move_settings(t_game *game, int x, int y);
+int		mouse_input_in_settings(t_game *game, int x, int y, int mouse_btn);
 
 /* DRAW */
 void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
@@ -146,5 +146,6 @@ int		print_perror(void);
 /* GAME */
 int		init_game(t_game *game);
 t_data	*get_data(void);
+void	free_and_exit(t_game *game);
 
 #endif

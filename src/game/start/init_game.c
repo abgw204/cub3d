@@ -22,8 +22,8 @@ static int	update(void *param)
 	limit_fps(120.0);
 	if (game->state == MAIN_MENU)
 		return (show_main_menu(game));
-	if (game->state == IN_GAME)
-		/*return (game_loop(game))*/{}
+	//if (game->state == IN_GAME)
+	//	/*return (game_loop(game))*/{}
 	if (game->state == IN_SETTINGS)
 		return (show_settings(game));
 	return (0);
@@ -38,6 +38,8 @@ int	init_game(t_game *game)
 	if (!game->win)
 		return (print_error_free(game, "Mlx window did not work correctly!"));
 	if (configure_menu_images(game))
+		return (print_error_free(game, NULL));
+	if (configure_settings_images(game))
 		return (print_error_free(game, NULL));
 	mlx_loop_hook(game->mlx, (int (*)())update, game);
 	mlx_hook(game->win, 5, 1L<<3, (int (*)())mouse_input, game);
