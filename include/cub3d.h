@@ -138,6 +138,7 @@ int		mouse_input_in_settings(t_game *game, int x, int y, int mouse_btn);
 void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
 void	draw_circle(t_vector2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
+void	draw_square(t_game *game, t_vector2 pos, int size, int color);
 
 /* ERROR */
 int		print_error(char *error_message);

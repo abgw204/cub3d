@@ -32,6 +32,22 @@ void	draw_circle(t_vector2 pos, int radius, int color, t_image *image)
 	}
 }
 
+void	draw_square(t_game *game, t_vector2 pos, int size, int color)
+{
+	int	i;
+	int	j;
+
+	i = (int)pos.x;
+	j = (int)pos.y;
+	while (i < pos.x + size)
+	{
+		while (j < pos.y + size)
+			mlx_pixel_put(game->mlx, game->win, i, j++, color);
+		j = (int)pos.y;
+		i++;
+	}
+}
+
 void	draw_pixel_in_image(t_image *image, int x, int y, int color)
 {
     char	*dst;
