@@ -35,10 +35,34 @@ static void	print_fps(t_game *game, int frames, double fps_timer)
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, res);
 	free(fps);
 	free(res);
+}
+
+void	set_delta_time(t_game *game)
+{
+	static double	last_time = 0.0;
+	static double	fps_timer = 0.0;
+	static int		frames = 0;
+	double			current_time;
+
+	current_time = get_time_in_seconds();
+	g_delta_time = current_time - last_time;
+	if (last_time == 0)
+		g_delta_time = 0;
+	last_time = current_time;
+	if (game->config.show_fps)
+	{
+		frames++;
+		fps_timer += g_delta_time;
+		if (fps_timer >= 1.0)
+		{
+			frames = 0;
+			fps_timer = 0.0;
+		}
+		print_fps(game, frames, fps_timer);
+	}
 
 	// DEBUG INFO
-
-	/*mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][0]);
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][1]);
@@ -69,30 +93,5 @@ static void	print_fps(t_game *game, int frames, double fps_timer)
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 75),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x00FF00, game->data->config[5][2]);
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x6666FF, game->data->config[5][3]);*/
-}
-
-void	set_delta_time(t_game *game)
-{
-	static double	last_time = 0.0;
-	static double	fps_timer = 0.0;
-	static int		frames = 0;
-	double			current_time;
-
-	current_time = get_time_in_seconds();
-	g_delta_time = current_time - last_time;
-	if (last_time == 0)
-		g_delta_time = 0;
-	last_time = current_time;
-	if (game->config.show_fps)
-	{
-		frames++;
-		fps_timer += g_delta_time;
-		if (fps_timer >= 1.0)
-		{
-			frames = 0;
-			fps_timer = 0.0;
-		}
-		print_fps(game, frames, fps_timer);
-	}
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x6666FF, game->data->config[5][3]);
 }

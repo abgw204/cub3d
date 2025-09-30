@@ -12,6 +12,31 @@
 
 #include "../../include/cub3d.h"
 
+void	trim_newline_chars(char ***config)
+{
+	char	*temp;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (config[i])
+	{
+		while (config[i][j])
+		{
+			if (config[i][j + 1] == NULL)
+			{
+				temp = config[i][j];
+				config[i][j] = ft_strtrim(temp, "\n");
+				free(temp);
+			}
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+}
+
 void	free_stack_matrix_array(char ***arr)
 {
 	int	i;

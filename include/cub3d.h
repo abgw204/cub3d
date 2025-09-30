@@ -110,6 +110,7 @@ int		free_all(char **textures_matrix, char ***textures_array,
 		char *error_msg);
 void	free_stack_matrix_array(char ***arr);
 void	initialize_matrix(char **matrix, int size);
+void	trim_newline_chars(char ***config);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);

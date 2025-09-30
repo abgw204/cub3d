@@ -96,6 +96,7 @@ int	parse_given_file(char *file)
 		return (1);
 	if (parse_fc_colors(get_data()->config))
 		return (1);
+	trim_newline_chars(get_data()->config);
 	//if (parse_map(file_fd))
 		//return (1);
 	return (0);
