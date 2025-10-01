@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/30 15:51:57 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/01 17:22:49 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,10 @@ void	free_stack_matrix_array(char ***arr);
 void	initialize_matrix(char **matrix, int size);
 void	trim_newline_chars(char ***config);
 void	trim_newlines_map(t_list *map);
+int		search_bigger(char *line, int *w);
+char	*jump_blank_lines(int *file_fd);
+int		error(char *line, t_list *list, char *error_message);
+int		check_valid(char *line, char *valids);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);

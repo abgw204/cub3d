@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:47:16 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	set_buttons_pos_sett(t_image *settings)
 {
 	settings[0].x = SCREEN_WIDTH / 2 - 350;
 	settings[0].y = 95;
-	settings[1].x = SCREEN_WIDTH / 2 - 170;
+	settings[1].x = SCREEN_WIDTH / 2 - 180;
 	settings[1].y = 300;
 	settings[2].x = SCREEN_WIDTH / 2 + 130;
 	settings[2].y = 297;
