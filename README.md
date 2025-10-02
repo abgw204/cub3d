@@ -30,7 +30,7 @@ Este projeto faz parte do currículo da 42 Rio.
 ## 🚀 Como executar
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seuuser/cub3d.git
+   git clone https://github.com/vinionix/cub3d.git
    cd cub3d
 Compile o projeto:
 
