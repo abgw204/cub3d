@@ -24,8 +24,8 @@ static void	init_vars(t_game *game)
 	t_vector2	p_pos;
 	t_vector2	p_dir;
 
-	p_pos.x = 0;
-	p_pos.y = 0;
+	p_pos.x = 5;
+	p_pos.y = 17;
 	p_dir.x = 0;
 	p_dir.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório

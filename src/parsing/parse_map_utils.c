@@ -28,7 +28,6 @@ static int compare(char c, char *valids)
 
 int check_valid(char *line, char *valids)
 {
-    printf("%s\n", line);
     while (*line)
     {
         if (compare(*line, valids))

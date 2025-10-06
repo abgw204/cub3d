@@ -91,6 +91,7 @@ typedef struct	GameData
 	t_config	config;
 	t_image		menu_btns[4];
 	t_image		settings[3];
+	t_image		minimap;
 	t_data		*data;
 	t_player	player;
 	char		*keys;
@@ -133,6 +134,10 @@ int		check_btn_collision(t_image *img, int x, int y);
 void	set_buttons_pos(t_image *menu_btns);
 void	set_menu_images_info(t_image *images);
 int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
+
+/* MINIMAP */
+int		load_minimap(t_game *game);
+void	draw_minimap(t_game *game);
 
 /* SETTINGS */
 int		show_settings(t_game *game);

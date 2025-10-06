@@ -20,6 +20,7 @@ static int	update(void *param)
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
 	limit_fps(120.0);
+	draw_minimap(game);
 	if (game->state == MAIN_MENU)
 		return (show_main_menu(game));
 	//if (game->state == IN_GAME)
@@ -41,6 +42,7 @@ int	init_game(t_game *game)
 		return (print_error_free(game, NULL));
 	if (configure_settings_images(game))
 		return (print_error_free(game, NULL));
+	load_minimap(game);
 	mlx_loop_hook(game->mlx, (int (*)())update, game);
 	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);
 	mlx_hook(game->win, 6, 1L<<6, (int (*)())mouse_move, game);

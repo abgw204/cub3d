@@ -24,12 +24,12 @@ static int	check_invalid_chars(t_list *map)
 		temp = temp->next;
 	}
 	return (0);
-}	
+}
 
 static int	get_map(int file_fd)
 {
     char	*line;
-    
+
     line = jump_blank_lines(&file_fd);
 	if (!line)
     	return (free_all(NULL, get_data()->config, "No map found!"));

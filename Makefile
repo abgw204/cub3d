@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
@@ -19,6 +19,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/free/free_and_exit.c \
 			src/time/limit_fps.c \
 			src/game/menu_screen/main_menu.c \
+			src/game/minimap/minimap.c \
 			src/game/menu_screen/set_img_info.c \
 			src/game/menu_screen/settings.c \
 			src/hooks/mouse_handler/mouse.c \

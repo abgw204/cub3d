@@ -93,11 +93,21 @@ int	parse_given_file(char *file)
 	if (file_fd < 0)
 		return (print_perror());
 	if (validate_config(file_fd))
+	{
+		close(file_fd);
 		return (1);
+	}
 	if (parse_fc_colors(get_data()->config))
+	{
+		close(file_fd);
 		return (1);
+	}
 	trim_newline_chars(get_data()->config);
 	if (parse_map(file_fd))
+	{
+		close(file_fd);
 		return (1);
+	}
+	close(file_fd);
 	return (0);
 }

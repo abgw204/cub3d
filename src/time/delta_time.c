@@ -39,16 +39,16 @@ static void	print_fps(t_game *game, int frames, double fps_timer)
 
 void	set_delta_time(t_game *game)
 {
-	static double	last_time = 0.0;
+	static double	last = 0.0;
 	static double	fps_timer = 0.0;
 	static int		frames = 0;
 	double			current_time;
 
 	current_time = get_time_in_seconds();
-	g_delta_time = current_time - last_time;
-	if (last_time == 0)
+	g_delta_time = current_time - last;
+	if (last == 0)
 		g_delta_time = 0;
-	last_time = current_time;
+	last = current_time;
 	if (game->config.show_fps)
 	{
 		frames++;
