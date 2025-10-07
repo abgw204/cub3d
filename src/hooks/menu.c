@@ -28,6 +28,22 @@ static int	get_button_pos(const char *imgs, int size)
 
 int	mouse_input_menu(t_game *game, int x, int y, int mouse_btn)
 {
+	if (mouse_btn == 1)
+	{
+		game->player.pos.y -= game->player.speed * g_delta_time;
+	}
+	if (mouse_btn == 5)
+	{
+		game->player.pos.x -= game->player.speed * g_delta_time;
+	}
+	if (mouse_btn == 4)
+	{
+		game->player.pos.x += game->player.speed * g_delta_time;
+	}
+	if (mouse_btn == 3)
+	{
+		game->player.pos.y += game->player.speed * g_delta_time;
+	}
 	if (check_btn_collision(&game->menu_btns[2], x, y) && mouse_btn == 1)
 	{
 		revert_colors(&game->menu_btns[2], 0xFFFFFE, 0x000000);

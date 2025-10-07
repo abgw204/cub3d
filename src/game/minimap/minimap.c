@@ -12,6 +12,11 @@
 
 #include "../../../include/cub3d.h"
 
+int	in_bounds(int x, int y, int endx, int endy)
+{
+	return (x >= 0 && y >= 0 && x < endx && y < endy);
+}
+
 void	draw_block(t_image *minimap, t_vector2 pos, int size, int color)
 {
 	int	i;
@@ -28,6 +33,18 @@ void	draw_block(t_image *minimap, t_vector2 pos, int size, int color)
 	}
 }
 
+void	draw_player(t_game *game, t_vector2 minipos)
+{
+	int	decimal_x;
+	int	decimal_y;
+
+	decimal_x = (int)(game->player.pos.x * 10) % 10;
+	decimal_y = (int)(game->player.pos.y * 10) % 10;
+	minipos.x += decimal_x;
+	minipos.y += decimal_y;
+	draw_block(&game->minimap, minipos, 8, 0x00AA00);
+}
+
 void	clear_minimap(t_image *minimap)
 {
 	int	i;
@@ -38,7 +55,7 @@ void	clear_minimap(t_image *minimap)
 	while (++i < minimap->height)
 	{
 		while (++j < minimap->width)
-			draw_pixel_in_image(minimap, i, j, 0x666666);
+			draw_pixel_in_image(minimap, i, j, 0x000000);
 		j = -1;
 	}
 }
@@ -65,6 +82,7 @@ int	load_minimap(t_game *game)
 
 void	draw_minimap(t_game *game)
 {
+	clear_minimap(&game->minimap);
 	t_vector2	minipos;
 	int			x_bg;
 	int			x_end;
@@ -72,18 +90,18 @@ void	draw_minimap(t_game *game)
 	int			y_end;
 	t_player	player;
 
-	char map[7][20] =
+	char map[7][9] =
 		{
-			"1111111111111111111",
-			"1000000000000000001",
-			"1000000000000000001",
-			"1000000000000000001",
-			"1000000000000000001",
-			"1000000000000000001",
-			"1111111111111111111"
+			"11111111",
+			"10000001",
+			"10000001",
+			"10000001",
+			"10000001",
+			"10000001",
+			"11111111"
 		};
 	game->map_h = 7;
-	game->map_w = 20;
+	game->map_w = 8;
 	minipos.x = 0;
 	minipos.y = 0;
 	player = game->player;
@@ -93,25 +111,27 @@ void	draw_minimap(t_game *game)
 	y_end = player.pos.y + 5;
 	while (x_bg < x_end)
 	{
+		y_bg = player.pos.y - 5;
+		minipos.y = 0;
 		while (y_bg < y_end)
 		{
+			if (x_bg < 0 || y_bg < 0 || x_bg >= game->map_h || y_bg >= game->map_w)
+				draw_block(&game->minimap, minipos, 20, 0x000000);
 			if (minipos.x == 100 && minipos.y == 100)
 			{
-				draw_block(&game->minimap, minipos, 20, 0x5555AA);
-				draw_block(&game->minimap, minipos, 10, 0x00AA00);
+				draw_block(&game->minimap, minipos, 20, 0x000000);
+				draw_player(game, minipos);
 			}
-			else if (x_bg >= 0 && y_bg >= 0 && map[x_bg][y_bg] == '0')
+			else if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
+				&& map[x_bg][y_bg] == '1')
 				draw_block(&game->minimap, minipos, 20, 0x5555AA);
-			else if (x_bg >= 0 && y_bg >= 0 && map[x_bg][y_bg] == '1')
-				draw_block(&game->minimap, minipos, 20, 0xAAAAFF);
-			if (x_bg < 0 || y_bg < 0 || x_bg >= game->map_h || y_bg >= game->map_w)
-				draw_block(&game->minimap, minipos, 20, 0x666666);
+			else if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
+				&& map[x_bg][y_bg] == '0')
+				draw_block(&game->minimap, minipos, 20, 0x000000);
 			y_bg++;
 			minipos.y += 20;
 		}
-		minipos.y = 0;
 		minipos.x += 20;
-		y_bg = player.pos.y - 5;
 		x_bg++;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->minimap.img, 200, 200);

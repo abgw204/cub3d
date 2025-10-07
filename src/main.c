@@ -25,7 +25,7 @@ static void	init_vars(t_game *game)
 	t_vector2	p_dir;
 
 	p_pos.x = 5;
-	p_pos.y = 17;
+	p_pos.y = 6;
 	p_dir.x = 0;
 	p_dir.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
@@ -37,7 +37,7 @@ static void	init_vars(t_game *game)
 	game->map_h = 0;
 	game->keys = ft_calloc(1, 256);
 	ft_memset(game->keys, '0', 256);
-	game->player.speed = 50.0f;
+	game->player.speed = 60.0f;
 	game->player.pos = p_pos;
 	game->player.dir = p_dir;
 }
