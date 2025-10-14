@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/01 17:22:49 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:38:09 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@
 # define MAIN_MENU 0
 # define IN_GAME 1
 # define IN_SETTINGS 2
+
+/* COLORS */
+# define BLACK 0x000000
+# define WHITE 0xFFFFFF
 
 extern double	g_delta_time;
 

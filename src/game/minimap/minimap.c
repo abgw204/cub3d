@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/30 14:57:35 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/14 15:41:18 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ int	load_minimap(t_game *game)
 
 void	draw_minimap(t_game *game)
 {
-	clear_minimap(&game->minimap);
 	t_vector2	minipos;
 	int			x_bg;
 	int			x_end;
 	int			y_bg;
 	int			y_end;
 	t_player	player;
-
+	
+	clear_minimap(&game->minimap);
 	char map[7][9] =
 		{
 			"11111111",
@@ -116,10 +116,10 @@ void	draw_minimap(t_game *game)
 		while (y_bg < y_end)
 		{
 			if (x_bg < 0 || y_bg < 0 || x_bg >= game->map_h || y_bg >= game->map_w)
-				draw_block(&game->minimap, minipos, 20, 0x000000);
-			if (minipos.x == 100 && minipos.y == 100)
+				draw_block(&game->minimap, minipos, 20, BLACK);
+			if (minipos.x == 100 && minipos.y == 100) /* Player position */
 			{
-				draw_block(&game->minimap, minipos, 20, 0x000000);
+				draw_block(&game->minimap, minipos, 20, BLACK);
 				draw_player(game, minipos);
 			}
 			else if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
@@ -127,7 +127,7 @@ void	draw_minimap(t_game *game)
 				draw_block(&game->minimap, minipos, 20, 0x5555AA);
 			else if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
 				&& map[x_bg][y_bg] == '0')
-				draw_block(&game->minimap, minipos, 20, 0x000000);
+				draw_block(&game->minimap, minipos, 20, BLACK);
 			y_bg++;
 			minipos.y += 20;
 		}
