@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 15:38:09 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:48:33 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,6 @@ int		print_perror(void);
 int		init_game(t_game *game);
 t_data	*get_data(void);
 void	free_and_exit(t_game *game);
+void	free_images(t_game *game);
 
 #endif

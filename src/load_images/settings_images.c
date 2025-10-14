@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/14 19:50:45 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ static int	images_error(t_game *game)
 		mlx_destroy_image(game->mlx, game->settings[1].img);
 	if (game->settings[2].img)
 		mlx_destroy_image(game->mlx, game->settings[2].img);
+	game->settings[0].img = NULL;
+	game->settings[1].img = NULL;
+	game->settings[2].img = NULL;
 	return (print_error("One or more images failed to load!"));
 }
 

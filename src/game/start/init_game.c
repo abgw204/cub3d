@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/30 14:57:35 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:03:58 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	init_game(t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (print_error_free(game, "Mlx context did not work correctly!"));
-	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
-	if (!game->win)
-		return (print_error_free(game, "Mlx window did not work correctly!"));
 	if (configure_menu_images(game))
 		return (print_error_free(game, NULL));
 	if (configure_settings_images(game))
 		return (print_error_free(game, NULL));
+	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
+	if (!game->win)
+		return (print_error_free(game, "Mlx window did not work correctly!"));
 	load_minimap(game);
 	mlx_loop_hook(game->mlx, (int (*)())update, game);
 	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);

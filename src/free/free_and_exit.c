@@ -6,22 +6,30 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/14 20:03:40 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-static void	free_images(t_game *game)
+void	free_images(t_game *game)
 {
 	int	i;
 
 	i = 0;
 	while (i < 4)
-		mlx_destroy_image(game->mlx, game->menu_btns[i++].img);
+	{
+		if (game->menu_btns[i].img)
+			mlx_destroy_image(game->mlx, game->menu_btns[i].img);
+		i++;
+	}
 	i = 0;
 	while (i < 3)
-		mlx_destroy_image(game->mlx, game->settings[i++].img);
+	{
+		if (game->settings[i].img)
+			mlx_destroy_image(game->mlx, game->settings[i++].img);
+		i++;
+	}
 }
 
 void	free_and_exit(t_game *game)
