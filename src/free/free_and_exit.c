@@ -27,9 +27,11 @@ void	free_images(t_game *game)
 	while (i < 3)
 	{
 		if (game->settings[i].img)
-			mlx_destroy_image(game->mlx, game->settings[i++].img);
+			mlx_destroy_image(game->mlx, game->settings[i].img);
 		i++;
 	}
+	if (game->minimap.img)
+		mlx_destroy_image(game->mlx, game->minimap.img);
 }
 
 void	free_and_exit(t_game *game)
@@ -41,6 +43,7 @@ void	free_and_exit(t_game *game)
 		free_matrix(game->data->config[i++]);
 	free_images(game);
 	free(game->keys);
+	ft_lstclear(&game->data->map_list, free);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
