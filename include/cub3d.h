@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 19:48:33 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/17 18:07:20 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 /* COLORS */
 # define BLACK 0x000000
 # define WHITE 0xFFFFFF
+# define WHITE_ISH 0xFFFFFE
 
 extern double	g_delta_time;
 
@@ -124,6 +125,7 @@ int		search_bigger(char *line, int *w);
 char	*jump_blank_lines(int *file_fd);
 int		error(char *line, t_list *list, char *error_message);
 int		check_valid(char *line, char *valids);
+int		close_fd(int fd);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);

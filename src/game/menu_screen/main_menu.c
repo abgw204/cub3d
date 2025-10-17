@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:34 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:35 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/17 18:00:24 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2)
 {
 	int				i;
 	unsigned int	*pixel;
+	int				image_size;
 
 	i = 0;
-	while (i < image->width * image->height * (image->bpp / 8))
+	image_size = image->width * image->height * (image->bpp / 8);
+	while (i < image_size)
 	{
 		pixel = (unsigned int *)(image->addr + i);
 		if (*pixel == color1)
