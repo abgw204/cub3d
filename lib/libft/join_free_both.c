@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   join_free_s2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 13:03:12 by gada-sil          #+#    #+#             */
-/*   Updated: 2024/09/24 16:37:23 by gada-sil         ###   ########.fr       */
+/*   Created: 2025/09/24 17:01:51 by gada-sil          #+#    #+#             */
+/*   Updated: 2025/10/17 18:07:04 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-size_t	ft_strlen(const char *str)
+char	*join_free_both(char *s1, char *s2)
 {
-	size_t	i;
+	char	*full;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	full = ft_strjoin(s1, s2);
+	if (s2)
+		free(s2);
+	if (s1)
+		free(s1);
+	return (full);
 }
-/*#include <stdio.h>
-int main()
-{
-	printf("%zu\n", ft_strlen("hello"));
-}*/

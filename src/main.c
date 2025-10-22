@@ -24,8 +24,8 @@ static void	init_vars(t_game *game)
 	t_vector2	p_pos;
 	t_vector2	p_dir;
 
-	p_pos.x = 5;
-	p_pos.y = 6;
+	p_pos.x = 14;
+	p_pos.y = 7;
 	p_dir.x = 0;
 	p_dir.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
@@ -33,8 +33,7 @@ static void	init_vars(t_game *game)
 	game->win = NULL;
 	game->map = NULL;
 	game->data = get_data();
-	game->map_w = 0;
-	game->map_h = 0;
+	game->map = get_data()->map;
 	game->keys = ft_calloc(1, 256);
 	ft_memset(game->keys, '0', 256);
 	game->player.speed = 60.0f;
@@ -52,7 +51,7 @@ int main(int argc, char **argv)
 	t_game	game;
 
 	if (argc != 2)
-		return (print_error("Invalid number of parameters!"));
+		return (print_error("Usage: ./cub3d <MAP_PATH>"));
 	if (parse_given_file(argv[1]))
 		return (1);
 	init_vars(&game);

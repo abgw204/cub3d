@@ -24,6 +24,8 @@ void	draw_block(t_image *minimap, t_vector2 pos, int size, int color)
 
 	i = (int)pos.x;
 	j = (int)pos.y;
+	printf("DRAW_BLOCK\n");
+	printf("%X\n", color);
 	while (i < pos.x + size)
 	{
 		while (j < pos.y + size)
@@ -90,18 +92,6 @@ void	draw_minimap(t_game *game)
 	t_player	player;
 	
 	clear_minimap(&game->minimap);
-	char map[7][9] =
-		{
-			"11111111",
-			"10000001",
-			"10000001",
-			"10000001",
-			"10000001",
-			"10000001",
-			"11111111"
-		};
-	game->map_h = 7;
-	game->map_w = 8;
 	minipos.x = 0;
 	minipos.y = 0;
 	player = game->player;
@@ -115,19 +105,19 @@ void	draw_minimap(t_game *game)
 		minipos.y = 0;
 		while (y_bg < y_end)
 		{
-			if (x_bg < 0 || y_bg < 0 || x_bg >= game->map_h || y_bg >= game->map_w)
-				draw_block(&game->minimap, minipos, 20, BLACK);
 			if (minipos.x == 100 && minipos.y == 100) /* Player position */
 			{
 				draw_block(&game->minimap, minipos, 20, BLACK);
 				draw_player(game, minipos);
 			}
-			else if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
-				&& map[x_bg][y_bg] == '1')
+			if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
+				&& game->map[x_bg * game->map_w + y_bg] == '1')
 				draw_block(&game->minimap, minipos, 20, 0x5555AA);
 			else if (in_bounds(x_bg, y_bg, game->map_h, game->map_w)
-				&& map[x_bg][y_bg] == '0')
+				&& game->map[x_bg * game->map_w + y_bg] == '0')
 				draw_block(&game->minimap, minipos, 20, BLACK);
+			if (x_bg < 0 || y_bg < 0 || x_bg >= game->map_h || y_bg >= game->map_w)
+				draw_block(&game->minimap, minipos, 20, WHITE);
 			y_bg++;
 			minipos.y += 20;
 		}

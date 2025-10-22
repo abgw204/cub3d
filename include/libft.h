@@ -83,5 +83,6 @@ int			ft_putnbr_u(unsigned int nb);
 int			ft_print_pointer(void *pointer, const char *hex);
 char		*get_next_line(int fd);
 size_t		ft_strlen_gnl(const char *str);
+char		*join_free_both(char *s1, char *s2);
 
 #endif

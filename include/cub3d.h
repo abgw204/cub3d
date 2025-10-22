@@ -14,6 +14,7 @@
 # define CUB3D_H
 
 # include <unistd.h>
+# include <stdint.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -48,6 +49,7 @@ typedef struct Data
 {
 	char	**config[7];
 	t_list	*map_list;
+	char	*map;
 	int		map_w;
 	int		map_h;
 	int		f_color;

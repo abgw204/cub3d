@@ -12,6 +12,30 @@
 
 #include "../../include/cub3d.h"
 
+static char	*linearize_map(t_list *list)
+{
+	char		*map;
+	char		*line;
+	uint32_t	line_diff;
+	uint32_t	line_len;
+	uint32_t	max_w;
+
+	max_w = get_data()->map_w;
+	map = NULL;
+	while (list)
+	{
+		line_len = ft_strlen(list->content);
+		line_diff = max_w - line_len;
+		line = (char *)ft_calloc(1, line_len + line_diff + 1);
+		ft_strlcpy(line, list->content, line_len + 1);
+		while (line_len < max_w)
+			line[line_len++] = 'X';
+		map = join_free_both(map, line);
+		list = list->next;
+	}
+	return (map);
+}
+
 static int	check_invalid_chars(t_list *map)
 {
 	t_list	*temp;
@@ -25,7 +49,8 @@ static int	check_invalid_chars(t_list *map)
 	}
 	return (0);
 }
-static int count_map_chars(t_list *map)
+
+static int	count_map_chars(t_list *map)
 {
 	int	i;
 	int	letter;
@@ -91,5 +116,13 @@ int	parse_map(int file_fd)
 		return (1);
 	// if (expand_map(get_data()->map_list))
 		// return (1);
+	get_data()->map = linearize_map(get_data()->map_list);
+	ft_lstclear(&get_data()->map_list, free);
+	for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
+	{
+		printf("%c", get_data()->map[i]);
+		if ((int)(i + 1) % get_data()->map_w == 0)
+			printf("\n");
+	}
 	return (0);
 }

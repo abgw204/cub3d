@@ -12,13 +12,17 @@
 
 #include "../../include/cub3d.h"
 
+int	print_error(char *error_message)
+{
+	ft_putendl_fd("Error", 2);
+	ft_putendl_fd(error_message, 2);
+	return (1);
+}
+
 int	print_error_free(t_game *game, char *error_message)
 {
 	if (error_message)
-	{
-		ft_putendl_fd("Error", 2);
-		ft_putendl_fd(error_message, 2);
-	}
+		print_error(error_message);
 	free(game->map);
 	free(game->keys);
 	free_images(game);
@@ -29,13 +33,6 @@ int	print_error_free(t_game *game, char *error_message)
 	}
 	ft_lstclear(&game->data->map_list, free);
 	free_stack_matrix_array(game->data->config);
-	return (1);
-}
-
-int	print_error(char *error_message)
-{
-	ft_putendl_fd("Error", 2);
-	ft_putendl_fd(error_message, 2);
 	return (1);
 }
 

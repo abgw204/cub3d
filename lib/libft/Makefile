@@ -53,6 +53,7 @@ FUNCTIONS = 	ft_strdup.c \
 		ft_split_utils.c \
 		create_matrix.c \
 		free_matrix.c \
+		join_free_both.c \
 		$(DIR_GNL)/get_next_line_utils.c \
 		$(DIR_GNL)/get_next_line.c
 

@@ -43,6 +43,7 @@ void	free_and_exit(t_game *game)
 		free_matrix(game->data->config[i++]);
 	free_images(game);
 	free(game->keys);
+	free(game->map);
 	ft_lstclear(&game->data->map_list, free);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);
