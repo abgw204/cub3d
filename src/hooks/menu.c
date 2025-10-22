@@ -30,19 +30,19 @@ int	mouse_input_menu(t_game *game, int x, int y, int mouse_btn)
 {
 	if (mouse_btn == 1)
 	{
-		game->player.pos.y -= game->player.speed * g_delta_time;
+		game->player.pos.y -= 0.1f;
 	}
-	if (mouse_btn == 5)
+	else if (mouse_btn == 5)
 	{
-		game->player.pos.x -= game->player.speed * g_delta_time;
+		game->player.pos.x -= 0.1f;
 	}
-	if (mouse_btn == 4)
+	else if (mouse_btn == 4)
 	{
-		game->player.pos.x += game->player.speed * g_delta_time;
+		game->player.pos.x += 0.1f;
 	}
-	if (mouse_btn == 3)
+	else if (mouse_btn == 3)
 	{
-		game->player.pos.y += game->player.speed * g_delta_time;
+		game->player.pos.y += 0.1f;
 	}
 	if (check_btn_collision(&game->menu_btns[2], x, y) && mouse_btn == 1)
 	{

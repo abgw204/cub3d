@@ -94,8 +94,8 @@ void	set_delta_time(t_game *game)
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 180), 0x00FF00, game->data->config[5][2]);
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 180), 0x6666FF, game->data->config[5][3]);
-	t_vector2 p1 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 147)};
-	t_vector2 p2 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 167)};
+	t_uiv2 p1 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 147)};
+	t_uiv2 p2 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 167)};
 	draw_square(game, p1, 15, game->data->f_color);
 	draw_square(game, p2, 15, game->data->c_color);
 }

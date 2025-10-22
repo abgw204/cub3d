@@ -12,7 +12,7 @@
 
 #include "../../../include/cub3d.h"
 
-void	draw_circle(t_vector2 pos, int radius, int color, t_image *image)
+void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image)
 {
 	int	i;
 	int	j;
@@ -32,18 +32,18 @@ void	draw_circle(t_vector2 pos, int radius, int color, t_image *image)
 	}
 }
 
-void	draw_square(t_game *game, t_vector2 pos, int size, int color)
+void	draw_square(t_game *game, t_uiv2 pos, int size, int color)
 {
-	int	i;
-	int	j;
+	uint32_t	i;
+	uint32_t	j;
 
-	i = (int)pos.x;
-	j = (int)pos.y;
+	i = pos.x;
+	j = pos.y;
 	while (i < pos.x + size)
 	{
 		while (j < pos.y + size)
 			mlx_pixel_put(game->mlx, game->win, i, j++, color);
-		j = (int)pos.y;
+		j = pos.y;
 		i++;
 	}
 }

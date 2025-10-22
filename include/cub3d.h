@@ -69,23 +69,45 @@ typedef struct	Image
 	int		y;
 }	t_image;
 
-typedef struct	Vector2
+typedef struct	UIntVector2
+{
+	uint32_t	x;
+	uint32_t	y;
+}	t_uiv2;
+
+typedef struct	IntVector2
+{
+	int	x;
+	int	y;
+}	t_iv2;
+
+typedef struct	FloatVector2
 {
 	float	x;
 	float	y;
-}	t_vector2;
+}	t_fv2;
 
 typedef struct	Player
 {
-	t_vector2	pos;
-	t_vector2	dir;
+	t_fv2	pos;
+	t_fv2	dir;
 	float		speed;
 }	t_player;
 
 typedef struct	Config
 {
-	int		show_fps;
+	int	show_fps;
 }	t_config;
+
+typedef struct	Minimap
+{
+	int		x_bg;
+	int		y_bg;
+	int		x_end;
+	int		y_end;
+	t_iv2	pos;
+	t_image	minimap_img;
+}	t_minimap;
 
 typedef struct	GameData
 {
@@ -98,7 +120,7 @@ typedef struct	GameData
 	t_config	config;
 	t_image		menu_btns[4];
 	t_image		settings[3];
-	t_image		minimap;
+	t_minimap	minimap;
 	t_data		*data;
 	t_player	player;
 	char		*keys;
@@ -157,9 +179,9 @@ int		mouse_input_in_settings(t_game *game, int x, int y, int mouse_btn);
 
 /* DRAW */
 void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
-void	draw_circle(t_vector2 pos, int radius, int color, t_image *image);
+void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
-void	draw_square(t_game *game, t_vector2 pos, int size, int color);
+void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
 
 /* ERROR */
 int		print_error(char *error_message);

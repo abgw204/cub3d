@@ -21,18 +21,24 @@ t_data *get_data(void)
 
 static void	init_vars(t_game *game)
 {
-	t_vector2	p_pos;
-	t_vector2	p_dir;
+	t_fv2	p_pos;
+	t_fv2	p_dir;
 
-	p_pos.x = 14;
-	p_pos.y = 7;
+	p_pos.x = 3.0f;
+	p_pos.y = 3.0f;
 	p_dir.x = 0;
 	p_dir.y = 0;
+	game->minimap.x_bg = (int32_t)p_pos.x - 5;
+	game->minimap.y_bg = (int32_t)p_pos.y - 5;
+	game->minimap.x_end = (int32_t)p_pos.x + 5;
+	game->minimap.y_end = (int32_t)p_pos.y + 5;
+	game->minimap.pos.x = 0;
+	game->minimap.pos.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
-	game->mlx = NULL;
-	game->win = NULL;
 	game->map = NULL;
 	game->data = get_data();
+	game->map_w = get_data()->map_w;
+	game->map_h = get_data()->map_h;
 	game->map = get_data()->map;
 	game->keys = ft_calloc(1, 256);
 	ft_memset(game->keys, '0', 256);
