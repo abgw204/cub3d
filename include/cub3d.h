@@ -43,6 +43,9 @@
 # define WHITE 0xFFFFFF
 # define WHITE_ISH 0xFFFFFE
 
+/* MATH */
+# define PI 3.14159265358979323846
+
 extern double	g_delta_time;
 
 typedef struct Data
@@ -71,8 +74,8 @@ typedef struct	Image
 
 typedef struct	UIntVector2
 {
-	uint32_t	x;
-	uint32_t	y;
+	unsigned int	x;
+	unsigned int	y;
 }	t_uiv2;
 
 typedef struct	IntVector2
@@ -87,11 +90,17 @@ typedef struct	FloatVector2
 	float	y;
 }	t_fv2;
 
+typedef struct	DoubleVector2
+{
+	double	x;
+	double	y;
+}	t_dv2;
+
 typedef struct	Player
 {
-	t_fv2	pos;
-	t_fv2	dir;
-	float		speed;
+	t_dv2	pos;
+	t_dv2	dir;
+	float	speed;
 }	t_player;
 
 typedef struct	Config
@@ -106,7 +115,7 @@ typedef struct	Minimap
 	int		x_end;
 	int		y_end;
 	t_iv2	pos;
-	t_image	minimap_img;
+	t_image	img;
 }	t_minimap;
 
 typedef struct	GameData
@@ -149,6 +158,7 @@ int		search_bigger(char *line, int *w);
 char	*jump_blank_lines(int *file_fd);
 int		error(char *line, t_list *list, char *error_message);
 int		check_valid(char *line, char *valids);
+void	get_player_info(t_game *game);
 int		close_fd(int fd);
 
 /* MOUSE */

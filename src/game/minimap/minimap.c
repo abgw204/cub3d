@@ -37,18 +37,16 @@ void	draw_player(t_game *game, t_iv2 minipos)
 {
 	float	decimal_x;
 	float	decimal_y;
-	int	gap_x;
-	int	gap_y;
+	int		gap_x;
+	int		gap_y;
 
 	decimal_x = game->player.pos.x * 10.0f;
 	decimal_y = game->player.pos.y * 10.0f;
 	gap_x = (int)decimal_x % 10;
 	gap_y = (int)decimal_y % 10;
-	printf("x: %d\n", gap_x);
-	printf("y: %d\n", gap_y);
 	minipos.x += gap_x;
 	minipos.y += gap_y;
-	draw_block(&game->minimap.minimap_img, minipos, 9, 0x00AA00);
+	draw_block(&game->minimap.img, minipos, 9, 0x00AA00);
 }
 
 void	clear_minimap(t_image *minimap)
@@ -68,21 +66,15 @@ void	clear_minimap(t_image *minimap)
 
 int	load_minimap(t_game *game)
 {
-	t_iv2	p_pos;
-
-	p_pos.x = 105;
-	p_pos.y = 105;
-	game->minimap.minimap_img.img = mlx_new_image(game->mlx, 200, 200);
-	if (!game->minimap.minimap_img.img)
+	game->minimap.img.img = mlx_new_image(game->mlx, 200, 200);
+	if (!game->minimap.img.img)
 		return (print_error("Minimap failed to be created!"));
-	game->minimap.minimap_img.addr = mlx_get_data_addr(game->minimap.minimap_img.img,
-										&game->minimap.minimap_img.bpp,
-										&game->minimap.minimap_img.line_len,
-										&game->minimap.minimap_img.endian);
-	game->minimap.minimap_img.width = 200;
-	game->minimap.minimap_img.height = 200;
-	//clear_minimap(&game->minimap.minimap_img);
-	draw_block(&game->minimap.minimap_img, p_pos, 8, 0x00AA00);
+	game->minimap.img.addr = mlx_get_data_addr(game->minimap.img.img,
+										&game->minimap.img.bpp,
+										&game->minimap.img.line_len,
+										&game->minimap.img.endian);
+	game->minimap.img.width = 200;
+	game->minimap.img.height = 200;
 	return (0);
 }
 
@@ -97,7 +89,7 @@ void	draw_minimap(t_game *game)
 	mini->y_bg = (int)game->player.pos.y - 5;
 	mini->x_end = (int)game->player.pos.x + 5;
 	mini->y_end = (int)game->player.pos.y + 5;
-	clear_minimap(&mini->minimap_img);
+	clear_minimap(&mini->img);
 	while (mini->y_bg < mini->y_end)
 	{
 		while (mini->x_bg < mini->x_end)
@@ -105,23 +97,23 @@ void	draw_minimap(t_game *game)
 			if (!in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 				|| game->map[mini->y_bg * game->map_w + mini->x_bg] == 'X')
 			{
-				draw_block(&mini->minimap_img, mini->pos, 20, BLACK);
+				draw_block(&mini->img, mini->pos, 20, WHITE);
 				mini->x_bg++;
 				mini->pos.x += 20;
 				continue ;
 			}
 			if (mini->pos.x == 100 && mini->pos.y == 100) /* Player position */
 			{
-				draw_block(&mini->minimap_img, mini->pos, 20, BLACK);
+				draw_block(&mini->img, mini->pos, 20, BLACK);
 				draw_player(game, mini->pos);
 			}
 			else if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 				&& game->map[mini->y_bg * game->map_w + mini->x_bg] == '1')
-				draw_block(&mini->minimap_img, mini->pos, 20, 0x5555AA);
+				draw_block(&mini->img, mini->pos, 20, 0x5555AA);
 			else if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 				&& (game->map[mini->y_bg * game->map_w + mini->x_bg] == '0'
 				|| game->map[mini->y_bg * game->map_w + mini->x_bg] == 'W'))
-				draw_block(&mini->minimap_img, mini->pos, 20, 0x00000);
+				draw_block(&mini->img, mini->pos, 20, 0x00000);
 			mini->x_bg++;
 			mini->pos.x += 20;
 		}
@@ -131,5 +123,5 @@ void	draw_minimap(t_game *game)
 		mini->y_bg++;
 	}
 	mlx_put_image_to_window(game->mlx, game->win,
-						mini->minimap_img.img, 200, 200);
+						mini->img.img, 200, 200);
 }

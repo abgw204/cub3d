@@ -30,8 +30,8 @@ void	free_images(t_game *game)
 			mlx_destroy_image(game->mlx, game->settings[i].img);
 		i++;
 	}
-	if (game->minimap.minimap_img.img)
-		mlx_destroy_image(game->mlx, game->minimap.minimap_img.img);
+	if (game->minimap.img.img)
+		mlx_destroy_image(game->mlx, game->minimap.img.img);
 }
 
 void	free_and_exit(t_game *game)
