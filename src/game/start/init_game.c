@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/17 18:04:40 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:54:02 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	update(void *param)
 	draw_minimap(game);
 	if (game->state == MAIN_MENU)
 		return (show_main_menu(game));
-	//if (game->state == IN_GAME)
-	//	/*return (game_loop(game))*/{}
+	if (game->state == IN_GAME)
+		return (game_loop(game));
 	if (game->state == IN_SETTINGS)
 		return (show_settings(game));
 	return (0);
@@ -38,6 +38,8 @@ int	init_game(t_game *game)
 	if (configure_menu_images(game))
 		return (print_error_free(game, NULL));
 	if (configure_settings_images(game))
+		return (print_error_free(game, NULL));
+	if (configure_screen_image(game))
 		return (print_error_free(game, NULL));
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	if (!game->win)

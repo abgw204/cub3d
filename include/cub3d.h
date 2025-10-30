@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/17 18:07:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:34:39 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct	GameData
 	t_image		menu_btns[4];
 	t_image		settings[3];
 	t_minimap	minimap;
+	t_image		screen;
 	t_data		*data;
 	t_player	player;
 	char		*keys;
@@ -169,6 +170,7 @@ int		mouse_input(int mouse_btn, int x, int y, void *param);
 /* MENU */
 int		configure_menu_images(t_game *game);
 int		load_menu_images(t_game *game);
+int		configure_screen_image(t_game *game);
 int		show_main_menu(t_game *game);
 int		check_btn_collision(t_image *img, int x, int y);
 void	set_buttons_pos(t_image *menu_btns);
@@ -203,5 +205,6 @@ int		init_game(t_game *game);
 t_data	*get_data(void);
 void	free_and_exit(t_game *game);
 void	free_images(t_game *game);
+int		game_loop(t_game *game);
 
 #endif

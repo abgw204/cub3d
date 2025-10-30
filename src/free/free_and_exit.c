@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 20:03:40 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:34:21 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	free_images(t_game *game)
 	}
 	if (game->minimap.img.img)
 		mlx_destroy_image(game->mlx, game->minimap.img.img);
+	if (game->screen.img)
+		mlx_destroy_image(game->mlx, game->screen.img);
 }
 
 void	free_and_exit(t_game *game)

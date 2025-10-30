@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/17 18:03:47 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/30 18:21:04 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ int	mouse_input_menu(t_game *game, int x, int y, int mouse_btn)
 	{
 		game->player.pos.y += 0.1f;
 	}
-	if (check_btn_collision(&game->menu_btns[2], x, y) && mouse_btn == 1)
+	if (check_btn_collision(&game->menu_btns[1], x, y) && mouse_btn == 1)
+	{
+		revert_colors(&game->menu_btns[1], WHITE_ISH, BLACK);
+		game->state = IN_GAME;
+	}
+	else if (check_btn_collision(&game->menu_btns[2], x, y) && mouse_btn == 1)
 	{
 		revert_colors(&game->menu_btns[2], WHITE_ISH, BLACK);
 		game->state = IN_SETTINGS;
