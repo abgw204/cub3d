@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/05 02:23:21 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/05 03:47:09 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 /* MINIMAP */
 int		load_minimap(t_game *game);
 void	draw_minimap(t_game *game);
+int		in_bounds(int x, int y, int endx, int endy);
+void	clear_minimap(t_image *minimap);
+void	init_mini(t_minimap *mini, t_game *game);
 
 /* SETTINGS */
 int		show_settings(t_game *game);

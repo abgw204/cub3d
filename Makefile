@@ -22,6 +22,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/time/limit_fps.c \
 			src/game/menu_screen/main_menu.c \
 			src/game/minimap/minimap.c \
+			src/game/minimap/minimap_utils.c \
 			src/game/menu_screen/set_img_info.c \
 			src/game/menu_screen/settings.c \
 			src/hooks/mouse_handler/mouse.c \
