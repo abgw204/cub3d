@@ -3,116 +3,121 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:39:15 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/03 18:02:24 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/05 04:15:51 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/cub3d.h"
 
-void    drawVerticalLine(t_game *game, int x, int d_start, int d_end, int color)
+static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int color)
 {
-    while (d_start <= d_end)
+    while (raycast->draw_start <= raycast->draw_end)
     {
-        draw_pixel_in_image(&game->screen, x, d_start, color);
-        d_start++;
+        draw_pixel_in_image(screen, raycast->collum, raycast->draw_start, color);
+        raycast->draw_start++;
     }
+}
+
+void	verify_hit_wall(t_raycast *raycast, t_game *game)
+{
+	raycast->hit = 0;
+	raycast->side = 0;
+	while (raycast->hit == 0)
+	{
+		if (raycast->side_dist_x < raycast->side_dist_y)
+		{
+			raycast->side_dist_x += raycast->delta_dist_x;
+			raycast->map_x += raycast->step_x;
+			raycast->side = 0; // bateu numa parede vertical
+		}
+		else
+		{
+			raycast->side_dist_y += raycast->delta_dist_y;
+			raycast->map_y += raycast->step_y;
+			raycast->side = 1; // bateu numa parede horizontal
+		}
+		if (raycast->map_x < 0 || raycast->map_y < 0 || raycast->map_x >= game->map_w || raycast->map_y >= game->map_h)
+		{  
+			raycast->hit = 1;
+			break; // evita sair dos limites
+		}
+		
+		// verifica se chegou em uma parede
+		if (game->map[raycast->map_y * game->map_w + raycast->map_x] == '1')
+			raycast->hit = 1;
+	}
+}
+
+void	set_direction(t_raycast *raycast, t_game *game)
+{
+	raycast->ray_dir_x = game->player.dir.x + game->player.plane.x * raycast->camera_x;
+	raycast->ray_dir_y = game->player.dir.y + game->player.plane.y * raycast->camera_x;
+	raycast->delta_dist_x = fabs(1 / raycast->ray_dir_x);
+	raycast->delta_dist_y = fabs(1 / raycast->ray_dir_y);
+	if (raycast->ray_dir_x < 0)
+	{
+		raycast->step_x = -1;
+		raycast->side_dist_x = (game->player.pos.x - raycast->map_x) * raycast->delta_dist_x;
+	}
+	else
+	{
+		raycast->step_x = 1;
+		raycast->side_dist_x = (raycast->map_x + 1.0 - game->player.pos.x) * raycast->delta_dist_x;
+	}
+	if (raycast->ray_dir_y < 0)
+	{
+		raycast->step_y = -1;
+		raycast->side_dist_y = (game->player.pos.y - raycast->map_y) * raycast->delta_dist_y;
+	}
+	else
+	{
+		raycast->step_y = 1;
+		raycast->side_dist_y = (raycast->map_y + 1.0 - game->player.pos.y) * raycast->delta_dist_y;
+	}
+}
+
+void	draw_in_image(t_raycast *raycast, t_image *screen)
+{
+	int	i;
+	
+	i = 0;
+	raycast->draw_start = -raycast->line_height / 2 + SCREEN_HEIGHT / 2;
+	if (raycast->draw_start < 0)
+		raycast->draw_start = 0;
+	raycast->draw_end = raycast->line_height / 2 + SCREEN_HEIGHT / 2;
+	if (raycast->draw_end >= SCREEN_HEIGHT)
+		raycast->draw_end = SCREEN_HEIGHT - 1;
+	while (i < raycast->draw_start)
+		draw_pixel_in_image(screen, raycast->collum, i++, 0x9999FF);
+	draw_vertical_line(screen, raycast, 0x000000);
+	i = raycast->draw_end;
+	while (i < SCREEN_HEIGHT)
+		draw_pixel_in_image(screen, raycast->collum, i++, 0x888888);
 }
 
 void    raycast(t_game *game)
 {
-    int     collum = 0;
-    double  deltaDistX;
-    double  deltaDistY;
-    double  sideDistX;
-    double  sideDistY;
-    int     stepX;
-    int     stepY;
-    double  perpWallDist;
+	t_raycast	raycast;
 
-    while (collum < SCREEN_WIDTH)
+	raycast.collum = 0;
+    while (raycast.collum < SCREEN_WIDTH)
     {
-        int     mapX = (int)game->player.pos.x;
-        int     mapY = (int)game->player.pos.y;
-        double cameraX = 2.0 * collum / (double)SCREEN_WIDTH - 1;
-        double rayDirX = game->player.dir.x + game->player.plane.x * cameraX;
-        double rayDirY = game->player.dir.y + game->player.plane.y * cameraX;
-        
-        deltaDistX = fabs(1 / rayDirX);
-        deltaDistY = fabs(1 / rayDirY);
-
-        if (rayDirX < 0)
-        {
-            stepX = -1;
-            sideDistX = (game->player.pos.x - mapX) * deltaDistX;
-        }
+		raycast.map_x = (int)game->player.pos.x;
+        raycast.map_y = (int)game->player.pos.y;
+        raycast.camera_x = 2.0 * raycast.collum / (double)SCREEN_WIDTH - 1;
+		set_direction(&raycast, game);
+		verify_hit_wall(&raycast, game);
+        if (raycast.side == 0)
+            raycast.perp_wall_dist = raycast.side_dist_x - raycast.delta_dist_x;
         else
-        {
-            stepX = 1;
-            sideDistX = (mapX + 1.0 - game->player.pos.x) * deltaDistX;
-        }
-        if (rayDirY < 0)
-        {
-            stepY = -1;
-            sideDistY = (game->player.pos.y - mapY) * deltaDistY;
-        }
-        else
-        {
-            stepY = 1;
-            sideDistY = (mapY + 1.0 - game->player.pos.y) * deltaDistY;
-        }
-        int hit = 0;
-        int side = 0;
-        while (hit == 0)
-        {
-            if (sideDistX < sideDistY)
-            {
-                sideDistX += deltaDistX;
-                mapX += stepX;
-                side = 0; // bateu numa parede vertical
-            }
-            else
-            {
-                sideDistY += deltaDistY;
-                mapY += stepY;
-                side = 1; // bateu numa parede horizontal
-            }
-            if (mapX < 0 || mapY < 0 || mapX >= game->map_w || mapY >= game->map_h)
-            {  
-                hit = 1;
-                break; // evita sair dos limites
-            }
-            
-            // verifica se chegou em uma parede
-            if (game->map[mapY * game->map_w + mapX] == '1')
-            {
-                hit = 1;
-            }
-        }
-        //double wallx;
-
-        if (side == 0)
-            perpWallDist = sideDistX - deltaDistX;
-        else
-            perpWallDist = sideDistY - deltaDistY;
-        double perpWallDistCorrected = perpWallDist * 
-        (game->player.dir.x * rayDirX + game->player.dir.y * rayDirY);
-        //wallx -= floor(wallx);*/
-        
-        int line_height = (int)(SCREEN_HEIGHT / perpWallDistCorrected);
-        int drawStart = -line_height / 2 + SCREEN_HEIGHT / 2;
-        if (drawStart < 0)
-            drawStart = 0;
-        int drawEnd = line_height / 2 + SCREEN_HEIGHT / 2;
-        if (drawEnd >= SCREEN_HEIGHT)
-            drawEnd = SCREEN_HEIGHT - 1;
-        for (int i = 0; i < drawStart; i++)
-            draw_pixel_in_image(&game->screen, collum, i, 0x9999FF);
-        drawVerticalLine(game, collum, drawStart, drawEnd, 0x000000);
-        for (int i = drawEnd; i < SCREEN_HEIGHT; i++)
-            draw_pixel_in_image(&game->screen, collum, i, 0x888888);
-        collum++;
+            raycast.perp_wall_dist = raycast.side_dist_y - raycast.delta_dist_y;
+        raycast.perp_wall_dist_corrected = raycast.perp_wall_dist * 
+        (game->player.dir.x * raycast.ray_dir_x + game->player.dir.y * raycast.ray_dir_y);
+        raycast.line_height = (int)(SCREEN_HEIGHT / raycast.perp_wall_dist_corrected);
+        draw_in_image(&raycast, &game->screen);
+        raycast.collum++;
     }
 }
