@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/05 02:23:21 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/05 04:08:22 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,29 @@ typedef struct	GameData
 	char		*fps;
 	char		*keys;
 }			t_game;
+
+typedef struct	raycast
+{
+	 int     collum;
+    double  delta_dist_x;
+    double  delta_dist_y;
+    double  side_dist_x;
+    double  side_dist_y;
+    int     step_x;
+    int     step_y;
+    double  perp_wall_dist;
+	int     map_x;
+	int     map_y;
+	double camera_x;
+	double ray_dir_x;
+	double ray_dir_y;
+	int hit;
+    int side;
+	int line_height;
+    int draw_start;
+	int draw_end;
+	double	perp_wall_dist_corrected;
+}			t_raycast;
 
 /* TIME */
 void	set_delta_time(t_game *game);
