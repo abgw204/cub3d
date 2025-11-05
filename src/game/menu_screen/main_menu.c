@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:34 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/17 18:00:24 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/10/31 14:32:16 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ int	show_main_menu(t_game *game)
 						 game->menu_btns[3].img,
 						 game->menu_btns[3].x,
 						 game->menu_btns[3].y);
-	// eventualmente trocar game->state de MAIN_MENU para IN_GAME
 	return (0);
 }

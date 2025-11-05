@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/30 19:34:39 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/05 02:23:21 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@
 # include "libft.h"
 
 /* SCREEN SIZE */
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1280
+# define SCREEN_HEIGHT 768
 
 /* KEYS */
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+
+# define LEFT_ARROW 65361
+# define RIGHT_ARROW 65363
 
 /* GAME STATES */
 # define MAIN_MENU 0
@@ -100,7 +103,9 @@ typedef struct	Player
 {
 	t_dv2	pos;
 	t_dv2	dir;
-	float	speed;
+	t_dv2	plane;
+	double	angle;
+	double	speed;
 }	t_player;
 
 typedef struct	Config
@@ -133,6 +138,7 @@ typedef struct	GameData
 	t_image		screen;
 	t_data		*data;
 	t_player	player;
+	char		*fps;
 	char		*keys;
 }			t_game;
 
@@ -161,6 +167,10 @@ int		error(char *line, t_list *list, char *error_message);
 int		check_valid(char *line, char *valids);
 void	get_player_info(t_game *game);
 int		close_fd(int fd);
+
+/* KEYBOARD*/
+int	key_press(int key, void *param);
+int key_release(int key, void *param);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);
@@ -194,6 +204,7 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
+void    raycast(t_game *game);
 
 /* ERROR */
 int		print_error(char *error_message);
@@ -202,9 +213,11 @@ int		print_perror(void);
 
 /* GAME */
 int		init_game(t_game *game);
+void    move_player(t_game *game);
 t_data	*get_data(void);
 void	free_and_exit(t_game *game);
 void	free_images(t_game *game);
 int		game_loop(t_game *game);
+void    rotate_camera(t_game *game);
 
 #endif

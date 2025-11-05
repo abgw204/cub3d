@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/30 16:49:48 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:12:25 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	mouse_move(int x, int y, void *param)
 	t_game		*game;
 
 	game = (t_game *)param;
-	/*if (game->state == IN_GAME)
-		return (mouse_move_in_game(game, x, y));*/
+	if (game->state == IN_GAME)
+		/*return (mouse_move_in_game(game, x, y))*/{}
 	if (game->state == MAIN_MENU)
 		return (mouse_move_menu(game, x, y));
 	if (game->state == IN_SETTINGS)
@@ -31,12 +31,12 @@ int	mouse_input(int mouse_btn, int x, int y, void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
-	/*if (game->state == IN_GAME)
-		return (mouse_input_in_game(game, x, y, mouse_btn));
-	*/
+	if (game->state == IN_GAME)
+		/*return (mouse_input_in_game(game, x, y))*/{}
 	if (game->state == MAIN_MENU)
 		return (mouse_input_menu(game, x, y, mouse_btn));
 	if (game->state == IN_SETTINGS)
 		return (mouse_input_in_settings(game, x, y, mouse_btn));
+	system("paplay ../../screenshot-iphone-sound-336170.wav &");
 	return (0);
 }

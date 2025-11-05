@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:00:22 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/30 18:30:12 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/04 20:31:52 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,33 @@ static void	set_dir(t_game *game, char dir)
 	{
 		game->player.dir.x = 0.0;
 		game->player.dir.y = -1.0;
+		game->player.plane.x = 0.66;
+		game->player.plane.y = 0.00;
+		game->player.angle = -PI / 2;
 	}
 	else if (dir == 'S')
 	{
 		game->player.dir.x = 0.0;
 		game->player.dir.y = 1.0;
+		game->player.plane.x = -0.66;
+		game->player.plane.y = 0.0;
+		game->player.angle = PI / 2;
 	}
 	else if (dir == 'E')
 	{
 		game->player.dir.x = 1.0;
 		game->player.dir.y = 0.0;
+		game->player.plane.x = 0.0;
+		game->player.plane.y = 0.66;
+		game->player.angle = 0;
 	}
 	else if (dir == 'W')
 	{
 		game->player.dir.x = -1.0;
 		game->player.dir.y = 0.0;
+		game->player.plane.x = 0;
+		game->player.plane.y = -0.66;
+		game->player.angle = PI;
 	}
 	printf("DirX: %.2f | dirY: %.2f [%c]\n", game->player.dir.x,
 		game->player.dir.y, dir);

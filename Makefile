@@ -26,9 +26,13 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/game/menu_screen/settings.c \
 			src/hooks/mouse_handler/mouse.c \
 			src/hooks/menu.c \
+			src/hooks/keyboard_inputs/keyboard_handler.c \
 			src/render/draw/draw_pixel_in_image.c \
+			src/render/raycast/raycast.c \
 			src/game/start/init_game.c \
-			src/game/game_loop.c
+			src/game/game_loop.c \
+			src/game/move_player.c \
+			src/game/rotate_camera.c
 
 FUNCTIONS_BONUS =
 

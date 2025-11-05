@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:58 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/29 18:47:52 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/03 18:25:11 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,16 @@ double	get_time_in_seconds(void)
 	return (tv.tv_sec + tv.tv_usec / 1000000.0);
 }
 
-static void	print_fps(t_game *game, int frames, double fps_timer)
+static void	get_fps(t_game *game, int frames, double fps_timer)
 {
-	char	*res;
 	char	*fps;
 	
 	if (fps_timer > 0.000001)
 		fps = ft_itoa((int)(frames / fps_timer));
 	else
 		fps = ft_strdup("00");
-	res = ft_strjoin("FPS: ", fps);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, res);
+	game->fps = ft_strjoin("FPS: ", fps);
 	free(fps);
-	free(res);
 }
 
 void	set_delta_time(t_game *game)
@@ -58,11 +54,11 @@ void	set_delta_time(t_game *game)
 			frames = 0;
 			fps_timer = 0.0;
 		}
-		print_fps(game, frames, fps_timer);
+		get_fps(game, frames, fps_timer);
 	}
 
 	// DEBUG INFO
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+	/*mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][0]);
 	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][1]);
@@ -97,5 +93,5 @@ void	set_delta_time(t_game *game)
 	t_uiv2 p1 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 147)};
 	t_uiv2 p2 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 167)};
 	draw_square(game, p1, 15, game->data->f_color);
-	draw_square(game, p2, 15, game->data->c_color);
+	draw_square(game, p2, 15, game->data->c_color);*/
 }

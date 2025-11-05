@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/30 18:54:02 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/04 20:40:40 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ static int	update(void *param)
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
 	limit_fps(60.0);
-	draw_minimap(game);
 	if (game->state == MAIN_MENU)
-		return (show_main_menu(game));
-	if (game->state == IN_GAME)
-		return (game_loop(game));
-	if (game->state == IN_SETTINGS)
-		return (show_settings(game));
+		show_main_menu(game);
+	else if (game->state == IN_GAME)
+		game_loop(game);
+	else if (game->state == IN_SETTINGS)
+		show_settings(game);
+	free(game->fps);
+    game->fps = NULL;
 	return (0);
 }
 
@@ -45,9 +46,11 @@ int	init_game(t_game *game)
 	if (!game->win)
 		return (print_error_free(game, "Mlx window did not work correctly!"));
 	load_minimap(game);
-	mlx_loop_hook(game->mlx, (int (*)())update, game);
-	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);
-	mlx_hook(game->win, 6, 1L<<6, (int (*)())mouse_move, game);
+	mlx_loop_hook(game->mlx, update, game);
+	mlx_mouse_hook(game->win, mouse_input, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
+	mlx_hook(game->win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_loop(game->mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 15:41:18 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/05 02:24:34 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,8 @@ void	draw_minimap(t_game *game)
 				draw_block(&mini->img, mini->pos, 20, 0x5555AA);
 			else if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 				&& (game->map[mini->y_bg * game->map_w + mini->x_bg] == '0'
-				|| game->map[mini->y_bg * game->map_w + mini->x_bg] == 'W'))
+				|| game->map[mini->y_bg * game->map_w + mini->x_bg] == 'W'
+				|| game->map[mini->y_bg * game->map_w + mini->x_bg] == 'N'))
 				draw_block(&mini->img, mini->pos, 20, 0x00000);
 			mini->x_bg++;
 			mini->pos.x += 20;
@@ -123,5 +124,5 @@ void	draw_minimap(t_game *game)
 		mini->y_bg++;
 	}
 	mlx_put_image_to_window(game->mlx, game->win,
-						mini->img.img, 200, 200);
+						mini->img.img, 30, 60);
 }
