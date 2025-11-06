@@ -46,11 +46,11 @@ int	init_game(t_game *game)
 	if (!game->win)
 		return (print_error_free(game, "Mlx window did not work correctly!"));
 	load_minimap(game);
-	mlx_loop_hook(game->mlx, update, game);
-	mlx_mouse_hook(game->win, mouse_input, game);
-	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
-	mlx_hook(game->win, 2, 1L << 0, key_press, game);
-	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_loop_hook(game->mlx, (int (*)())update, game);
+	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);
+	mlx_hook(game->win, 6, 1L << 6, (int (*)())mouse_move, game);
+	mlx_hook(game->win, 2, 1L << 0, (int (*)())key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, (int (*)())key_release, game);
 	mlx_loop(game->mlx);
 	return (0);
 }

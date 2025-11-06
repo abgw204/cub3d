@@ -24,8 +24,8 @@
 # include "libft.h"
 
 /* SCREEN SIZE */
-# define SCREEN_WIDTH 1280
-# define SCREEN_HEIGHT 768
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
 /* KEYS */
 # define KEY_W 119
@@ -48,6 +48,7 @@
 
 /* MATH */
 # define PI 3.14159265358979323846
+# define FOV 1.0
 
 extern double	g_delta_time;
 
@@ -245,5 +246,6 @@ void	free_and_exit(t_game *game);
 void	free_images(t_game *game);
 int		game_loop(t_game *game);
 void    rotate_camera(t_game *game);
+void    rotate_camera_mouse(t_game *game, int middle, int x);
 
 #endif

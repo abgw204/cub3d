@@ -21,8 +21,16 @@ static void    rotate_player(t_player *player, double rot_speed)
         player->angle += 2 * PI;
     player->dir.x = cos(player->angle);
     player->dir.y = sin(player->angle);
-    player->plane.x = -player->dir.y * 0.66;
-    player->plane.y =  player->dir.x * 0.66;
+    player->plane.x = -player->dir.y * FOV;
+    player->plane.y =  player->dir.x * FOV;
+}
+
+void    rotate_camera_mouse(t_game *game, int middle, int x)
+{
+	if (x < middle)
+		rotate_player(&game->player, -0.05);
+	else
+		rotate_player(&game->player, 0.05);
 }
 
 void    rotate_camera(t_game *game)

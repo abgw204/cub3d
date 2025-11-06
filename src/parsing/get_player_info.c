@@ -28,7 +28,7 @@ static void	set_dir(t_game *game, char dir)
 	{
 		game->player.dir.x = 0.0;
 		game->player.dir.y = -1.0;
-		game->player.plane.x = 0.66;
+		game->player.plane.x = FOV;
 		game->player.plane.y = 0.00;
 		game->player.angle = -PI / 2;
 	}
@@ -36,7 +36,7 @@ static void	set_dir(t_game *game, char dir)
 	{
 		game->player.dir.x = 0.0;
 		game->player.dir.y = 1.0;
-		game->player.plane.x = -0.66;
+		game->player.plane.x = -FOV;
 		game->player.plane.y = 0.0;
 		game->player.angle = PI / 2;
 	}
@@ -45,7 +45,7 @@ static void	set_dir(t_game *game, char dir)
 		game->player.dir.x = 1.0;
 		game->player.dir.y = 0.0;
 		game->player.plane.x = 0.0;
-		game->player.plane.y = 0.66;
+		game->player.plane.y = FOV;
 		game->player.angle = 0;
 	}
 	else if (dir == 'W')
@@ -53,7 +53,7 @@ static void	set_dir(t_game *game, char dir)
 		game->player.dir.x = -1.0;
 		game->player.dir.y = 0.0;
 		game->player.plane.x = 0;
-		game->player.plane.y = -0.66;
+		game->player.plane.y = -FOV;
 		game->player.angle = PI;
 	}
 	printf("DirX: %.2f | dirY: %.2f [%c]\n", game->player.dir.x,

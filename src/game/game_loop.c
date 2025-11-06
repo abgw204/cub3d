@@ -12,19 +12,28 @@
 
 #include "../../include/cub3d.h"
 
-void    clear_screen_image(t_game *game)
+void	clear_screen_image(t_game *game)
 {
-    int x;
-    int y;
+    int	x;
+    int	y;
 
     x = -1;
     y = -1;
     while (++y < SCREEN_HEIGHT)
     {
         while (++x < SCREEN_WIDTH)
-            draw_pixel_in_image(&game->screen, x, y, 0x000000);
+            draw_pixel_in_image(&game->screen, x, y, BLACK);
         x = -1;
     }
+}
+
+void	draw_crosshair(t_image *screen)
+{
+	t_uiv2	pos;
+
+	pos.x = SCREEN_WIDTH / 2 - 4;
+	pos.y = SCREEN_HEIGHT / 2 - 4;
+	draw_circle(pos, 4, 0xFFFFFF, screen);
 }
 
 int game_loop(t_game *game)
@@ -39,6 +48,7 @@ int game_loop(t_game *game)
         mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
     }
+	draw_crosshair(&game->screen);
 	draw_minimap(game);
     return (0);
 }
