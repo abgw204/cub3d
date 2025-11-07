@@ -6,51 +6,73 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/04 20:40:40 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/07 08:15:55 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/cub3d.h"
 
-static int	update(void *param)
+void	set_game_hooks(t_game *game)
 {
-	t_game	*game;
-
-	game = (t_game *)param;
-	mlx_clear_window(game->mlx, game->win);
-	set_delta_time(game);
-	limit_fps(60.0);
-	if (game->state == MAIN_MENU)
-		show_main_menu(game);
-	else if (game->state == IN_GAME)
-		game_loop(game);
-	else if (game->state == IN_SETTINGS)
-		show_settings(game);
-	free(game->fps);
-    game->fps = NULL;
-	return (0);
+	mlx_loop_hook(game->mlx, (int (*)())update, game);
+	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);
+	mlx_hook(game->win, 6, 1L << 6, (int (*)())mouse_move, game);
+	mlx_hook(game->win, 2, 1L << 0, (int (*)())key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, (int (*)())key_release, game);
 }
 
-int	init_game(t_game *game)
+static int	load_game_textures(t_game *game)
 {
-	game->mlx = mlx_init();
-	if (!game->mlx)
-		return (print_error_free(game, "Mlx context did not work correctly!"));
 	if (configure_menu_images(game))
 		return (print_error_free(game, NULL));
 	if (configure_settings_images(game))
 		return (print_error_free(game, NULL));
 	if (configure_screen_image(game))
 		return (print_error_free(game, NULL));
+	//if (configure_textures_images(game))
+	//	return (print_error_free(game, NULL));
+	return (0);
+}
+static int	load_mlx_context(t_game *game)
+{
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (print_error_free(game, "Mlx context did not work correctly!"));
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	if (!game->win)
 		return (print_error_free(game, "Mlx window did not work correctly!"));
-	load_minimap(game);
-	mlx_loop_hook(game->mlx, (int (*)())update, game);
-	mlx_mouse_hook(game->win, (int (*)())mouse_input, game);
-	mlx_hook(game->win, 6, 1L << 6, (int (*)())mouse_move, game);
-	mlx_hook(game->win, 2, 1L << 0, (int (*)())key_press, game);
-	mlx_hook(game->win, 3, 1L << 1, (int (*)())key_release, game);
+	return (0);
+}
+
+void	init_threads(t_game *game)
+{
+	int			i;
+
+	i = 0;
+	game->id = 0;
+	game->ths_done = 0;
+	pthread_cond_init(&game->cond_done, NULL);
+	pthread_cond_init(&game->cond_start_ths, NULL);
+	while (i < N_THREADS)
+	{
+		thread_create(&game->th[i], &raycast, game);
+		usleep(1);
+		i++;
+	}
+	usleep(100);
+	//pthread_mutex_init(&game->mutex_sig, NULL);
+}
+
+int	init_game(t_game *game)
+{
+	if (load_mlx_context(game))
+		return (1);
+	if (load_game_textures(game))
+		return (1);
+	if (load_minimap(game))
+		return (1);
+	set_game_hooks(game);
+	init_threads(game);
 	mlx_loop(game->mlx);
 	return (0);
 }

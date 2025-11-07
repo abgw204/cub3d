@@ -6,11 +6,11 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/04 21:15:55 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/07 08:29:15 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "../../../include/cub3d.h"
 
 void	clear_screen_image(t_game *game)
 {
@@ -36,12 +36,26 @@ void	draw_crosshair(t_image *screen)
 	draw_circle(pos, 4, 0xFFFFFF, screen);
 }
 
+void	thread_create(pthread_t *thread, void *(func)(void *), void *data)
+{
+	if (pthread_create(thread, NULL, func, data) != 0)
+		print_error("A Thread failed to be created!\n");
+}
+
 int game_loop(t_game *game)
 {
-    clear_screen_image(game);
+	clear_screen_image(game);
     rotate_camera(game);
     move_player(game);
-    raycast(game);
+	pthread_mutex_lock(&game->mutex_sig);
+	pthread_cond_broadcast(&game->cond_start_ths);
+	set_int(&game->mutex_sig, &game->start_ths, 1);
+	// if (game->ths_done == N_THREADS)
+		pthread_cond_wait(&game->cond_done, &game->mutex_sig);
+	pthread_mutex_unlock(&game->mutex_sig);
+	printf("oi\n");
+	//for (int i = 0; i < N_THREADS; i++)
+	//	pthread_join(game->th[i], NULL);
     mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
     {
@@ -51,4 +65,29 @@ int game_loop(t_game *game)
 	draw_crosshair(&game->screen);
 	draw_minimap(game);
     return (0);
+}
+
+int	update(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	mlx_clear_window(game->mlx, game->win);
+	set_delta_time(game);
+	limit_fps(200.0);
+	if (game->state == MAIN_MENU)
+    {
+        enable_mouse(game);
+		show_main_menu(game);
+    }
+	else if (game->state == IN_GAME)
+    {
+        disable_mouse(game);
+		game_loop(game);
+    }
+	else if (game->state == IN_SETTINGS)
+		show_settings(game);
+	free(game->fps);
+    game->fps = NULL;
+	return (0);
 }

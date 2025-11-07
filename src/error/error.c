@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:28 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/31 14:36:31 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:43:42 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	print_error_free(t_game *game, char *error_message)
 	free_images(game);
 	if (game->mlx)
 	{
+		printf("oi\n");
+		mlx_destroy_window(game->mlx, game->win);
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}

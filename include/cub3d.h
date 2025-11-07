@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/05 04:08:22 by vfidelis         ###   ########.fr       */
+/*   Updated: 2025/11/07 08:01:00 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <errno.h>
 # include <math.h>
 # include <sys/time.h>
+# include <stdbool.h>
+# include <pthread.h>
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
@@ -50,20 +52,14 @@
 # define PI 3.14159265358979323846
 # define FOV 1.0
 
+# define N_THREADS 6
+
 extern double	g_delta_time;
 
-typedef struct Data
-{
-	char	**config[7];
-	t_list	*map_list;
-	char	*map;
-	int		map_w;
-	int		map_h;
-	int		f_color;
-	int		c_color;
-}	t_data;
+typedef struct s_worker t_worker;
+typedef struct s_data t_data;
 
-typedef struct	Image
+typedef struct	s_image
 {
 	void	*img;
 	char	*addr;
@@ -76,31 +72,31 @@ typedef struct	Image
 	int		y;
 }	t_image;
 
-typedef struct	UIntVector2
+typedef struct	s_uint_vector
 {
 	unsigned int	x;
 	unsigned int	y;
 }	t_uiv2;
 
-typedef struct	IntVector2
+typedef struct	s_int_vector
 {
 	int	x;
 	int	y;
 }	t_iv2;
 
-typedef struct	FloatVector2
+typedef struct	s_float_vector
 {
 	float	x;
 	float	y;
 }	t_fv2;
 
-typedef struct	DoubleVector2
+typedef struct	s_double_vector
 {
 	double	x;
 	double	y;
 }	t_dv2;
 
-typedef struct	Player
+typedef struct	s_player
 {
 	t_dv2	pos;
 	t_dv2	dir;
@@ -109,12 +105,13 @@ typedef struct	Player
 	double	speed;
 }	t_player;
 
-typedef struct	Config
+typedef struct	s_config
 {
-	int	show_fps;
+	bool	show_fps;
+	bool	show_mouse;
 }	t_config;
 
-typedef struct	Minimap
+typedef struct	s_minimap
 {
 	int		x_bg;
 	int		y_bg;
@@ -124,47 +121,87 @@ typedef struct	Minimap
 	t_image	img;
 }	t_minimap;
 
-typedef struct	GameData
+typedef struct	s_worker
 {
-	void		*win;
-	void		*mlx;
-	char		*map;
-	int			map_w;
-	int			map_h;
-	int			state;
-	t_config	config;
-	t_image		menu_btns[4];
-	t_image		settings[3];
-	t_minimap	minimap;
-	t_image		screen;
-	t_data		*data;
-	t_player	player;
-	char		*fps;
-	char		*keys;
+	int	wk_start;
+	int	wk_end;
+}	t_worker;
+
+typedef struct	s_game_data
+{
+	void			*win;
+	void			*mlx;
+	char			*map;
+	int				map_w;
+	int				map_h;
+	int				state;
+	char			*fps;
+	char			*keys;
+	t_player		player;
+	t_image			screen;
+	t_minimap		minimap;
+	t_config		config;
+	t_data			*data;
+	t_image			menu_btns[4];
+	t_image			settings[3];
+	t_image			n;
+	t_image			s;
+	t_image			e;
+	t_image			w;
+
+	/* THREADS */
+	pthread_t		th[N_THREADS];
+	t_worker		workers[N_THREADS];
+	int				worker_start;
+	int				worker_limit;
+	int				id;
+	int				ths_done;
+	int				start_ths;
+	pthread_mutex_t	mutex_sig;
+	pthread_cond_t	cond_start_ths;
+	pthread_cond_t	cond_done;
 }			t_game;
 
-typedef struct	raycast
+typedef struct s_data
 {
-	 int     collum;
-    double  delta_dist_x;
-    double  delta_dist_y;
-    double  side_dist_x;
-    double  side_dist_y;
-    int     step_x;
-    int     step_y;
-    double  perp_wall_dist;
-	int     map_x;
-	int     map_y;
-	double camera_x;
-	double ray_dir_x;
-	double ray_dir_y;
-	int hit;
-    int side;
-	int line_height;
-    int draw_start;
-	int draw_end;
+	char	**config[7];
+	t_list	*map_list;
+	char	*map;
+	int		map_w;
+	int		map_h;
+	int		f_color;
+	int		c_color;
+}	t_data;
+
+
+typedef struct	s_raycast
+{
+	double	delta_dist_x;
+    double	delta_dist_y;
+    double	side_dist_x;
+    double	side_dist_y;
+    double	perp_wall_dist;
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
 	double	perp_wall_dist_corrected;
+	int		collum;
+    int		step_y;
+    int		step_x;
+	int		map_x;
+	int		map_y;
+	int		hit;
+    int		side;
+	int		line_height;
+    int		draw_start;
+	int		draw_end;
 }			t_raycast;
+
+void	init_threads(t_game *game);
+long	get_int_and_increment(pthread_mutex_t *mutex, int *variable);
+int 	get_int(pthread_mutex_t *mutex, int *variable);
+void	increment_int(pthread_mutex_t *mutex, int *value);
+void	set_int(pthread_mutex_t *mutex, int *variable, int value);
 
 /* TIME */
 void	set_delta_time(t_game *game);
@@ -200,6 +237,8 @@ int key_release(int key, void *param);
 int		mouse_move(int x, int y, void *param);
 int		mouse_move_menu(t_game *game, int x, int y);
 int		mouse_input(int mouse_btn, int x, int y, void *param);
+void    enable_mouse(t_game *game);
+void    disable_mouse(t_game *game);
 
 /* MENU */
 int		configure_menu_images(t_game *game);
@@ -231,7 +270,7 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
-void    raycast(t_game *game);
+void    *raycast(void *param);
 
 /* ERROR */
 int		print_error(char *error_message);
@@ -240,6 +279,7 @@ int		print_perror(void);
 
 /* GAME */
 int		init_game(t_game *game);
+int		update(void *param);
 void    move_player(t_game *game);
 t_data	*get_data(void);
 void	free_and_exit(t_game *game);
@@ -247,5 +287,9 @@ void	free_images(t_game *game);
 int		game_loop(t_game *game);
 void    rotate_camera(t_game *game);
 void    rotate_camera_mouse(t_game *game, int middle, int x);
+void	thread_create(pthread_t *thread, void *(func)(void *), void *data);
+
+/* TEXTURES */
+int	configure_textures_images(t_game *game);
 
 #endif

@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 
@@ -17,6 +17,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/load_images/main_menu_images.c \
 			src/load_images/load_screen_image.c \
 			src/load_images/settings_images.c \
+			src/load_images/load_textures_images.c \
 			src/time/delta_time.c \
 			src/free/free_and_exit.c \
 			src/time/limit_fps.c \
@@ -30,10 +31,12 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/hooks/keyboard_inputs/keyboard_handler.c \
 			src/render/draw/draw_pixel_in_image.c \
 			src/render/raycast/raycast.c \
+			src/render/raycast/getters_setters.c \
 			src/game/start/init_game.c \
-			src/game/game_loop.c \
-			src/game/move_player.c \
-			src/game/rotate_camera.c
+			src/game/game_loop/game_loop.c \
+			src/game/utils/mouse_utils.c \
+			src/game/player/move_player.c \
+			src/game/player/rotate_camera.c
 
 FUNCTIONS_BONUS =
 
