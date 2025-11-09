@@ -26,8 +26,8 @@
 # include "libft.h"
 
 /* SCREEN SIZE */
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 1600
+# define SCREEN_HEIGHT 900
 
 /* KEYS */
 # define KEY_W 119
@@ -56,7 +56,6 @@
 
 extern double	g_delta_time;
 
-typedef struct s_worker t_worker;
 typedef struct s_data t_data;
 
 typedef struct	s_image
@@ -121,14 +120,9 @@ typedef struct	s_minimap
 	t_image	img;
 }	t_minimap;
 
-typedef struct	s_worker
-{
-	int	wk_start;
-	int	wk_end;
-}	t_worker;
-
 typedef struct	s_game_data
 {
+	/* GAME */
 	void			*win;
 	void			*mlx;
 	char			*map;
@@ -138,10 +132,12 @@ typedef struct	s_game_data
 	char			*fps;
 	char			*keys;
 	t_player		player;
-	t_image			screen;
 	t_minimap		minimap;
 	t_config		config;
 	t_data			*data;
+
+	/* IMAGES */
+	t_image			screen;
 	t_image			menu_btns[4];
 	t_image			settings[3];
 	t_image			n;
@@ -151,14 +147,10 @@ typedef struct	s_game_data
 
 	/* THREADS */
 	pthread_t		th[N_THREADS];
-	t_worker		workers[N_THREADS];
-	int				worker_start;
-	int				worker_limit;
 	int				id;
-	int				ths_done;
-	int				start_ths;
-	pthread_mutex_t	mutex_sig;
-	pthread_cond_t	cond_start_ths;
+	int				threads_done;
+	pthread_mutex_t	m;
+	pthread_cond_t	cond_start;
 	pthread_cond_t	cond_done;
 }			t_game;
 
@@ -197,6 +189,7 @@ typedef struct	s_raycast
 	int		draw_end;
 }			t_raycast;
 
+/* THREADS */
 void	init_threads(t_game *game);
 long	get_int_and_increment(pthread_mutex_t *mutex, int *variable);
 int 	get_int(pthread_mutex_t *mutex, int *variable);

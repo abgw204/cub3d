@@ -37,7 +37,6 @@ int key_press(int key, void *param)
     t_game *game;
 
     game = (t_game *)param;
-    printf("key: %d\n", key);
     if (key == KEY_W)
         game->keys[0] = '1';
     else if (key == KEY_A)

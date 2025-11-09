@@ -46,21 +46,16 @@ static int	load_mlx_context(t_game *game)
 
 void	init_threads(t_game *game)
 {
-	int			i;
+	int	i;
 
 	i = 0;
-	game->id = 0;
-	game->ths_done = 0;
+	game->id = i;
+	game->threads_done = i;
 	pthread_cond_init(&game->cond_done, NULL);
-	pthread_cond_init(&game->cond_start_ths, NULL);
+	pthread_cond_init(&game->cond_start, NULL);
+	pthread_mutex_init(&game->m, NULL);
 	while (i < N_THREADS)
-	{
-		thread_create(&game->th[i], &raycast, game);
-		usleep(1);
-		i++;
-	}
-	usleep(100);
-	//pthread_mutex_init(&game->mutex_sig, NULL);
+		thread_create(&game->th[i++], &raycast, game);
 }
 
 int	init_game(t_game *game)

@@ -35,10 +35,8 @@ static int	check_images(t_game *game)
 
 static int	get_texture_dir(char ***config, const char *dir)
 {
-	void	*texture;
 	int		i;
 
-	texture = NULL;
 	i = 0;
 	while (config[i])
 	{

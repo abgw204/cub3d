@@ -27,18 +27,16 @@ static void    rotate_player(t_player *player, double rot_speed)
 
 void    rotate_camera_mouse(t_game *game, int middle, int x)
 {
-	if (x == middle)
-		return ;
 	if (x < middle)
 		rotate_player(&game->player, -0.01 * (double)(middle - x) * g_delta_time);
-	else
+	else if (x > middle)
 		rotate_player(&game->player, 0.01 * (double)(x - middle) * g_delta_time);
 }
 
 void    rotate_camera(t_game *game)
 {
     if (game->keys[4] == '1')
-        rotate_player(&game->player, -0.05);
+        rotate_player(&game->player, -2.0 * g_delta_time);
     else if (game->keys[5] == '1')
-        rotate_player(&game->player, 0.05);
+        rotate_player(&game->player, 2.0 * g_delta_time);
 }

@@ -104,23 +104,22 @@ void    *raycast(void *param)
 {
 	t_raycast	raycast;
 	t_game		*game;
-	pthread_mutex_t mutex;
-	pthread_mutex_init(&mutex, NULL);
 	int			id;
 	game = (t_game *)param;
-	id = get_int_and_increment(&mutex, &game->id);
+	pthread_mutex_t mutex;
+	pthread_mutex_init(&mutex, NULL);
+	id = get_int_and_increment(&game->m, &game->id);
 	int	start = id * (SCREEN_WIDTH / N_THREADS);
 	int	limit = (id + 1) * (SCREEN_WIDTH / N_THREADS);
 	printf("start: %d, limit: %d\n", start, limit);
 	printf("id: %d\n", id);
 	while (true)
 	{
+		pthread_mutex_lock(&game->m);
+		pthread_cond_wait(&game->cond_start, &game->m);
+		pthread_mutex_unlock(&game->m);
 		while (start < limit)
 		{
-			pthread_mutex_lock(&mutex);
-			// if (game->start_ths == 0)
-				pthread_cond_wait(&game->cond_start_ths, &mutex);
-			pthread_mutex_unlock(&mutex);
 			raycast.map_x = (int)game->player.pos.x;
 			raycast.map_y = (int)game->player.pos.y;
 			raycast.camera_x = 2.0 * start / (double)SCREEN_WIDTH - 1;
@@ -135,18 +134,15 @@ void    *raycast(void *param)
 			raycast.line_height = (int)(SCREEN_HEIGHT / raycast.perp_wall_dist_corrected);
 			draw_in_image(&raycast, &game->screen, start);
 			start++;
-			//printf("oi\n");
 		}
-		increment_int(&game->mutex_sig, &game->ths_done);
-		if (get_int(&mutex, &game->ths_done) >= N_THREADS)
+		increment_int(&game->m, &game->threads_done);
+		if (get_int(&game->m, &game->threads_done) == N_THREADS)
 		{
-			set_int(&mutex, &game->ths_done, 0);
-			set_int(&mutex, &game->start_ths, 0);
-			pthread_mutex_lock(&mutex);
+			set_int(&game->m, &game->threads_done, 0);
+			pthread_mutex_lock(&game->m);
 			pthread_cond_broadcast(&game->cond_done);
-			pthread_mutex_unlock(&mutex);
+			pthread_mutex_unlock(&game->m);
 		}
-		printf("ths_done: %d\n", game->ths_done);
 		start = id * (SCREEN_WIDTH / N_THREADS);
 	}
 	return (NULL);

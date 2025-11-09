@@ -47,15 +47,12 @@ int game_loop(t_game *game)
 	clear_screen_image(game);
     rotate_camera(game);
     move_player(game);
-	pthread_mutex_lock(&game->mutex_sig);
-	pthread_cond_broadcast(&game->cond_start_ths);
-	set_int(&game->mutex_sig, &game->start_ths, 1);
-	// if (game->ths_done == N_THREADS)
-		pthread_cond_wait(&game->cond_done, &game->mutex_sig);
-	pthread_mutex_unlock(&game->mutex_sig);
-	printf("oi\n");
-	//for (int i = 0; i < N_THREADS; i++)
-	//	pthread_join(game->th[i], NULL);
+	pthread_mutex_lock(&game->m);
+	pthread_cond_broadcast(&game->cond_start);
+	pthread_mutex_unlock(&game->m);
+	pthread_mutex_lock(&game->m);
+	pthread_cond_wait(&game->cond_done, &game->m);
+	pthread_mutex_unlock(&game->m);
     mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
     {
