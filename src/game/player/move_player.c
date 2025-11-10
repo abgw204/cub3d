@@ -70,12 +70,12 @@ void	move_d(t_game *game, t_player *player)
 		player->pos.y = new_y;
 }
 
-void    move_player(t_game *game)
+void	move_player(t_game *game)
 {
     t_player	*player;
 
     player = &game->player;
-    
+
     if (game->keys[0] == '1')
         move_w(game, player);
     if (game->keys[1] == '1')

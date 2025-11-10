@@ -38,5 +38,20 @@ void    rotate_camera(t_game *game)
     if (game->keys[4] == '1')
         rotate_player(&game->player, -2.0 * g_delta_time);
     else if (game->keys[5] == '1')
-        rotate_player(&game->player, 2.0 * g_delta_time);
+		rotate_player(&game->player, 2.0 * g_delta_time);
+	if (game->keys[6] == '1')
+	{
+		if (game->up >= 1.0)
+			game->up -= 3.0 * game->up * g_delta_time;
+	}
+	else if (game->keys[7] == '1')
+	{
+		if (game->up <= 10.0)
+		{
+			if (game->up >= 3.0)
+				game->up += 3.0 * game->up * 2.0 * g_delta_time;
+			else
+				game->up += 3.0 * game->up * g_delta_time;
+		}
+	}
 }

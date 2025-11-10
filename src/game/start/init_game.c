@@ -51,6 +51,7 @@ void	init_threads(t_game *game)
 	i = 0;
 	game->id = i;
 	game->threads_done = i;
+	game->up = 10;
 	pthread_cond_init(&game->cond_done, NULL);
 	pthread_cond_init(&game->cond_start, NULL);
 	pthread_mutex_init(&game->m, NULL);

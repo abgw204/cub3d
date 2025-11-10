@@ -37,6 +37,8 @@
 
 # define LEFT_ARROW 65361
 # define RIGHT_ARROW 65363
+# define UP_ARROW 65362
+# define DOWN_ARROW 65364
 
 /* GAME STATES */
 # define MAIN_MENU 0
@@ -135,6 +137,7 @@ typedef struct	s_game_data
 	t_minimap		minimap;
 	t_config		config;
 	t_data			*data;
+	double			up;
 
 	/* IMAGES */
 	t_image			screen;

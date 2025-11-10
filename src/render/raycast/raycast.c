@@ -12,13 +12,14 @@
 
 #include "../../../include/cub3d.h"
 
-
-
 static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int color, int start)
 {
     while (raycast->draw_start <= raycast->draw_end)
     {
-        draw_pixel_in_image(screen, start, raycast->draw_start, color);
+		if (raycast->side == 1)
+			draw_pixel_in_image(screen, start, raycast->draw_start, color);
+		else
+			draw_pixel_in_image(screen, start, raycast->draw_start, 0x6666FF);
         raycast->draw_start++;
     }
 }
@@ -81,23 +82,38 @@ void	set_direction(t_raycast *raycast, t_game *game)
 	}
 }
 
-void	draw_in_image(t_raycast *raycast, t_image *screen, int start)
+void	draw_in_image(t_raycast *raycast, t_image *screen, int start, t_game *game)
 {
 	int	i;
 	
 	i = 0;
-	raycast->draw_start = -raycast->line_height / 2 + SCREEN_HEIGHT / 2;
+	raycast->draw_start = -raycast->line_height / 2 + SCREEN_HEIGHT / game->up;
 	if (raycast->draw_start < 0)
 		raycast->draw_start = 0;
-	raycast->draw_end = raycast->line_height / 2 + SCREEN_HEIGHT / 2;
+	raycast->draw_end = raycast->line_height / 2 + SCREEN_HEIGHT / game->up;
 	if (raycast->draw_end >= SCREEN_HEIGHT)
 		raycast->draw_end = SCREEN_HEIGHT - 1;
 	while (i < raycast->draw_start)
+	{
+		if (i >= raycast->draw_start - 3)
+		{
+			draw_pixel_in_image(screen, start, i++, 0x0000FF);
+			continue ;
+		}
 		draw_pixel_in_image(screen, start, i++, 0x9999FF);
-	draw_vertical_line(screen, raycast, 0x000000, start);
+	}
+	draw_vertical_line(screen, raycast, 0x111184, start);
 	i = raycast->draw_end;
 	while (i < SCREEN_HEIGHT)
-		draw_pixel_in_image(screen, start, i++, 0x888888);
+	{
+		if (i <= raycast->draw_end + 3)
+		{
+			draw_pixel_in_image(screen, start, i++, 0x0000FF);
+			continue ;
+		}
+		draw_pixel_in_image(screen, start, i, 0x888888);
+		i++;
+	}
 }
 
 void    *raycast(void *param)
@@ -106,8 +122,6 @@ void    *raycast(void *param)
 	t_game		*game;
 	int			id;
 	game = (t_game *)param;
-	pthread_mutex_t mutex;
-	pthread_mutex_init(&mutex, NULL);
 	id = get_int_and_increment(&game->m, &game->id);
 	int	start = id * (SCREEN_WIDTH / N_THREADS);
 	int	limit = (id + 1) * (SCREEN_WIDTH / N_THREADS);
@@ -129,10 +143,10 @@ void    *raycast(void *param)
             	raycast.perp_wall_dist = raycast.side_dist_x - raycast.delta_dist_x;
 			else
             	raycast.perp_wall_dist = raycast.side_dist_y - raycast.delta_dist_y;
-			raycast.perp_wall_dist_corrected = raycast.perp_wall_dist * 
+			raycast.perp_wall_dist_corrected = raycast.perp_wall_dist *
 			(game->player.dir.x * raycast.ray_dir_x + game->player.dir.y * raycast.ray_dir_y);
 			raycast.line_height = (int)(SCREEN_HEIGHT / raycast.perp_wall_dist_corrected);
-			draw_in_image(&raycast, &game->screen, start);
+			draw_in_image(&raycast, &game->screen, start, game);
 			start++;
 		}
 		increment_int(&game->m, &game->threads_done);
@@ -140,7 +154,7 @@ void    *raycast(void *param)
 		{
 			set_int(&game->m, &game->threads_done, 0);
 			pthread_mutex_lock(&game->m);
-			pthread_cond_broadcast(&game->cond_done);
+			pthread_cond_signal(&game->cond_done);
 			pthread_mutex_unlock(&game->m);
 		}
 		start = id * (SCREEN_WIDTH / N_THREADS);

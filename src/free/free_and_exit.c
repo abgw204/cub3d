@@ -46,6 +46,7 @@ void	free_and_exit(t_game *game)
 	free_images(game);
 	free(game->keys);
 	free(game->map);
+	free(game->fps);
 	ft_lstclear(&game->data->map_list, free);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);

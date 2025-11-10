@@ -29,6 +29,10 @@ int key_release(int key, void *param)
         game->keys[4] = '0';
     else if (key == RIGHT_ARROW)
         game->keys[5] = '0';
+	else if (key == UP_ARROW)
+		game->keys[6] = '0';
+	else if (key == DOWN_ARROW)
+		game->keys[7] = '0';
     return (0);
 }
 
@@ -48,6 +52,10 @@ int key_press(int key, void *param)
     else if (key == LEFT_ARROW)
         game->keys[4] = '1';
     else if (key == RIGHT_ARROW)
-        game->keys[5] = '1';
+		game->keys[5] = '1';
+	else if (key == UP_ARROW)
+		game->keys[6] = '1';
+	else if (key == DOWN_ARROW)
+		game->keys[7] = '1';
     return (0);
 }

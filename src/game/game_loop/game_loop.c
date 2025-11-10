@@ -33,7 +33,7 @@ void	draw_crosshair(t_image *screen)
 
 	pos.x = SCREEN_WIDTH / 2 - 4;
 	pos.y = SCREEN_HEIGHT / 2 - 4;
-	draw_circle(pos, 4, 0xFFFFFF, screen);
+	draw_circle(pos, 3, 0xFFFFFF, screen);
 }
 
 void	thread_create(pthread_t *thread, void *(func)(void *), void *data)
@@ -53,13 +53,13 @@ int game_loop(t_game *game)
 	pthread_mutex_lock(&game->m);
 	pthread_cond_wait(&game->cond_done, &game->m);
 	pthread_mutex_unlock(&game->m);
+	draw_crosshair(&game->screen);
     mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
     {
         mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
     }
-	draw_crosshair(&game->screen);
 	draw_minimap(game);
     return (0);
 }
@@ -71,7 +71,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(200.0);
+	//limit_fps(200.0);
 	if (game->state == MAIN_MENU)
     {
         enable_mouse(game);

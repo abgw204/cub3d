@@ -49,13 +49,13 @@ static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 {
 	char	map_c;
 
-	map_c = map[mini->y_bg * game->map_w + mini->x_bg];
+	map_c = 'X';
+	if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h))
+		map_c = map[mini->y_bg * game->map_w + mini->x_bg];
 	if (!in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
-		|| map_c == 'X')
+		|| map_c == 'X' || map_c == ' ')
 	{
 		draw_block(&mini->img, mini->pos, 20, WHITE);
-		mini->x_bg++;
-		mini->pos.x += 20;
 		return ;
 	}
 	if (mini->pos.x == 100 && mini->pos.y == 100)
@@ -70,8 +70,6 @@ static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 		&& (map_c == '0' || map_c == 'N' || map_c == 'S' || map_c == 'W'
 			|| map_c == 'E'))
 		draw_block(&mini->img, mini->pos, 20, BLACK);
-	mini->x_bg++;
-	mini->pos.x += 20;
 }
 
 int	load_minimap(t_game *game)
@@ -97,7 +95,11 @@ void	draw_minimap(t_game *game)
 	while (mini->y_bg < mini->y_end)
 	{
 		while (mini->x_bg < mini->x_end)
+		{
 			draw_in_minimap(mini, game, game->map);
+			mini->x_bg++;
+			mini->pos.x += 20;
+		}
 		mini->pos.x = 0;
 		mini->x_bg = (int)game->player.pos.x - 5;
 		mini->pos.y += 20;
