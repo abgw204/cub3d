@@ -47,12 +47,8 @@ int game_loop(t_game *game)
 	clear_screen_image(game);
     rotate_camera(game);
     move_player(game);
-	pthread_mutex_lock(&game->m);
-	pthread_cond_broadcast(&game->cond_start);
-	pthread_mutex_unlock(&game->m);
-	pthread_mutex_lock(&game->m);
-	pthread_cond_wait(&game->cond_done, &game->m);
-	pthread_mutex_unlock(&game->m);
+	start_all_render_threads(&game->cond_start, &game->m);
+	wait_all_render_threads(&game->cond_done, &game->m);
 	draw_crosshair(&game->screen);
     mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
@@ -71,7 +67,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	//limit_fps(200.0);
+	limit_fps(60.0);
 	if (game->state == MAIN_MENU)
     {
         enable_mouse(game);

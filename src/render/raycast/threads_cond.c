@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast.c                                          :+:      :+:    :+:   */
+/*   threads_cond.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,30 +12,30 @@
 
 #include "../../../include/cub3d.h"
 
-void    *raycast(void *param)
+void	send_signal_to_main_thread(pthread_cond_t *done, pthread_mutex_t *m)
 {
-	t_raycast	raycast;
-	t_game		*game;
-	int			id;
-	int			start;
-	int			limit;
+	pthread_mutex_lock(m);
+	pthread_cond_signal(done);
+	pthread_mutex_unlock(m);
+}
 
-	game = (t_game *)param;
-	id = get_int_and_increment(&game->m, &game->id);
-	start = id * (SCREEN_WIDTH / N_THREADS);
-	limit = (id + 1) * (SCREEN_WIDTH / N_THREADS);
-	while (true)
-	{
-		wait_signal_from_main_thread(&game->cond_start, &game->m);
-		while (start < limit)
-			cast_rays_and_draw(&raycast, game, &start);
-		increment_int(&game->m, &game->threads_done);
-		if (get_int(&game->m, &game->threads_done) == N_THREADS)
-		{
-			set_int(&game->m, &game->threads_done, 0);
-			send_signal_to_main_thread(&game->cond_done, &game->m);
-		}
-		start = id * (SCREEN_WIDTH / N_THREADS);
-	}
-	return (NULL);
+void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m)
+{
+	pthread_mutex_lock(m);
+	pthread_cond_wait(start, m);
+	pthread_mutex_unlock(m);
+}
+
+void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m)
+{
+	pthread_mutex_lock(m);
+	pthread_cond_broadcast(start);
+	pthread_mutex_unlock(m);
+}
+
+void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m)
+{
+	pthread_mutex_lock(m);
+	pthread_cond_wait(done, m);
+	pthread_mutex_unlock(m);
 }

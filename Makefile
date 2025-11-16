@@ -31,6 +31,8 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/hooks/keyboard_inputs/keyboard_handler.c \
 			src/render/draw/draw_pixel_in_image.c \
 			src/render/raycast/raycast.c \
+			src/render/raycast/threads_cond.c \
+			src/render/raycast/cast_rays_and_draw.c \
 			src/render/raycast/getters_setters.c \
 			src/game/start/init_game.c \
 			src/game/game_loop/game_loop.c \
