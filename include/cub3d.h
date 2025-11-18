@@ -198,6 +198,10 @@ long	get_int_and_increment(pthread_mutex_t *mutex, int *variable);
 int 	get_int(pthread_mutex_t *mutex, int *variable);
 void	increment_int(pthread_mutex_t *mutex, int *value);
 void	set_int(pthread_mutex_t *mutex, int *variable, int value);
+void	send_signal_to_main_thread(pthread_cond_t *done, pthread_mutex_t *m);
+void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m);
+void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m);
+void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m);
 
 /* TIME */
 void	set_delta_time(t_game *game);
@@ -267,6 +271,7 @@ void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
 void    *raycast(void *param);
+void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
 
 /* ERROR */
 int		print_error(char *error_message);
