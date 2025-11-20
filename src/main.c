@@ -46,9 +46,9 @@ static void	init_vars(t_game *game)
 	game->minimap.pos.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
 	game->data = get_data();
-	game->keys = ft_calloc(1, 7);
+	game->keys = ft_calloc(1, 6);
 	game->fps = NULL;
-	ft_memset(game->keys, '0', 7);
+	ft_memset(game->keys, '0', 6);
 	game->player.speed = 2.0f;
 }
 

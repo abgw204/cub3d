@@ -81,15 +81,15 @@ static void	set_direction(t_raycast *raycast, t_game *game)
 	}
 }
 
-static void	draw_in_image(t_raycast *raycast, t_image *screen, int start, t_game *game)
+static void	draw_in_image(t_raycast *raycast, t_image *screen, int start)
 {
 	int	i;
 	
 	i = 0;
-	raycast->draw_start = -raycast->line_height / 2 + SCREEN_HEIGHT / game->up;
+	raycast->draw_start = -raycast->line_height / 2 + SCREEN_HEIGHT / 2;
 	if (raycast->draw_start < 0)
 		raycast->draw_start = 0;
-	raycast->draw_end = raycast->line_height / 2 + SCREEN_HEIGHT / game->up;
+	raycast->draw_end = raycast->line_height / 2 + SCREEN_HEIGHT / 2;
 	if (raycast->draw_end >= SCREEN_HEIGHT)
 		raycast->draw_end = SCREEN_HEIGHT - 1;
 	while (i < raycast->draw_start)
@@ -127,6 +127,7 @@ void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
 	else
 		r->perp_wall_dist = r->side_dist_y - r->delta_dist_y;
 	r->line_height = (int)(SCREEN_HEIGHT / r->perp_wall_dist);
-	draw_in_image(r, &game->screen, *start, game);
+	draw_in_image(r, &game->screen, *start);
+	game->z_buffer[*start] = r->perp_wall_dist;
 	(*start)++;
 }

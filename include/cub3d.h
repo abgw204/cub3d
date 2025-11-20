@@ -54,11 +54,12 @@
 # define PI 3.14159265358979323846
 # define FOV 1.0
 
+# define COLLISION_DIST 0.2
 # define N_THREADS 6
 
 extern double	g_delta_time;
 
-typedef struct s_data t_data;
+typedef struct	s_data t_data;
 
 typedef struct	s_image
 {
@@ -133,11 +134,11 @@ typedef struct	s_game_data
 	int				state;
 	char			*fps;
 	char			*keys;
+	double			*z_buffer;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
 	t_data			*data;
-	double			up;
 
 	/* IMAGES */
 	t_image			screen;
@@ -179,7 +180,6 @@ typedef struct	s_raycast
 	double	camera_x;
 	double	ray_dir_x;
 	double	ray_dir_y;
-	double	perp_wall_dist_corrected;
 	int		collum;
     int		step_y;
     int		step_x;
@@ -195,13 +195,14 @@ typedef struct	s_raycast
 /* THREADS */
 void	init_threads(t_game *game);
 long	get_int_and_increment(pthread_mutex_t *mutex, int *variable);
-int 	get_int(pthread_mutex_t *mutex, int *variable);
+int		get_int(pthread_mutex_t *mutex, int *variable);
 void	increment_int(pthread_mutex_t *mutex, int *value);
 void	set_int(pthread_mutex_t *mutex, int *variable, int value);
 void	send_signal_to_main_thread(pthread_cond_t *done, pthread_mutex_t *m);
 void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m);
 void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m);
 void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m);
+void	set_double(pthread_mutex_t *mutex, double **variable, double value, int i);
 
 /* TIME */
 void	set_delta_time(t_game *game);
@@ -212,7 +213,7 @@ void	limit_fps(double target_fps);
 int		parse_given_file(char *file);
 int		parse_file(int map_fd, char **config, char **symbols, int i);
 int		parse_fc_colors(char ***config);
-int 	parse_map(int file_fd);
+int		parse_map(int file_fd);
 char	*rgb_to_hex(int rgb);
 int		hex_str_to_int(char *str, char *hex);
 int		compare_symbols(char *str, char **symbols);
@@ -231,14 +232,14 @@ int		close_fd(int fd);
 
 /* KEYBOARD*/
 int	key_press(int key, void *param);
-int key_release(int key, void *param);
+int	key_release(int key, void *param);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);
 int		mouse_move_menu(t_game *game, int x, int y);
 int		mouse_input(int mouse_btn, int x, int y, void *param);
-void    enable_mouse(t_game *game);
-void    disable_mouse(t_game *game);
+void	enable_mouse(t_game *game);
+void	disable_mouse(t_game *game);
 
 /* MENU */
 int		configure_menu_images(t_game *game);
@@ -270,8 +271,9 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
-void    *raycast(void *param);
+void	*raycast(void *param);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
+void	draw_sprites(t_game *game);
 
 /* ERROR */
 int		print_error(char *error_message);
@@ -281,13 +283,13 @@ int		print_perror(void);
 /* GAME */
 int		init_game(t_game *game);
 int		update(void *param);
-void    move_player(t_game *game);
+void	move_player(t_game *game);
 t_data	*get_data(void);
 void	free_and_exit(t_game *game);
 void	free_images(t_game *game);
 int		game_loop(t_game *game);
-void    rotate_camera(t_game *game);
-void    rotate_camera_mouse(t_game *game, int middle, int x);
+void	rotate_camera(t_game *game);
+void	rotate_camera_mouse(t_game *game, int middle, int x);
 void	thread_create(pthread_t *thread, void *(func)(void *), void *data);
 
 /* TEXTURES */

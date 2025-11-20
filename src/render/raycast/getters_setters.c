@@ -19,10 +19,10 @@ void	increment_int(pthread_mutex_t *mutex, int *value)
 	pthread_mutex_unlock(mutex);
 }
 
-void	set_bool(pthread_mutex_t *mutex, bool *variable, bool value)
+void	set_double(pthread_mutex_t *mutex, double **variable, double value, int i)
 {
 	pthread_mutex_lock(mutex);
-	*variable = value;
+	(*variable)[i] = value;
 	pthread_mutex_unlock(mutex);
 }
 

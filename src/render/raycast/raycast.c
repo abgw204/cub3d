@@ -24,6 +24,11 @@ void    *raycast(void *param)
 	id = get_int_and_increment(&game->m, &game->id);
 	start = id * (SCREEN_WIDTH / N_THREADS);
 	limit = (id + 1) * (SCREEN_WIDTH / N_THREADS);
+	if (id == N_THREADS - 1)
+		limit = SCREEN_WIDTH;
+	printf("thread %d start=%d end=%d\n", id, start, limit - 1);
+	sleep(1);
+	exit(EXIT_FAILURE);
 	while (true)
 	{
 		wait_signal_from_main_thread(&game->cond_start, &game->m);

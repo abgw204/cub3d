@@ -49,6 +49,10 @@ int game_loop(t_game *game)
     move_player(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
+	for (int i = 1919; i >= 0; i--)
+		printf("i: %d, %.4f\n", i, game->z_buffer[i]);
+	//printf("threads_done: %d\n", game->threads_done);
+	//printf("main z_buffer ptr=%p\n", game->z_buffer);
 	draw_crosshair(&game->screen);
     mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
