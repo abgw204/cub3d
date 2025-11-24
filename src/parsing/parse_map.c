@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/30 17:26:57 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/24 19:10:05 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,11 @@ int	parse_map(int file_fd)
 		// return (1);
 	get_data()->map = linearize_map(get_data()->map_list);
 	ft_lstclear(&get_data()->map_list, free);
-	for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
-	{
-		printf("%c", get_data()->map[i]);
-		if ((int)(i + 1) % get_data()->map_w == 0)
-			printf("\n");
-	}
+	//for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
+	//{
+	//	printf("%c", get_data()->map[i]);
+	//	if ((int)(i + 1) % get_data()->map_w == 0)
+	//		printf("\n");
+	//}
 	return (0);
 }
