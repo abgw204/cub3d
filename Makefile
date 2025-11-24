@@ -30,7 +30,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/hooks/menu.c \
 			src/hooks/keyboard_inputs/keyboard_handler.c \
 			src/render/draw/draw_pixel_in_image.c \
-			src/render/draw/draw_sprites.c \
+			src/render/draw/calculate_sprites.c \
 			src/render/raycast/raycast.c \
 			src/render/raycast/threads_cond.c \
 			src/render/raycast/cast_rays_and_draw.c \

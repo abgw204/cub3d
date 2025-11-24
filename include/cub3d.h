@@ -26,8 +26,8 @@
 # include "libft.h"
 
 /* SCREEN SIZE */
-# define SCREEN_WIDTH 1600
-# define SCREEN_HEIGHT 900
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
 /* KEYS */
 # define KEY_W 119
@@ -52,7 +52,10 @@
 
 /* MATH */
 # define PI 3.14159265358979323846
-# define FOV 1.0
+# define FOV 0.75
+
+/* NETWORKING */
+# define MAX_PLAYERS 4
 
 # define COLLISION_DIST 0.2
 # define N_THREADS 6
@@ -123,6 +126,28 @@ typedef struct	s_minimap
 	t_image	img;
 }	t_minimap;
 
+typedef struct	s_sprite
+{
+	double			x;
+	double			y;
+	double			inv_det;
+	double			transform_x;
+	double			transform_y;
+	int				screen_x;
+	int				width;
+	int				height;
+	int				start_x;
+	int				end_x;
+	int				start_y;
+	int				end_y;
+	int				stripe;
+	int				tex_x;
+	int				tex_y;
+	unsigned int	*pixels;
+	unsigned int	current_color;
+	bool			drawn;
+}	t_sprite;
+
 typedef struct	s_game_data
 {
 	/* GAME */
@@ -139,6 +164,7 @@ typedef struct	s_game_data
 	t_minimap		minimap;
 	t_config		config;
 	t_data			*data;
+	t_sprite		sprite[MAX_PLAYERS - 1];
 
 	/* IMAGES */
 	t_image			screen;
@@ -191,6 +217,7 @@ typedef struct	s_raycast
     int		draw_start;
 	int		draw_end;
 }			t_raycast;
+
 
 /* THREADS */
 void	init_threads(t_game *game);
@@ -273,7 +300,8 @@ void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
 void	*raycast(void *param);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
-void	draw_sprites(t_game *game);
+void	calculate_sprites(t_game *game);
+int		get_further_sprite(t_sprite *sp);
 
 /* ERROR */
 int		print_error(char *error_message);

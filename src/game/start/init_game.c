@@ -29,8 +29,8 @@ static int	load_game_textures(t_game *game)
 		return (print_error_free(game, NULL));
 	if (configure_screen_image(game))
 		return (print_error_free(game, NULL));
-	//if (configure_textures_images(game))
-	//	return (print_error_free(game, NULL));
+	if (configure_textures_images(game))
+		return (print_error_free(game, NULL));
 	return (0);
 }
 

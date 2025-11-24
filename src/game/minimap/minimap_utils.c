@@ -30,15 +30,5 @@ int	in_bounds(int x, int y, int endx, int endy)
 
 void	clear_minimap(t_image *minimap)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = -1;
-	while (++i < minimap->height)
-	{
-		while (++j < minimap->width)
-			draw_pixel_in_image(minimap, j, i, 0x005500);
-		j = -1;
-	}
+	memset(minimap->addr, 0, minimap->width * minimap->height * 4);
 }

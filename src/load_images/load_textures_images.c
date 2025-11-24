@@ -12,7 +12,7 @@
 
 #include "../../include/cub3d.h"
 
-static int	check_images(t_game *game)
+int	check_images(t_game *game)
 {
 	if (!game->n.img || !game->s.img || !game->w.img || !game->e.img)
 	{
@@ -56,7 +56,8 @@ static int	load_textures_images(t_game *game)
 	game->data->config[tex][1],
 	&game->n.width,
 	&game->n.height);
-	tex = get_texture_dir(game->data->config, "SO");
+	game->n.addr = mlx_get_data_addr(game->n.img, &game->n.bpp, &game->n.line_len, &game->n.endian);
+	/*tex = get_texture_dir(game->data->config, "SO");
 	game->s.img = mlx_xpm_file_to_image(game->mlx,
 	game->data->config[tex][1],
 	&game->s.width,
@@ -70,9 +71,9 @@ static int	load_textures_images(t_game *game)
 	game->w.img = mlx_xpm_file_to_image(game->mlx,
 	game->data->config[tex][1],
 	&game->w.width,
-	&game->w.height);
-	if (check_images(game))
-		return (1);
+	&game->w.height);*/
+	//if (check_images(game))
+	//	return (1);
 	return (0);
 }
 
