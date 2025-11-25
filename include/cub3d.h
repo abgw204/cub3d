@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/07 08:01:00 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:17:57 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,7 @@ int		error(char *line, t_list *list, char *error_message);
 int		check_valid(char *line, char *valids);
 void	get_player_info(t_game *game);
 int		close_fd(int fd);
+char	**fill_in_with_x(void);
 
 /* KEYBOARD*/
 int	key_press(int key, void *param);

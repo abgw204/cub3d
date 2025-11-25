@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/07 06:27:53 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/24 17:15:47 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,18 @@ void	init_config(t_config *config)
 
 int main(int argc, char **argv)
 {
-	t_game	game;
+	//t_game	game;
 
 	if (argc != 2)
 		return (print_error("Usage: ./cub3d <MAP_PATH>"));
 	if (parse_given_file(argv[1]))
 		return (1);
-	init_vars(&game);
-	init_config(&game.config);
-	set_null(&game);
-	if (init_game(&game))
-		return (1);
+	fill_in_with_x();
+	exit(0);
+	//init_vars(&game);
+	//init_config(&game.config);
+	//set_null(&game);
+	//if (init_game(&game))
+	//	return (1);
 	return (0);
 }
