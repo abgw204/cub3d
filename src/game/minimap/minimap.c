@@ -14,15 +14,23 @@
 
 static void	draw_block(t_image *minimap, t_iv2 pos, int size, int color)
 {
-	int	i;
-	int	j;
+	char	*dst;
+	int		pitch;
+	int		i;
+	int		j;
 
+	pitch = minimap->bpp >> 3;
 	i = pos.x;
 	j = pos.y;
 	while (i < pos.x + size)
 	{
 		while (j < pos.y + size)
-			draw_pixel_in_image(minimap, i, j++, color);
+		{
+			dst = minimap->addr
+				+ j++ * minimap->line_len
+				+ i * pitch;
+			*(unsigned int*)dst = color;
+		}
 		j = pos.y;
 		i++;
 	}
@@ -55,7 +63,7 @@ static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 	if (!in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 		|| map_c == 'X' || map_c == ' ')
 	{
-		draw_block(&mini->img, mini->pos, 20, WHITE);
+		draw_block(&mini->img, mini->pos, 20, 0x5555AA);
 		return ;
 	}
 	if (mini->pos.x == 100 && mini->pos.y == 100)

@@ -14,13 +14,23 @@
 
 static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int color, int start)
 {
-    while (raycast->draw_start <= raycast->draw_end)
+	t_raycast	r;
+	char		*dst;
+	int			pitch;
+	int			line_len;
+
+	r = *raycast;
+	pitch = screen->bpp >> 3; /* (divide by 8) */
+	line_len = screen->line_len;
+	if (r.side != 1)
+		color = 0x6666FF;
+    while (r.draw_start <= r.draw_end)
     {
-		if (raycast->side == 1)
-			draw_pixel_in_image(screen, start, raycast->draw_start, color);
-		else
-			draw_pixel_in_image(screen, start, raycast->draw_start, 0x6666FF);
-        raycast->draw_start++;
+		dst = screen->addr
+			+ r.draw_start * line_len
+			+ start * pitch;
+		*(unsigned int *)dst = color;
+        r.draw_start++;
     }
 }
 
@@ -81,37 +91,37 @@ static void	set_direction(t_raycast *raycast, t_game *game)
 	}
 }
 
-static void	draw_in_image(t_raycast *raycast, t_image *screen, int start, t_game *game)
+static void	draw_in_image(t_raycast r, t_image *screen, int start)
 {
-	int	i;
+	int			i;
+	char		*dst;
+	int			pitch;
+	int			line_len;
 	
-	i = 0;
-	raycast->draw_start = -raycast->line_height / 2 + SCREEN_HEIGHT / game->up;
-	if (raycast->draw_start < 0)
-		raycast->draw_start = 0;
-	raycast->draw_end = raycast->line_height / 2 + SCREEN_HEIGHT / game->up;
-	if (raycast->draw_end >= SCREEN_HEIGHT)
-		raycast->draw_end = SCREEN_HEIGHT - 1;
-	while (i < raycast->draw_start)
+	i = -1;
+	pitch = screen->bpp >> 3;
+	line_len = screen->line_len;
+	r.draw_start = -r.line_height / 2 + SCREEN_HEIGHT / 2;
+	if (r.draw_start < 0)
+		r.draw_start = 0;
+	r.draw_end = r.line_height / 2 + SCREEN_HEIGHT / 2;
+	if (r.draw_end >= SCREEN_HEIGHT)
+		r.draw_end = SCREEN_HEIGHT - 1;
+	while (++i < r.draw_start)
 	{
-		if (i >= raycast->draw_start - 3)
-		{
-			draw_pixel_in_image(screen, start, i++, 0x0000FF);
-			continue ;
-		}
-		draw_pixel_in_image(screen, start, i++, 0x9999FF);
+		dst = screen->addr
+			+ i * line_len
+			+ start * pitch;
+		*(unsigned int*)dst = BLACK;
 	}
-	draw_vertical_line(screen, raycast, 0x111184, start);
-	i = raycast->draw_end;
-	while (i < SCREEN_HEIGHT)
+	draw_vertical_line(screen, &r, 0x111184, start);
+	i = r.draw_end - 1;
+	while (++i < SCREEN_HEIGHT)
 	{
-		if (i <= raycast->draw_end + 3)
-		{
-			draw_pixel_in_image(screen, start, i++, 0x0000FF);
-			continue ;
-		}
-		draw_pixel_in_image(screen, start, i, 0x888888);
-		i++;
+		dst = screen->addr
+			+ i * line_len
+			+ start * pitch;
+		*(unsigned int*)dst = BLACK;
 	}
 }
 
@@ -127,6 +137,7 @@ void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
 	else
 		r->perp_wall_dist = r->side_dist_y - r->delta_dist_y;
 	r->line_height = (int)(SCREEN_HEIGHT / r->perp_wall_dist);
-	draw_in_image(r, &game->screen, *start, game);
+	draw_in_image(*r, &game->screen, *start);
+	game->z_buffer[*start] = r->perp_wall_dist;
 	(*start)++;
 }

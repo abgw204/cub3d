@@ -29,10 +29,11 @@ static int	load_game_textures(t_game *game)
 		return (print_error_free(game, NULL));
 	if (configure_screen_image(game))
 		return (print_error_free(game, NULL));
-	//if (configure_textures_images(game))
-	//	return (print_error_free(game, NULL));
+	if (configure_textures_images(game))
+		return (print_error_free(game, NULL));
 	return (0);
 }
+
 static int	load_mlx_context(t_game *game)
 {
 	game->mlx = mlx_init();
@@ -51,7 +52,6 @@ void	init_threads(t_game *game)
 	i = 0;
 	game->id = i;
 	game->threads_done = i;
-	game->up = 10;
 	pthread_cond_init(&game->cond_done, NULL);
 	pthread_cond_init(&game->cond_start, NULL);
 	pthread_mutex_init(&game->m, NULL);
@@ -67,6 +67,7 @@ int	init_game(t_game *game)
 		return (1);
 	if (load_minimap(game))
 		return (1);
+	game->z_buffer = (double *)malloc(SCREEN_WIDTH * sizeof(double));
 	set_game_hooks(game);
 	init_threads(game);
 	mlx_loop(game->mlx);

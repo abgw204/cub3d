@@ -14,11 +14,11 @@
 
 int configure_screen_image(t_game *game)
 {
-    int x;
-    int y;
+    int w;
+    int h;
 
-    mlx_get_screen_size(game->mlx, &x, &y);
-    game->screen.img = mlx_new_image(game->mlx, x, y);
+    mlx_get_screen_size(game->mlx, &w, &h);
+    game->screen.img = mlx_new_image(game->mlx, w, h);
     if (!game->screen.img)
         return (1);
     game->screen.addr = mlx_get_data_addr(game->screen.img,

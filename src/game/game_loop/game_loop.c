@@ -14,17 +14,7 @@
 
 void	clear_screen_image(t_game *game)
 {
-    int	x;
-    int	y;
-
-    x = -1;
-    y = -1;
-    while (++y < SCREEN_HEIGHT)
-    {
-        while (++x < SCREEN_WIDTH)
-            draw_pixel_in_image(&game->screen, x, y, BLACK);
-        x = -1;
-    }
+	memset(game->screen.addr, 0, SCREEN_WIDTH * SCREEN_HEIGHT * 4);
 }
 
 void	draw_crosshair(t_image *screen)
@@ -47,8 +37,10 @@ int game_loop(t_game *game)
 	clear_screen_image(game);
     rotate_camera(game);
     move_player(game);
+	calculate_sprites(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
+	calculate_sprites(game);
 	draw_crosshair(&game->screen);
     mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
@@ -67,7 +59,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(60.0);
+	limit_fps(300.0);
 	if (game->state == MAIN_MENU)
     {
         enable_mouse(game);
