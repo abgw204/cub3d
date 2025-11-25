@@ -17,15 +17,17 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int color
 	t_raycast	r;
 	char		*dst;
 	int			pitch;
+	int			line_len;
 
 	r = *raycast;
 	pitch = screen->bpp >> 3; /* (divide by 8) */
+	line_len = screen->line_len;
 	if (r.side != 1)
 		color = 0x6666FF;
     while (r.draw_start <= r.draw_end)
     {
 		dst = screen->addr
-			+ r.draw_start * screen->line_len
+			+ r.draw_start * line_len
 			+ start * pitch;
 		*(unsigned int *)dst = color;
         r.draw_start++;
@@ -94,9 +96,11 @@ static void	draw_in_image(t_raycast r, t_image *screen, int start)
 	int			i;
 	char		*dst;
 	int			pitch;
+	int			line_len;
 	
 	i = -1;
 	pitch = screen->bpp >> 3;
+	line_len = screen->line_len;
 	r.draw_start = -r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_start < 0)
 		r.draw_start = 0;
@@ -106,7 +110,7 @@ static void	draw_in_image(t_raycast r, t_image *screen, int start)
 	while (++i < r.draw_start)
 	{
 		dst = screen->addr
-			+ i * screen->line_len
+			+ i * line_len
 			+ start * pitch;
 		*(unsigned int*)dst = BLACK;
 	}
@@ -115,7 +119,7 @@ static void	draw_in_image(t_raycast r, t_image *screen, int start)
 	while (++i < SCREEN_HEIGHT)
 	{
 		dst = screen->addr
-			+ i * screen->line_len
+			+ i * line_len
 			+ start * pitch;
 		*(unsigned int*)dst = BLACK;
 	}

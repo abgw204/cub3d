@@ -59,7 +59,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(60.0);
+	limit_fps(300.0);
 	if (game->state == MAIN_MENU)
     {
         enable_mouse(game);

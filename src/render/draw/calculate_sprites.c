@@ -88,6 +88,8 @@ void	calculate_sprites(t_game *game)
 	int tex_pitch = game->n.line_len >> 2;
 	int	index = -1;
 	t_sprite sp;
+	int bpp = game->screen.bpp >> 3;
+	int	line_len = game->screen.line_len;
 	while (++index < MAX_PLAYERS - 1)
 	{
 		i = get_further_sprite(spr);
@@ -113,8 +115,8 @@ void	calculate_sprites(t_game *game)
 					if ((sp.current_color & 0x00FFFFFF) != 0)
 					{
 						char *dst = game->screen.addr
-							+ y * game->screen.line_len
-							+ sp.stripe * (game->screen.bpp / 8);
+							+ y * line_len
+							+ sp.stripe * bpp;
 						*(unsigned int*)dst = sp.current_color;
 
 					}
