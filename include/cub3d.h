@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/24 17:17:57 by vfidelis         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:56:18 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@
 /* NETWORKING */
 # define MAX_PLAYERS 4
 
-# define COLLISION_DIST 0.2
-# define N_THREADS 6
+# define COLLISION_DIST 0.3
+# define N_THREADS 16
 
 extern double	g_delta_time;
 
@@ -275,7 +275,6 @@ int		load_menu_images(t_game *game);
 int		configure_screen_image(t_game *game);
 int		show_main_menu(t_game *game);
 int		check_btn_collision(t_image *img, int x, int y);
-void	set_buttons_pos(t_image *menu_btns);
 void	set_menu_images_info(t_image *images);
 int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 

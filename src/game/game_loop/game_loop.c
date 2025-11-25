@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/07 08:29:15 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/25 17:57:56 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int game_loop(t_game *game)
 	clear_screen_image(game);
     rotate_camera(game);
     move_player(game);
-	calculate_sprites(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
 	calculate_sprites(game);
@@ -48,7 +47,7 @@ int game_loop(t_game *game)
         mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
     }
-	draw_minimap(game);
+	//draw_minimap(game);
     return (0);
 }
 
@@ -59,7 +58,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(300.0);
+	limit_fps(230.0);
 	if (game->state == MAIN_MENU)
     {
         enable_mouse(game);
