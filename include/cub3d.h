@@ -58,7 +58,7 @@
 # define MAX_PLAYERS 4
 
 # define COLLISION_DIST 0.3
-# define N_THREADS 16
+# define N_THREADS 6
 
 extern double	g_delta_time;
 

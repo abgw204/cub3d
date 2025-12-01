@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
@@ -44,13 +44,19 @@ FUNCTIONS = src/parsing/parsing.c \
 
 FUNCTIONS_BONUS =
 
+FUNCTIONS_SERVER = server/src/init.c
+
 OBJS = $(FUNCTIONS:.c=.o)
 
 OBJS_BONUS = $(FUNCTIONS_BONUS:.c=.o)
 
+OBJS_SERVER = $(FUNCTIONS_SERVER:.c=.o)
+
 NAME = cub3d
 
 NAME_BONUS = cub3d_bonus
+
+SERVER_NAME = cub3d_server
 
 .c.o:
 	@echo -n "|"
@@ -71,12 +77,18 @@ $(LIBFT):
 	@echo
 	@make -C lib/libft --no-print-directory
 
+$(SERVER_NAME): $(OBJS_SERVER)
+	@$(CC) $(FLAGS) server/src/main.c $(OBJS_SERVER) -o $(SERVER_NAME)
+	@echo "\033[46mcub3d server compiled successfully!\033[0m"
+
+server: $(SERVER_NAME)
+
 clean:
-	@rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS) $(OBJS_BONUS) $(OBJS_SERVER)
 	@make clean -C lib/libft --no-print-directory
 
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS) $(NAME_LIB) $(NAME_LIB_BONUS)
+	@rm -f $(NAME) $(NAME_BONUS) $(NAME_LIB) $(NAME_LIB_BONUS) $(SERVER_NAME)
 	@make fclean -C lib/libft --no-print-directory
 
 re: fclean all
