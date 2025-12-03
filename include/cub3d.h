@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/24 17:17:57 by vfidelis         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:41:09 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,6 +257,7 @@ int		check_valid(char *line, char *valids);
 void	get_player_info(t_game *game);
 int		close_fd(int fd);
 char	**fill_in_with_x(void);
+void	ft_flood_fill(char **map, int x, int y, int *valid_map);
 
 /* KEYBOARD*/
 int	key_press(int key, void *param);
