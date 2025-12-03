@@ -19,7 +19,8 @@
 	4. Create UDP socket (SOCK_DGRAM) fd with NONBLOCK FLAG
 		(recvfrom won't wait for packets, it will only
 		read the packets in the network stack and continue)
-	5. Get peer length to use later on recvfrom
+	5. Assign the address of the server program to socket
+	6. Get peer length to use later on recvfrom
 */
 
 int	init_socket(t_socket *soc)
@@ -30,6 +31,11 @@ int	init_socket(t_socket *soc)
 	soc->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	if (soc->socket == -1)
 		return (1);
+	if (bind(soc->socket, (struct sockaddr *)&soc->me, sizeof(soc->me)) == -1)
+	{
+		close(soc->socket);
+		return (1);
+	}
 	soc->peer_len = sizeof(soc->peer);
 	return (0);
 }

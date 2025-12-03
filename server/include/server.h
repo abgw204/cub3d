@@ -14,6 +14,7 @@
 # define SERVER_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <stdbool.h>
 # include <string.h>
 # include <arpa/inet.h>
