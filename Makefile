@@ -40,7 +40,8 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/game/game_loop/game_loop.c \
 			src/game/utils/mouse_utils.c \
 			src/game/player/move_player.c \
-			src/game/player/rotate_camera.c
+			src/game/player/rotate_camera.c \
+			server/src/init.c
 
 FUNCTIONS_BONUS =
 

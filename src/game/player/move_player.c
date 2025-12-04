@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/06 15:44:23 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:32:37 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,51 @@ void	move_d(t_game *game, t_player *player)
 		player->pos.y = new_y;
 }
 
+int receive_position(t_game *game)
+{
+    char tmp_buffer[MAX_PLAYERS * 24];
+    char latest_buffer[MAX_PLAYERS * 24];
+    socklen_t len = sizeof(game->soc.peer);
+    int bytes;
+    int latest_bytes = 0;
+
+    while ((bytes = recvfrom(game->soc.socket, tmp_buffer, sizeof(tmp_buffer), 0,
+            (struct sockaddr *)&game->soc.peer, &len)) > 0)
+    {
+		printf("%d\n", bytes);
+        if (bytes > 0 && bytes <= (int)sizeof(tmp_buffer))
+        {
+            memcpy(latest_buffer, tmp_buffer, bytes);
+            latest_bytes = bytes;
+        }
+		bytes = 0;
+    }
+    if (latest_bytes <= 0)
+        return 0;
+
+	// update local player
+    int offset = 0;
+
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (offset + 24 > latest_bytes)
+            break;
+        int id;
+        memcpy(&id, latest_buffer + offset, sizeof(int));
+        if (id == game->id)
+        {
+            memcpy(&game->player.pos.x, latest_buffer + offset + 4, sizeof(double));
+            memcpy(&game->player.pos.y, latest_buffer + offset + 12, sizeof(double));
+            break;
+        }
+        offset += 24;
+    }
+    return 0;
+}
+
 void	move_player(t_game *game)
 {
-    t_player	*player;
+    /*t_player	*player;
 
     player = &game->player;
     if (game->keys[0] == '1')
@@ -123,4 +165,7 @@ void	move_player(t_game *game)
 		move_s(game, player);
     if (game->keys[3] == '1')
 		move_d(game, player);
+	*/
+	sendto(game->soc.socket, game->keys, 8,
+		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer));
 }

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:56:59 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:09:53 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <pthread.h>
+# include <sys/socket.h>
+# include "../server/include/server.h"
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 600
 
 /* KEYS */
 # define KEY_W 119
@@ -109,7 +111,6 @@ typedef struct	s_player
 	t_dv2	plane;
 	double	angle;
 	double	speed;
-	t_game	*game;
 }	t_player;
 
 typedef struct	s_config
@@ -164,6 +165,7 @@ typedef struct	s_game_data
 	double			*z_buffer;
 	int				screen_w;
 	int				screen_h;
+	int				my_id;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
@@ -187,6 +189,10 @@ typedef struct	s_game_data
 	pthread_cond_t	cond_start;
 	pthread_cond_t	cond_done;
 	bool			stop;
+
+	/* NETWORKING */
+	t_socket		soc;
+	
 }			t_game;
 
 typedef struct s_data
@@ -328,5 +334,7 @@ void	thread_create(pthread_t *thread, void *(func)(void *), void *data);
 
 /* TEXTURES */
 int	configure_textures_images(t_game *game);
+
+int receive_position(t_game *game);
 
 #endif

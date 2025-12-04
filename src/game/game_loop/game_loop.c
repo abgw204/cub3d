@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:58:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:06:38 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ void	thread_create(pthread_t *thread, void *(func)(void *), void *data)
 int game_loop(t_game *game)
 {
 	clear_screen_image(game);
-    rotate_camera(game);
+    //rotate_camera(game);
     move_player(game);
+	receive_position(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
 	calculate_sprites(game);

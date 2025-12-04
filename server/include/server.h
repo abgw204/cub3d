@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:03:25 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 14:57:02 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 17:37:13 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <unistd.h>
+# include <stdlib.h>
 # include <stdbool.h>
 # include <string.h>
 # include <arpa/inet.h>
@@ -27,7 +28,7 @@
 # define INPUT_SIZE 4
 # define ANGLE_SIZE 8
 # define ID_SIZE 4
-# define SEND_PACKET_SIZE 32
+# define SEND_PACKET_SIZE 24
 # define OFFSET SEND_PACKET_SIZE
 
 extern double			g_delta_time;
@@ -42,7 +43,7 @@ typedef struct	s_socket
 	socklen_t			peer_len;
 }	t_socket;
 
-typedef struct	s_player
+typedef struct	s_s_player
 {
     struct sockaddr_in	addr;
     double				x;
@@ -54,15 +55,15 @@ typedef struct	s_player
 	char				keys[4];
 	bool				packet_received;
 	double				idle_time;
-}	t_player;
+}	t_s_player;
 
 typedef struct	s_server
 {
 	t_socket	soc;
-	t_player	players[MAX_PLAYERS];
+	t_s_player	players[MAX_PLAYERS];
 }	t_server;
 
 int		init_socket(t_socket *soc);
-void	set_delta_time(void);
+void	set_server_delta_time(void);
 
 #endif
