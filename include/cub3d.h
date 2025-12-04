@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/25 17:56:18 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:56:59 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-/* SCREEN SIZE */
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
 
@@ -34,6 +33,7 @@
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+# define KEY_ESC 65307
 
 # define LEFT_ARROW 65361
 # define RIGHT_ARROW 65363
@@ -58,11 +58,12 @@
 # define MAX_PLAYERS 4
 
 # define COLLISION_DIST 0.3
-# define N_THREADS 6
+# define N_THREADS 12
 
 extern double	g_delta_time;
 
 typedef struct	s_data t_data;
+typedef struct	s_game_data t_game;
 
 typedef struct	s_image
 {
@@ -108,6 +109,7 @@ typedef struct	s_player
 	t_dv2	plane;
 	double	angle;
 	double	speed;
+	t_game	*game;
 }	t_player;
 
 typedef struct	s_config
@@ -160,6 +162,8 @@ typedef struct	s_game_data
 	char			*fps;
 	char			*keys;
 	double			*z_buffer;
+	int				screen_w;
+	int				screen_h;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
@@ -182,6 +186,7 @@ typedef struct	s_game_data
 	pthread_mutex_t	m;
 	pthread_cond_t	cond_start;
 	pthread_cond_t	cond_done;
+	bool			stop;
 }			t_game;
 
 typedef struct s_data
@@ -230,6 +235,7 @@ void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m);
 void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m);
 void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m);
 void	set_double(pthread_mutex_t *mutex, double **variable, double value, int i);
+bool	get_bool(pthread_mutex_t *mutex, bool *variable);
 
 /* TIME */
 void	set_delta_time(t_game *game);

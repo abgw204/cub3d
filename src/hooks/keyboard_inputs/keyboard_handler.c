@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:19:39 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/04 20:24:43 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 12:02:11 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int key_release(int key, void *param)
         game->keys[4] = '0';
     else if (key == RIGHT_ARROW)
         game->keys[5] = '0';
+    else if (key == KEY_ESC)
+    {
+        game->state = MAIN_MENU; // teste
+    }
     return (0);
 }
 

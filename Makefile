@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 
@@ -44,7 +44,8 @@ FUNCTIONS = src/parsing/parsing.c \
 
 FUNCTIONS_BONUS =
 
-FUNCTIONS_SERVER = server/src/init.c
+FUNCTIONS_SERVER = server/src/init.c \
+					server/src/time.c
 
 OBJS = $(FUNCTIONS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:02:43 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/25 18:05:16 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:03:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ double			g_delta_time = 0.0;
 double			acumulator = 0.0;
 const double	tick_time = 1.0 / 60.0;
 
+static double	get_time_in_seconds(void)
+{
+	struct timeval	tv;
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec + tv.tv_usec / 1000000.0);
+}
+
 void	set_delta_time(void)
 {
 	static double	last = 0.0;
-	static double	fps_timer = 0.0;
-	static int		frames = 0;
 	double			current_time;
 
 	current_time = get_time_in_seconds();

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/25 17:57:56 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:58:20 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int game_loop(t_game *game)
         mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
     }
-	//draw_minimap(game);
+	draw_minimap(game);
     return (0);
 }
 
@@ -58,15 +58,15 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(230.0);
+	limit_fps(0.0);
 	if (game->state == MAIN_MENU)
     {
-        enable_mouse(game);
+        //enable_mouse(game);
 		show_main_menu(game);
     }
 	else if (game->state == IN_GAME)
     {
-        disable_mouse(game);
+        //disable_mouse(game);
 		game_loop(game);
     }
 	else if (game->state == IN_SETTINGS)

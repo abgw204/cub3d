@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/07 08:15:55 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:56:19 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int	load_mlx_context(t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (print_error_free(game, "Mlx context did not work correctly!"));
+	//mlx_get_screen_size(game->mlx, &SCREEN_WIDTH, &SCREEN_HEIGHT);
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	if (!game->win)
 		return (print_error_free(game, "Mlx window did not work correctly!"));
@@ -52,6 +53,7 @@ void	init_threads(t_game *game)
 	i = 0;
 	game->id = i;
 	game->threads_done = i;
+	game->stop = false;
 	pthread_cond_init(&game->cond_done, NULL);
 	pthread_cond_init(&game->cond_start, NULL);
 	pthread_mutex_init(&game->m, NULL);

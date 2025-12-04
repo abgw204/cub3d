@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:03:25 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/25 18:45:22 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:57:02 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define ANGLE_SIZE 8
 # define ID_SIZE 4
 # define SEND_PACKET_SIZE 32
+# define OFFSET SEND_PACKET_SIZE
 
 extern double			g_delta_time;
 extern double			acumulator;

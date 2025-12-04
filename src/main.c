@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/25 14:07:25 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/04 13:00:01 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	init_vars(t_game *game)
 	game->map_w = get_data()->map_w;
 	game->map_h = get_data()->map_h;
 	get_player_info(game);
+	game->player.game = game;
 	game->minimap.x_bg = (int)game->player.pos.x - 5;
 	game->minimap.y_bg = (int)game->player.pos.y - 5;
 	game->minimap.x_end = (int)game->player.pos.x + 5;
