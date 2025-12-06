@@ -25,10 +25,10 @@ int key_release(int key, void *param)
         game->keys[2] = '0';
     else if (key == KEY_D)
         game->keys[3] = '0';
-    else if (key == LEFT_ARROW)
+    /*else if (key == LEFT_ARROW)
         game->keys[4] = '0';
     else if (key == RIGHT_ARROW)
-        game->keys[5] = '0';
+        game->keys[5] = '0';*/
     else if (key == KEY_ESC)
     {
         game->state = MAIN_MENU; // teste
@@ -49,9 +49,9 @@ int key_press(int key, void *param)
         game->keys[2] = '1';
     else if (key == KEY_D)
         game->keys[3] = '1';
-    else if (key == LEFT_ARROW)
+    /*else if (key == LEFT_ARROW)
         game->keys[4] = '1';
     else if (key == RIGHT_ARROW)
-		game->keys[5] = '1';
+		game->keys[5] = '1';*/
     return (0);
 }

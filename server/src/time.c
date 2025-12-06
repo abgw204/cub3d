@@ -14,11 +14,12 @@
 
 double			g_delta_time = 0.0;
 double			acumulator = 0.0;
-const double	tick_time = 1.0 / 60.0;
+const double	tick_time = 1.0 / 128.0;
 
 static double	get_time_in_seconds(void)
 {
 	struct timeval	tv;
+
 	gettimeofday(&tv, NULL);
 	return (tv.tv_sec + tv.tv_usec / 1000000.0);
 }

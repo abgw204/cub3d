@@ -48,7 +48,7 @@ static void	init_vars(t_game *game)
 	game->data = get_data();
 	game->keys = ft_calloc(1, 8);
 	game->fps = NULL;
-	ft_memset(game->keys, '0', 6);
+	ft_memset(game->keys, '0', 4);
 	game->player.speed = 2.0f;
 }
 
@@ -69,17 +69,19 @@ int main(int argc, char **argv)
 	init_vars(&game);
 	init_config(&game.config);
 	set_null(&game);
-	game.soc.socket = socket(AF_INET, SOCK_DGRAM, 0);
+	game.soc.socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 
-	memset(game.keys, '0', 4);
-	memcpy(game.keys + 4, &game.my_id, sizeof(int));
     memset(&game.soc.peer, 0, sizeof(game.soc.peer));
 	game.my_id = atoi(argv[2]);
-	memcpy(game.keys + 4, &game.id, sizeof(int));
+	memcpy(game.keys + 4, &game.my_id, sizeof(int));
     memset(&game.soc.peer, 0, sizeof(game.soc.peer));
 	game.soc.peer.sin_family = AF_INET;
 	game.soc.peer.sin_port = htons(9800);
     inet_pton(AF_INET, "127.0.0.1", &game.soc.peer.sin_addr);
+
+	int i = -1;
+	while (++i < MAX_PLAYERS)
+		game.players[i].connected = 0;
 	if (init_game(&game))
 		return (1);
 	return (0);

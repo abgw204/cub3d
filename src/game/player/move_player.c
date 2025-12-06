@@ -110,45 +110,57 @@ void	move_d(t_game *game, t_player *player)
 		player->pos.y = new_y;
 }
 
+void	update_all_players(t_players *players, char *buffer, t_game *game)
+{
+	int	offset;
+	int	id;
+	int	i;
+
+	i = -1;
+	offset = 0;
+	(void)players;
+    while (++i < 1)
+    {
+        //if (offset + 24 > latest_bytes)
+        //    break;
+        memcpy(&id, buffer + offset, sizeof(int));
+		printf("%d\n", id);
+        if (id == game->my_id)
+        {
+            memcpy(&game->player.pos.x, buffer + offset + 4, sizeof(double));
+            memcpy(&game->player.pos.y, buffer + offset + 12, sizeof(double));
+			printf("%f\n", game->player.pos.x);
+			printf("%f\n", game->player.pos.y);
+            break;
+        }
+        offset += SEND_PACKET_SIZE;
+    }
+}
+
 int receive_position(t_game *game)
 {
-    char tmp_buffer[MAX_PLAYERS * 24];
-    char latest_buffer[MAX_PLAYERS * 24];
-    socklen_t len = sizeof(game->soc.peer);
-    int bytes;
-    int latest_bytes = 0;
+    char	tmp_buffer[MAX_PLAYERS * SEND_PACKET_SIZE];
+    char	latest_buffer[MAX_PLAYERS * SEND_PACKET_SIZE];
+    int		bytes;
+    int		latest_bytes;
 
-    while ((bytes = recvfrom(game->soc.socket, tmp_buffer, sizeof(tmp_buffer), 0,
-            (struct sockaddr *)&game->soc.peer, &len)) > 0)
-    {
+	game->soc.peer_len = sizeof(game->soc.peer);
+	bytes = 1;
+	latest_bytes = 0;
+    while (bytes > 0)
+	{
+		bytes = recvfrom(game->soc.socket, tmp_buffer, sizeof(tmp_buffer), 0,
+			(struct sockaddr *)&game->soc.peer, &game->soc.peer_len);
 		printf("%d\n", bytes);
-        if (bytes > 0 && bytes <= (int)sizeof(tmp_buffer))
-        {
-            memcpy(latest_buffer, tmp_buffer, bytes);
-            latest_bytes = bytes;
-        }
-		bytes = 0;
-    }
-    if (latest_bytes <= 0)
-        return 0;
-
-	// update local player
-    int offset = 0;
-
-    for (int i = 0; i < MAX_PLAYERS; i++)
-    {
-        if (offset + 24 > latest_bytes)
-            break;
-        int id;
-        memcpy(&id, latest_buffer + offset, sizeof(int));
-        if (id == game->id)
-        {
-            memcpy(&game->player.pos.x, latest_buffer + offset + 4, sizeof(double));
-            memcpy(&game->player.pos.y, latest_buffer + offset + 12, sizeof(double));
-            break;
-        }
-        offset += 24;
-    }
+		if (bytes > 0 && bytes <= (int)sizeof(tmp_buffer))
+		{
+			memcpy(latest_buffer, tmp_buffer, bytes);
+			latest_bytes = bytes;
+		}
+	}
+	if (latest_bytes <= 0)
+		return 0;
+	update_all_players(game->players, latest_buffer, game);
     return 0;
 }
 
@@ -166,6 +178,8 @@ void	move_player(t_game *game)
     if (game->keys[3] == '1')
 		move_d(game, player);
 	*/
-	sendto(game->soc.socket, game->keys, 8,
-		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer));
+	printf("SENDTO\n");
+	if (sendto(game->soc.socket, game->keys, 8,
+		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer)) == -1)
+		exit(EXIT_FAILURE);
 }

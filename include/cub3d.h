@@ -151,6 +151,14 @@ typedef struct	s_sprite
 	bool			drawn;
 }	t_sprite;
 
+typedef struct	s_players
+{
+	int			connected;
+	double		x;
+	double		y;
+	t_sprite	sp;
+}	t_players;
+
 typedef struct	s_game_data
 {
 	/* GAME */
@@ -183,16 +191,18 @@ typedef struct	s_game_data
 
 	/* THREADS */
 	pthread_t		th[N_THREADS];
-	int				id;
-	int				threads_done;
 	pthread_mutex_t	m;
 	pthread_cond_t	cond_start;
 	pthread_cond_t	cond_done;
+	int				id;
+	int				threads_done;
 	bool			stop;
 
 	/* NETWORKING */
+	t_players		players[MAX_PLAYERS];
 	t_socket		soc;
-	
+	double			server_down_timer;
+	bool			packet_received;
 }			t_game;
 
 typedef struct s_data
