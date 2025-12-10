@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 
@@ -37,16 +37,21 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/render/raycast/cast_rays_and_draw.c \
 			src/render/raycast/getters_setters.c \
 			src/game/start/init_game.c \
+			src/game/start/init_game_utils.c \
 			src/game/game_loop/game_loop.c \
 			src/game/utils/mouse_utils.c \
 			src/game/player/move_player.c \
 			src/game/player/rotate_camera.c \
+			src/load_images/load_weapon_images.c \
+			src/render/raycast/draw_utils.c \
 			server/src/init.c
 
 FUNCTIONS_BONUS =
 
 FUNCTIONS_SERVER = server/src/init.c \
-					server/src/time.c
+					server/src/time.c \
+					server/src/parse_map_server.c \
+					server/src/parse_map_s_utils.c
 
 OBJS = $(FUNCTIONS:.c=.o)
 
@@ -79,8 +84,8 @@ $(LIBFT):
 	@echo
 	@make -C lib/libft --no-print-directory
 
-$(SERVER_NAME): $(OBJS_SERVER)
-	@$(CC) $(FLAGS) server/src/main.c $(OBJS_SERVER) -o $(SERVER_NAME)
+$(SERVER_NAME): $(OBJS_SERVER) $(LIBFT)
+	@$(CC) $(FLAGS) server/src/main.c $(OBJS_SERVER) -Llib/libft -lft -o $(SERVER_NAME)
 	@echo "\033[46mcub3d server compiled successfully!\033[0m"
 
 server: $(SERVER_NAME)

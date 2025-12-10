@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:57:46 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/08 11:34:14 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	calculate_sprites(t_game *game)
 	while (++i < MAX_PLAYERS - 1)
 		spr[i].drawn = false;
 	i = -1;
-	unsigned int *pixels = (unsigned int *)game->n.addr;
-	int tex_pitch = game->n.line_len >> 2;
+	unsigned int *pixels = (unsigned int *)game->enemy.addr;
+	int tex_pitch = game->enemy.line_len >> 2;
 	int	index = -1;
 	t_sprite sp;
 	int bpp = game->screen.bpp >> 3;
@@ -102,8 +102,8 @@ void	calculate_sprites(t_game *game)
     	{
 			if (sp.end_x < 0 || sp.start_x >= SCREEN_WIDTH)
 				continue;
-			sp.tex_x = (int)((sp.stripe - (-sp.width / 2 + sp.screen_x)) * game->n.width / sp.width);
-			double tex_step = (double)game->n.height / sp.height;
+			sp.tex_x = (int)((sp.stripe - (-sp.width / 2 + sp.screen_x)) * game->enemy.width / sp.width);
+			double tex_step = (double)game->enemy.height / sp.height;
     	    if (sp.transform_y > 0 && sp.stripe > 0 && sp.stripe < SCREEN_WIDTH && sp.transform_y < game->z_buffer[sp.stripe])
 			{
 				double tex_pos = (sp.start_y - (SCREEN_HEIGHT / 2) + sp.height / 2) * tex_step;

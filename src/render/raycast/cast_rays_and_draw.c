@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:58:04 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/10 10:46:41 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,40 +93,21 @@ static void	set_direction(t_raycast *raycast, t_game *game)
 
 static void	draw_in_image(t_raycast r, t_image *screen, int start)
 {
-	int			i;
-	char		*dst;
-	int			pitch;
-	int			line_len;
-	
-	i = -1;
-	pitch = screen->bpp >> 3;
-	line_len = screen->line_len;
 	r.draw_start = -r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_start < 0)
 		r.draw_start = 0;
 	r.draw_end = r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_end >= SCREEN_HEIGHT)
 		r.draw_end = SCREEN_HEIGHT - 1;
-	while (++i < r.draw_start)
-	{
-		dst = screen->addr
-			+ i * line_len
-			+ start * pitch;
-		*(unsigned int*)dst = BLACK;
-	}
-	draw_vertical_line(screen, &r, 0x111184, start);
-	i = r.draw_end - 1;
-	while (++i < SCREEN_HEIGHT)
-	{
-		dst = screen->addr
-			+ i * line_len
-			+ start * pitch;
-		*(unsigned int*)dst = BLACK;
-	}
+	draw_ceiling(&r, screen, start, r.draw_start);
+	draw_vertical_line(screen, &r, 0x555555, start);
+	draw_floor(&r, screen, start, SCREEN_HEIGHT);
 }
 
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
 {
+	r->f_color = game->data->f_color;
+	r->c_color = game->data->c_color;
 	r->map_x = (int)game->player.pos.x;
 	r->map_y = (int)game->player.pos.y;
 	r->camera_x = 2.0 * (*start) / (double)SCREEN_WIDTH - 1;

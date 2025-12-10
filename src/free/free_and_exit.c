@@ -6,11 +6,23 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 12:26:55 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/08 11:35:04 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	free_textures(t_game *game)
+{
+	if (game->n.img)
+		mlx_destroy_image(game->mlx, game->n.img);
+	if (game->s.img)
+		mlx_destroy_image(game->mlx, game->s.img);
+	if (game->w.img)
+		mlx_destroy_image(game->mlx, game->w.img);
+	if (game->e.img)
+		mlx_destroy_image(game->mlx, game->e.img);
+}
 
 void	free_images(t_game *game)
 {
@@ -34,8 +46,8 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->minimap.img.img);
 	if (game->screen.img)
 		mlx_destroy_image(game->mlx, game->screen.img);
-	if (game->n.img)
-		mlx_destroy_image(game->mlx, game->n.img);
+	if (game->enemy.img)
+		mlx_destroy_image(game->mlx, game->enemy.img);
 }
 
 void	free_and_exit(t_game *game)
@@ -54,8 +66,12 @@ void	free_and_exit(t_game *game)
 	free(game->fps);
 	free(game->z_buffer);
 	ft_lstclear(&game->data->map_list, free);
-	mlx_destroy_window(game->mlx, game->win);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
+	if (game->mlx)
+	{
+		mlx_destroy_window(game->mlx, game->win);
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
+	close(game->soc.socket);
 	exit(0);
 }

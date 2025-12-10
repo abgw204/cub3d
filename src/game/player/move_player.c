@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 17:32:37 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/10 11:04:40 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,9 @@ void	move_player(t_game *game)
 		move_d(game, player);
 	*/
 	printf("SENDTO\n");
-	if (sendto(game->soc.socket, game->keys, 8,
+	rotate_camera(game);
+	memcpy((void *)game->keys + 8, (void *)&game->player.angle, 8);
+	if (sendto(game->soc.socket, game->keys, 16,
 		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer)) == -1)
 		exit(EXIT_FAILURE);
 }

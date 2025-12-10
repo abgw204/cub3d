@@ -1,9 +1,9 @@
-NO ./res/textures/sprites/orb.xpm
+NO ./res/textures/NO.xpm
 SO ./res/textures/SO.xpm
 WE ./res/textures/WE.xpm
 EA ./res/textures/EA.xpm
 
-F 255,	255, 255
+F 000, 000, 0000
 C 0, 0, 255
 
 

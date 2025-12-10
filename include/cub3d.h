@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 17:09:53 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:43:53 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 600
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
 /* KEYS */
 # define KEY_W 119
@@ -184,6 +184,8 @@ typedef struct	s_game_data
 	t_image			screen;
 	t_image			menu_btns[4];
 	t_image			settings[3];
+	t_image			enemy;
+	t_image			gun[5];
 	t_image			n;
 	t_image			s;
 	t_image			e;
@@ -237,6 +239,8 @@ typedef struct	s_raycast
 	int		line_height;
     int		draw_start;
 	int		draw_end;
+	int		f_color;
+	int		c_color;
 }			t_raycast;
 
 
@@ -317,6 +321,8 @@ int		mouse_input_in_settings(t_game *game, int x, int y, int mouse_btn);
 
 /* DRAW */
 void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
+void	draw_ceiling(t_raycast *r, t_image *screen, int start, int limit);
+void	draw_floor(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
@@ -332,6 +338,9 @@ int		print_perror(void);
 
 /* GAME */
 int		init_game(t_game *game);
+int		load_mlx_window(t_game *game);
+int		load_weapon_images(t_game *game);
+int		load_enemy_sprite(t_game *game);
 int		update(void *param);
 void	move_player(t_game *game);
 t_data	*get_data(void);
@@ -340,7 +349,7 @@ void	free_images(t_game *game);
 int		game_loop(t_game *game);
 void	rotate_camera(t_game *game);
 void	rotate_camera_mouse(t_game *game, int middle, int x);
-void	thread_create(pthread_t *thread, void *(func)(void *), void *data);
+int		thread_create(pthread_t *thread, void *(func)(void *), void *data);
 
 /* TEXTURES */
 int	configure_textures_images(t_game *game);

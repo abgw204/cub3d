@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 17:15:54 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/10 11:03:34 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 
 void	set_null(t_game *game)
 {
-	game->menu_btns[0].img = NULL;
-	game->menu_btns[1].img = NULL;
-	game->menu_btns[2].img = NULL;
-	game->menu_btns[3].img = NULL;
-	game->settings[0].img = NULL;
-	game->settings[1].img = NULL;
-	game->settings[2].img = NULL;
+	int	i;
+
+	i = 0;
+	while (i < 4)
+		game->menu_btns[i++].img = NULL;
+	i = 0;
+	while (i < 3)
+		game->settings[i++].img = NULL;
+	i = 0;
+	while (i < 5)
+		game->gun[i++].img = NULL;
+	game->win = NULL;
+	game->fps = NULL;
 	game->screen.img = NULL;
 	game->minimap.img.img = NULL;
+	game->n.img = NULL;
+	game->s.img = NULL;
+	game->w.img = NULL;
+	game->e.img = NULL;
+	game->enemy.img = NULL;
 }
 
 t_data *get_data(void)
@@ -46,15 +57,14 @@ static void	init_vars(t_game *game)
 	game->minimap.pos.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
 	game->data = get_data();
-	game->keys = ft_calloc(1, 8);
-	game->fps = NULL;
+	game->keys = ft_calloc(1, 16);
 	ft_memset(game->keys, '0', 4);
 	game->player.speed = 2.0f;
 }
 
 void	init_config(t_config *config)
 {
-	config->show_fps = 1;
+	config->show_fps = 0;
 	config->show_mouse = true;
 }
 

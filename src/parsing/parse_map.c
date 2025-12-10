@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/24 19:10:05 by vfidelis         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:28:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	get_map(int file_fd)
 	get_data()->map_list = ft_lstnew(line);
 	if (search_bigger(line, &get_data()->map_w))
 		return (error(line, get_data()->map_list, "Newline in map!"));
-    free(line);
+	free(line);
     line = get_next_line(file_fd);
     while (line)
     {

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:39:15 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:56:10 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/10 10:30:29 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void    *raycast(void *param)
 	game = (t_game *)param;
 	id = get_int_and_increment(&game->m, &game->id);
 	set_draw_range(&start, &limit, id, SCREEN_WIDTH);
-	printf("AAAA\n");
 	while (true)
 	{
 		wait_signal_from_main_thread(&game->cond_start, &game->m);

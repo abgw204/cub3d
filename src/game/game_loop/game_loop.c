@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 17:06:38 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:41:48 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,26 @@ void	draw_crosshair(t_image *screen)
 
 	pos.x = SCREEN_WIDTH / 2 - 4;
 	pos.y = SCREEN_HEIGHT / 2 - 4;
-	draw_circle(pos, 3, 0xFFFFFF, screen);
+	draw_circle(pos, 3, WHITE, screen);
 }
 
-void	thread_create(pthread_t *thread, void *(func)(void *), void *data)
+int	thread_create(pthread_t *thread, void *(func)(void *), void *data)
 {
 	if (pthread_create(thread, NULL, func, data) != 0)
-		print_error("A Thread failed to be created!\n");
+		return (print_error("A Thread failed to be created!\n"));
+	return (0);
 }
 
 int game_loop(t_game *game)
 {
 	clear_screen_image(game);
-    //rotate_camera(game);
     move_player(game);
 	receive_position(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
 	calculate_sprites(game);
 	draw_crosshair(&game->screen);
-    mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
     {
         mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
@@ -59,15 +59,15 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(120.0);
+	limit_fps(0.0);
 	if (game->state == MAIN_MENU)
     {
-        //enable_mouse(game);
+        enable_mouse(game);
 		show_main_menu(game);
     }
 	else if (game->state == IN_GAME)
     {
-        //disable_mouse(game);
+        disable_mouse(game);
 		game_loop(game);
     }
 	else if (game->state == IN_SETTINGS)
