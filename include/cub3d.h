@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 13:12:06 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 13:40:32 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,11 +151,6 @@ typedef struct	s_sprite
 	bool			drawn;
 }	t_sprite;
 
-typedef struct	s_gunsp
-{
-	t_image	guns[5];
-}	t_gunsp;
-
 typedef struct	s_players
 {
 	int			connected;
@@ -193,7 +188,7 @@ typedef struct	s_game_data
 	t_image			menu_btns[4];
 	t_image			settings[3];
 	t_image			enemy;
-	t_image			gun[5];
+	t_image			gun;
 	t_image			n;
 	t_image			s;
 	t_image			e;
@@ -336,7 +331,7 @@ void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
 void	*raycast(void *param);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
-void	calculate_sprites(t_game *game);
+void	draw_sprites(t_game *game);
 int		get_further_sprite(t_sprite *sp);
 
 /* ERROR */

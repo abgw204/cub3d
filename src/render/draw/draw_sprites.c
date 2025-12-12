@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   calculate_sprites.c                                :+:      :+:    :+:   */
+/*   draw_sprites.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/08 11:34:14 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:19:48 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,60 @@ int	get_further_sprite(t_sprite *sp)
 	return (found);
 }
 
-void	calculate_sprites(t_game *game)
+void draw_sprite_scaled(
+    t_game *game,
+    t_image *sheet,
+    int sx, int sy,     // Posição do frame no spritesheet
+    int src_w, int src_h, // Tamanho do frame original
+    int x, int y,       // Posição na tela
+    float scale)        // Fator de escala
+{
+    int dst_w = src_w * scale;
+    int dst_h = src_h * scale;
+
+    int bpp = sheet->bpp / 8;
+    int screen_bpp = game->screen.bpp / 8;
+
+    for (int j = 0; j < dst_h; j++)
+    {
+        int screen_y = y + j;
+        if (screen_y < 0 || screen_y >= SCREEN_HEIGHT)
+            continue;
+
+        for (int i = 0; i < dst_w; i++)
+        {
+            int screen_x = x + i;
+            if (screen_x < 0 || screen_x >= SCREEN_WIDTH)
+                continue;
+
+            // Calcula a posição do pixel dentro do frame
+            int orig_x = (i * src_w) / dst_w;
+            int orig_y = (j * src_h) / dst_h;
+
+            // Calcular o offset dentro do spritesheet
+            int sheet_offset =
+                (sy + orig_y) * sheet->line_len +
+                (sx + orig_x) * bpp;
+
+            unsigned int color = *(unsigned int *)(sheet->addr + sheet_offset);
+
+            // Verifica a transparência (baseado no canal alpha)
+            if ((color & 0x00FFFFFF) != 0) // transparência (alpha == 0)
+            {
+				
+            	// Calcula o offset na tela
+            	int screen_offset =
+            	    screen_y * game->screen.line_len +
+            	    screen_x * screen_bpp;
+				
+            	// Desenha o pixel no framebuffer
+            	*(int *)(game->screen.addr + screen_offset) = color;
+			}
+        }
+    }
+}
+
+void	draw_sprites(t_game *game)
 {
 	static double	pos_x[4] = {5.5, 6.0, 7.5, 9.5};
 	static double	pos_y[4] = {10.0, 11.5, 12.0, 10.0};
@@ -118,10 +171,12 @@ void	calculate_sprites(t_game *game)
 							+ y * line_len
 							+ sp.stripe * bpp;
 						*(unsigned int*)dst = sp.current_color;
-
 					}
 				}
 			}
 		}
 	}
+	// gun
+
+	draw_sprite_scaled(game, &game->gun, game->gun.width / 5, 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
 }

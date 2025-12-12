@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 11:52:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 13:27:33 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ void	set_null(t_game *game)
 	while (i < 3)
 		game->settings[i++].img = NULL;
 	i = 0;
-	while (i < 5)
-		game->gun[i++].img = NULL;
+	game->gun.img = NULL;
 	game->win = NULL;
 	game->fps = NULL;
 	game->screen.img = NULL;

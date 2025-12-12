@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 12:31:13 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:19:28 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int game_loop(t_game *game)
 	receive_position(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
-	calculate_sprites(game);
+	draw_sprites(game);
 	draw_crosshair(&game->screen);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
     if (game->config.show_fps && game->fps)
@@ -59,7 +59,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(128.0);
+	limit_fps(120.0);
 	if (game->state == MAIN_MENU)
     {
         enable_mouse(game);
