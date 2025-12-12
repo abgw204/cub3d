@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 14:19:48 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:31:33 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,35 @@ static void	fix_bondaries(t_sprite *sp)
 		sp->start_y = 0;
 }
 
-void	calculate_sprites_size(t_sprite *sp, t_player *player, double *pos_x, double *pos_y)
+void	calculate_sprites_size(t_game *game)
 {
-	int	i;
+	t_players	*p;
+	int			i;
 
 	i = -1;
+	p = game->players;
 	while (++i < MAX_PLAYERS - 1)
 	{
-		sp[i].x = pos_x[i] - player->pos.x;
-		sp[i].y = pos_y[i] - player->pos.y;
-		sp[i].inv_det = 1.0 / (player->plane.x * player->dir.y
-							- player->dir.x * player->plane.y);
-		sp[i].transform_x = sp[i].inv_det * (player->dir.y * sp[i].x - player->dir.x * sp[i].y);
-		sp[i].transform_y = sp[i].inv_det * (-player->plane.y * sp[i].x + player->plane.x * sp[i].y);
-		sp[i].screen_x = (int)((SCREEN_WIDTH / 2) * (1 + sp[i].transform_x / sp[i].transform_y));
-		sp[i].height = abs((int)(SCREEN_HEIGHT / sp[i].transform_y));
-		sp[i].width = sp[i].height;
-		sp[i].start_y = -sp[i].height / 2 + SCREEN_HEIGHT / 2;
-		sp[i].end_y = sp[i].height / 2 + SCREEN_HEIGHT / 2;
-		sp[i].start_x = -sp[i].width / 2 + sp[i].screen_x;
-		sp[i].end_x = sp[i].width / 2 + sp[i].screen_x;
-		fix_bondaries(&sp[i]);
+		if (p[i].id == game->my_id)
+			continue ;
+		p[i].sp.x = p[i].x - game->player.pos.x;
+		p[i].sp.y = p[i].y - game->player.pos.y;
+		p[i].sp.inv_det = 1.0 / (game->player.plane.x * game->player.dir.y
+							- game->player.dir.x * game->player.plane.y);
+		p[i].sp.transform_x = p[i].sp.inv_det * (game->player.dir.y * p[i].sp.x - game->player.dir.x * p[i].sp.y);
+		p[i].sp.transform_y = p[i].sp.inv_det * (-game->player.plane.y * p[i].sp.x + game->player.plane.x * p[i].sp.y);
+		p[i].sp.screen_x = (int)((SCREEN_WIDTH / 2) * (1 + p[i].sp.transform_x / p[i].sp.transform_y));
+		p[i].sp.height = abs((int)(SCREEN_HEIGHT / p[i].sp.transform_y));
+		p[i].sp.width = p[i].sp.height;
+		p[i].sp.start_y = -p[i].sp.height / 2 + SCREEN_HEIGHT / 2;
+		p[i].sp.end_y = p[i].sp.height / 2 + SCREEN_HEIGHT / 2;
+		p[i].sp.start_x = -p[i].sp.width / 2 + p[i].sp.screen_x;
+		p[i].sp.end_x = p[i].sp.width / 2 + p[i].sp.screen_x;
+		fix_bondaries(&p[i].sp);
 	}
 }
 
-int	get_further_sprite(t_sprite *sp)
+int	get_further_sprite(t_players *players, int my_id)
 {
 	double	max;
 	int		i;
@@ -57,17 +61,19 @@ int	get_further_sprite(t_sprite *sp)
 	i = -1;
 	found = -1;
 	max = -1e3;
-	while (++i < MAX_PLAYERS - 1)
+	while (++i < MAX_PLAYERS)
 	{
-		if (!sp[i].drawn && sp[i].transform_y > max)
+		if (players[i].id == my_id)
+			continue ;
+		if (!players[i].sp.drawn && players[i].sp.transform_y > max)
 		{
-			max = sp[i].transform_y;
+			max = players[i].sp.transform_y;
 			found = i;
 		}
 	}
-	if (sp[found].drawn == true)
+	if (players[found].sp.drawn == true)
 		return (-1);
-	sp[found].drawn = true;
+	players[found].sp.drawn = true;
 	return (found);
 }
 
@@ -90,7 +96,6 @@ void draw_sprite_scaled(
         int screen_y = y + j;
         if (screen_y < 0 || screen_y >= SCREEN_HEIGHT)
             continue;
-
         for (int i = 0; i < dst_w; i++)
         {
             int screen_x = x + i;
@@ -126,27 +131,24 @@ void draw_sprite_scaled(
 
 void	draw_sprites(t_game *game)
 {
-	static double	pos_x[4] = {5.5, 6.0, 7.5, 9.5};
-	static double	pos_y[4] = {10.0, 11.5, 12.0, 10.0};
 	int i = -1;
-	t_sprite *spr;
+	t_sprite sp;
 
-	spr = game->sprite;
-
-	calculate_sprites_size(spr, &game->player, pos_x, pos_y);
-	while (++i < MAX_PLAYERS - 1)
-		spr[i].drawn = false;
+	calculate_sprites_size(game);
+	while (++i < MAX_PLAYERS)
+		game->players[i].sp.drawn = false;
 	i = -1;
 	unsigned int *pixels = (unsigned int *)game->enemy.addr;
 	int tex_pitch = game->enemy.line_len >> 2;
 	int	index = -1;
-	t_sprite sp;
 	int bpp = game->screen.bpp >> 3;
 	int	line_len = game->screen.line_len;
-	while (++index < MAX_PLAYERS - 1)
+	while (++index < MAX_PLAYERS)
 	{
-		i = get_further_sprite(spr);
-		sp = spr[i];
+		if (game->players[index].id == game->my_id)
+			continue ;
+		i = get_further_sprite(game->players, game->my_id);
+		sp = game->players[i].sp;
 		if (i == -1)
 			continue ;
 		if (sp.transform_y <= 0.0001)
@@ -177,6 +179,15 @@ void	draw_sprites(t_game *game)
 		}
 	}
 	// gun
-
-	draw_sprite_scaled(game, &game->gun, game->gun.width / 5, 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
+	static int idx = 0;
+	static double	time = 0;
+	draw_sprite_scaled(game, &game->gun, idx * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
+	time += g_delta_time;
+	if (time >= 0.016)
+	{
+		time = 0;
+		idx++;
+	}
+	if (idx == 5)
+		idx = 0;
 }

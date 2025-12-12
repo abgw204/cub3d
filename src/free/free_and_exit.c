@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/08 11:35:04 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:41:38 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	free_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->w.img);
 	if (game->e.img)
 		mlx_destroy_image(game->mlx, game->e.img);
+	if (game->enemy.img)
+		mlx_destroy_image(game->mlx, game->enemy.img);
+	if (game->gun.img)
+		mlx_destroy_image(game->mlx, game->gun.img);
 }
 
 void	free_images(t_game *game)
@@ -46,8 +50,6 @@ void	free_images(t_game *game)
 		mlx_destroy_image(game->mlx, game->minimap.img.img);
 	if (game->screen.img)
 		mlx_destroy_image(game->mlx, game->screen.img);
-	if (game->enemy.img)
-		mlx_destroy_image(game->mlx, game->enemy.img);
 }
 
 void	free_and_exit(t_game *game)
@@ -61,7 +63,9 @@ void	free_and_exit(t_game *game)
 	while (i < 6)
 		free_matrix(game->data->config[i++]);
 	free_images(game);
+	free_textures(game);
 	free(game->keys);
+	free(game->local_keys);
 	free(game->map);
 	free(game->fps);
 	free(game->z_buffer);

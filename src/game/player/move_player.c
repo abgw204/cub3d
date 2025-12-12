@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 12:31:23 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:29:28 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	move_d(t_game *game, t_player *player)
 		player->pos.y = new_y;
 }
 
-void	update_all_players(t_players *players, char *buffer, t_game *game)
+void	update_all_players(t_game *game, char *buffer)
 {
 	int	offset;
 	int	id;
@@ -118,8 +118,7 @@ void	update_all_players(t_players *players, char *buffer, t_game *game)
 
 	i = -1;
 	offset = 0;
-	(void)players;
-    while (++i < 1)
+    while (++i < MAX_PLAYERS)
     {
         //if (offset + 24 > latest_bytes)
         //    break;
@@ -131,8 +130,14 @@ void	update_all_players(t_players *players, char *buffer, t_game *game)
             memcpy(&game->player.pos.y, buffer + offset + 12, sizeof(double));
 			printf("%f\n", game->player.pos.x);
 			printf("%f\n", game->player.pos.y);
-            break;
         }
+		else
+		{
+			memcpy(&game->players[i].id, buffer + offset + 4, sizeof(int));
+            memcpy(&game->players[i].x, buffer + offset + 4, sizeof(double));
+            memcpy(&game->players[i].y, buffer + offset + 12, sizeof(double));
+			memcpy(&game->players[i].connected, buffer + offset + 20, sizeof(int));
+		}
         offset += SEND_PACKET_SIZE;
     }
 }
@@ -160,7 +165,7 @@ int receive_position(t_game *game)
 	}
 	if (latest_bytes <= 0)
 		return 0;
-	update_all_players(game->players, latest_buffer, game);
+	update_all_players(game, latest_buffer);
     return 0;
 }
 
@@ -171,8 +176,8 @@ void	move_player(t_game *game)
     player = &game->player;
 	printf("SENDTO\n");
 	rotate_camera(game);
-	mouse_move_in_game(game, game->m_x);
-	memcpy((void *)game->keys + 8, (void *)&game->player.angle, 8);
+	//mouse_move_in_game(game, game->m_x);
+	memcpy(game->keys + 8, &game->player.angle, 8);
 	if (sendto(game->soc.socket, game->keys, 16,
 		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer)) == -1)
 		exit(EXIT_FAILURE);

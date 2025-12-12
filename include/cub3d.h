@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 13:40:32 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:43:07 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 800
 
 /* KEYS */
 # define KEY_W 119
@@ -153,9 +153,10 @@ typedef struct	s_sprite
 
 typedef struct	s_players
 {
-	int			connected;
+	int			id;
 	double		x;
 	double		y;
+	int			connected;
 	t_sprite	sp;
 }	t_players;
 
@@ -332,7 +333,7 @@ void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
 void	*raycast(void *param);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
 void	draw_sprites(t_game *game);
-int		get_further_sprite(t_sprite *sp);
+int		get_further_sprite(t_players *players, int my_id);
 
 /* ERROR */
 int		print_error(char *error_message);

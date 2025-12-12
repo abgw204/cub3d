@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 14:19:28 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:29:01 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ int	update(void *param)
 	limit_fps(120.0);
 	if (game->state == MAIN_MENU)
     {
-        enable_mouse(game);
+        //enable_mouse(game);
 		show_main_menu(game);
     }
 	else if (game->state == IN_GAME)
     {
-        disable_mouse(game);
+        //disable_mouse(game);
 		game_loop(game);
     }
 	else if (game->state == IN_SETTINGS)
