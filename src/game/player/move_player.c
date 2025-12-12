@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:29:28 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:54:32 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	move_d(t_game *game, t_player *player)
 		player->pos.y = new_y;
 }
 
-void	update_all_players(t_game *game, char *buffer)
+void	update_all_players(t_game *game, char *buffer, int latest_bytes)
 {
 	int	offset;
 	int	id;
@@ -120,8 +120,8 @@ void	update_all_players(t_game *game, char *buffer)
 	offset = 0;
     while (++i < MAX_PLAYERS)
     {
-        //if (offset + 24 > latest_bytes)
-        //    break;
+        if (offset + 24 > latest_bytes)
+            break;
         memcpy(&id, buffer + offset, sizeof(int));
 		printf("%d\n", id);
         if (id == game->my_id)
@@ -165,7 +165,7 @@ int receive_position(t_game *game)
 	}
 	if (latest_bytes <= 0)
 		return 0;
-	update_all_players(game, latest_buffer);
+	update_all_players(game, latest_buffer, latest_bytes);
     return 0;
 }
 

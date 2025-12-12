@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:29:01 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:55:42 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	update(void *param)
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(120.0);
+	limit_fps(60.0);
 	if (game->state == MAIN_MENU)
     {
         //enable_mouse(game);
