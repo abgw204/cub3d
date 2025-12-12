@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:56:19 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:23:30 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,8 @@ int	mouse_move(int x, int y, void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
-	if (game->state == IN_GAME)
-		return (mouse_move_in_game(game, x));
-	if (game->state == MAIN_MENU)
-		return (mouse_move_menu(game, x, y));
-	if (game->state == IN_SETTINGS)
-		return (mouse_move_settings(game, x, y));
+	game->m_x = x;
+	game->m_y = y;
 	return (0);
 }
 

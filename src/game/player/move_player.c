@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 11:04:40 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:31:23 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,20 +166,12 @@ int receive_position(t_game *game)
 
 void	move_player(t_game *game)
 {
-    /*t_player	*player;
+    t_player	*player;
 
     player = &game->player;
-    if (game->keys[0] == '1')
-        move_w(game, player);
-    if (game->keys[1] == '1')
-		move_a(game, player);
-    if (game->keys[2] == '1')
-		move_s(game, player);
-    if (game->keys[3] == '1')
-		move_d(game, player);
-	*/
 	printf("SENDTO\n");
 	rotate_camera(game);
+	mouse_move_in_game(game, game->m_x);
 	memcpy((void *)game->keys + 8, (void *)&game->player.angle, 8);
 	if (sendto(game->soc.socket, game->keys, 16,
 		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer)) == -1)

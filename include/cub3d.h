@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 18:43:53 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 13:12:06 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@
 # define MAX_PLAYERS 4
 
 # define COLLISION_DIST 0.3
-# define N_THREADS 12
+# define N_THREADS 16
 
 extern double	g_delta_time;
 
@@ -151,6 +151,11 @@ typedef struct	s_sprite
 	bool			drawn;
 }	t_sprite;
 
+typedef struct	s_gunsp
+{
+	t_image	guns[5];
+}	t_gunsp;
+
 typedef struct	s_players
 {
 	int			connected;
@@ -167,9 +172,12 @@ typedef struct	s_game_data
 	char			*map;
 	int				map_w;
 	int				map_h;
+	int				m_x;
+	int				m_y;
 	int				state;
 	char			*fps;
 	char			*keys;
+	char			*local_keys;
 	double			*z_buffer;
 	int				screen_w;
 	int				screen_h;
@@ -349,6 +357,7 @@ void	free_images(t_game *game);
 int		game_loop(t_game *game);
 void	rotate_camera(t_game *game);
 void	rotate_camera_mouse(t_game *game, int middle, int x);
+int		mouse_move_in_game(t_game *game, int x);
 int		thread_create(pthread_t *thread, void *(func)(void *), void *data);
 
 /* TEXTURES */

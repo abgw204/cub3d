@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:19:39 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 12:02:11 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:32:56 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int key_release(int key, void *param)
         game->keys[2] = '0';
     else if (key == KEY_D)
         game->keys[3] = '0';
-    /*else if (key == LEFT_ARROW)
-        game->keys[4] = '0';
+    else if (key == LEFT_ARROW)
+        game->local_keys[0] = '0';
     else if (key == RIGHT_ARROW)
-        game->keys[5] = '0';*/
+        game->local_keys[1] = '0';
     else if (key == KEY_ESC)
     {
         game->state = MAIN_MENU; // teste
@@ -49,9 +49,9 @@ int key_press(int key, void *param)
         game->keys[2] = '1';
     else if (key == KEY_D)
         game->keys[3] = '1';
-    /*else if (key == LEFT_ARROW)
-        game->keys[4] = '1';
+    else if (key == LEFT_ARROW)
+        game->local_keys[0] = '1';
     else if (key == RIGHT_ARROW)
-		game->keys[5] = '1';*/
+		game->local_keys[1] = '1';
     return (0);
 }

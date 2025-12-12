@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 11:03:34 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:52:20 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	init_vars(t_game *game)
 	game->map = get_data()->map;
 	game->map_w = get_data()->map_w;
 	game->map_h = get_data()->map_h;
+	game->m_x = 0;
+	game->m_y = 0;
 	get_player_info(game);
 	game->minimap.x_bg = (int)game->player.pos.x - 5;
 	game->minimap.y_bg = (int)game->player.pos.y - 5;
@@ -58,7 +60,9 @@ static void	init_vars(t_game *game)
 	game->state = MAIN_MENU; // não estará presente no mandatório
 	game->data = get_data();
 	game->keys = ft_calloc(1, 16);
+	game->local_keys = ft_calloc(1, 2);
 	ft_memset(game->keys, '0', 4);
+	ft_memset(game->local_keys, '0', 2);
 	game->player.speed = 2.0f;
 }
 

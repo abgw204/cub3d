@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:19:16 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/25 14:23:26 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:36:19 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void    rotate_camera_mouse(t_game *game, int middle, int x)
 
 void    rotate_camera(t_game *game)
 {
-    if (game->keys[4] == '1')
-        rotate_player(&game->player, -2.0 * g_delta_time);
-    else if (game->keys[5] == '1')
-		rotate_player(&game->player, 2.0 * g_delta_time);
+    if (game->local_keys[0] == '1')
+        rotate_player(&game->player, -3.0);
+    else if (game->local_keys[1] == '1')
+		rotate_player(&game->player, 3.0);
 }

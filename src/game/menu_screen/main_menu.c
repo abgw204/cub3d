@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:34 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:57:11 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:24:39 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,14 @@ int	configure_menu_images(t_game *game)
 
 int	show_main_menu(t_game *game)
 {
-	mlx_put_image_to_window(game->mlx, game->win,
-						 game->menu_btns[0].img,
-						 game->menu_btns[0].x,
-						 game->menu_btns[0].y);
-	mlx_put_image_to_window(game->mlx,
-						 game->win,
-						 game->menu_btns[1].img,
-						 game->menu_btns[1].x,
-						 game->menu_btns[1].y);
-	mlx_put_image_to_window(game->mlx,
-						 game->win,
-						 game->menu_btns[2].img,
-						 game->menu_btns[2].x,
-						 game->menu_btns[2].y);
-	mlx_put_image_to_window(game->mlx,
-						 game->win,
-						 game->menu_btns[3].img,
-						 game->menu_btns[3].x,
-						 game->menu_btns[3].y);
+	int	i;
+
+	i = -1;
+	mouse_move_menu(game, game->m_x, game->m_y);
+	while (++i < 4)
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->menu_btns[i].img,
+			game->menu_btns[i].x,
+			game->menu_btns[i].y);
 	return (0);
 }
