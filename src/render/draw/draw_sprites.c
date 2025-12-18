@@ -77,6 +77,24 @@ int	get_further_sprite(t_players *players, int my_id)
 	return (found);
 }
 
+/*
+ * void draw_sprite_scaled (draws a sprite with an specific size (int scale))
+ *
+ *  sx: frame x position
+ *  sy: frame y position
+ *
+ *  example: 0, 0 (first frame)
+ *          64, 0 (second frame)
+ *
+ *  src_w: original frame width
+ *  src_h: original frame height
+ *
+ *  x: x on screen
+ *  y: y on screen
+ *
+ *  scale: the desired scale to draw the sprite
+*/
+
 void draw_sprite_scaled(
     t_game *game,
     t_image *sheet,
@@ -101,28 +119,17 @@ void draw_sprite_scaled(
             int screen_x = x + i;
             if (screen_x < 0 || screen_x >= SCREEN_WIDTH)
                 continue;
-
-            // Calcula a posição do pixel dentro do frame
             int orig_x = (i * src_w) / dst_w;
             int orig_y = (j * src_h) / dst_h;
-
-            // Calcular o offset dentro do spritesheet
             int sheet_offset =
                 (sy + orig_y) * sheet->line_len +
                 (sx + orig_x) * bpp;
-
             unsigned int color = *(unsigned int *)(sheet->addr + sheet_offset);
-
-            // Verifica a transparência (baseado no canal alpha)
-            if ((color & 0x00FFFFFF) != 0) // transparência (alpha == 0)
+            if ((color & 0x00FFFFFF) != 0)
             {
-				
-            	// Calcula o offset na tela
             	int screen_offset =
             	    screen_y * game->screen.line_len +
             	    screen_x * screen_bpp;
-				
-            	// Desenha o pixel no framebuffer
             	*(int *)(game->screen.addr + screen_offset) = color;
 			}
         }
@@ -179,15 +186,5 @@ void	draw_sprites(t_game *game)
 		}
 	}
 	// gun
-	static int idx = 0;
-	static double	time = 0;
-	draw_sprite_scaled(game, &game->gun, idx * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
-	time += g_delta_time;
-	if (time >= 0.016)
-	{
-		time = 0;
-		idx++;
-	}
-	if (idx == 5)
-		idx = 0;
+	draw_sprite_scaled(game, &game->gun, 0 * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
 }

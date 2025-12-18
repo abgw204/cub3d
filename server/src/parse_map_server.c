@@ -40,7 +40,9 @@ static int	get_map(int file_fd, t_server *s)
 {
     char	*line;
 
-    line = NULL;
+	line = jump_blank_lines(&file_fd);
+	if (!line)
+		return (1);
 	s->map_list = ft_lstnew(line);
 	if (search_bigger(line, &s->map_w))
 		return (error(line, s->map_list, "Newline in map!"));
@@ -81,5 +83,11 @@ int	parse_map_s(t_server *s, char *file)
 		// return (1);
 	s->map = linearize_map(s->map_list, s);
 	ft_lstclear(&s->map_list, free);
+	for (size_t i = 0;  i < ft_strlen(s->map); i++)
+	{
+		printf("%c", s->map[i]);
+		if ((int)(i + 1) % s->map_w == 0)
+			printf("\n");
+	}
 	return (0);
 }

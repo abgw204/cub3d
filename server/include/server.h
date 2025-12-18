@@ -23,6 +23,7 @@
 # include <sys/time.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <math.h>
 # include "../../include/libft.h"
 
 # define MAX_PLAYERS 4
@@ -32,7 +33,8 @@
 # define SEND_PACKET_SIZE 24
 # define OFFSET SEND_PACKET_SIZE
 
-# define COLLISION_DIST 0.3
+# define FOV 0.75
+# define COLLISION_DIST_S 0.3
 
 extern double			g_s_delta_time;
 extern double			acumulator;

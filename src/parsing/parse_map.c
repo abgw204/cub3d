@@ -118,11 +118,11 @@ int	parse_map(int file_fd)
 		// return (1);
 	get_data()->map = linearize_map(get_data()->map_list);
 	ft_lstclear(&get_data()->map_list, free);
-	//for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
-	//{
-	//	printf("%c", get_data()->map[i]);
-	//	if ((int)(i + 1) % get_data()->map_w == 0)
-	//		printf("\n");
-	//}
+	for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
+	{
+		printf("%c", get_data()->map[i]);
+		if ((int)(i + 1) % get_data()->map_w == 0)
+			printf("\n");
+	}
 	return (0);
 }

@@ -55,11 +55,14 @@ int game_loop(t_game *game)
 int	update(void *param)
 {
 	t_game	*game;
+	static double a = 0.0;
 
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
 	limit_fps(60.0);
+	//printf("alive for: %.2f\n", a);
+	a += g_delta_time;
 	if (game->state == MAIN_MENU)
     {
         //enable_mouse(game);

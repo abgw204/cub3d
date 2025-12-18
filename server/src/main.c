@@ -21,6 +21,7 @@ void	initialize_players(t_s_player *players)
 	{
 		players[i].connected = 0;
 		players[i].packet_received = false;
+		players[i].id = -1;
 	}
 }
 
@@ -46,12 +47,17 @@ int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer)
 		if (!players[i].connected)
 		{
 			memcpy(&players[i].id, buffer + 4, sizeof(int));
+			memcpy(&players[i].angle, buffer + 8, sizeof(double));
 			printf("ID: %d\n", players[i].id);
 			players[i].addr = *addr;
 			players[i].connected = 1;
-			players[i].x = 5.0;
-			players[i].y = 11.0;
-			players[i].speed = 2.0;
+			players[i].dx = cos(players[i].angle);
+			players[i].dy = sin(players[i].angle);
+			players[i].plane_x = -players[i].dy * FOV;
+			players[i].plane_y =  players[i].dx * FOV;
+			players[i].x = 5.5;
+			players[i].y = 11.5;
+			players[i].speed = 30.0;
 			players[i].packet_received = true;
 			players[i].idle_time = 0.0;
 			return 0;
@@ -60,14 +66,19 @@ int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer)
 	return 1;
 }
 
-void update_players_inputs(t_s_player *p, char *keys)
+void update_player_inputs(t_s_player *p, char *buffer)
 {
 	int	i;
 
 	i = -1;
 	p->packet_received = true;
 	while (++i < 4)
-		p->keys[i] = keys[i];
+		p->keys[i] = buffer[i];
+	memcpy(&p->angle, buffer + 8, sizeof(double));
+	p->dx = cos(p->angle);
+	p->dy = sin(p->angle);
+	p->plane_x = -p->dy * FOV;
+	p->plane_y =  p->dx * FOV;
 }
 
 void	move_w(t_s_player *player, t_server *s)
@@ -78,13 +89,13 @@ void	move_w(t_s_player *player, t_server *s)
 	double	coll_y;
 
 	if (player->dx > 0.0)
-		coll_x = COLLISION_DIST;
+		coll_x = COLLISION_DIST_S;
 	else
-		coll_x = -COLLISION_DIST;
+		coll_x = -COLLISION_DIST_S;
 	if (player->dy > 0.0)
-		coll_y = COLLISION_DIST;
+		coll_y = COLLISION_DIST_S;
 	else
-		coll_y = -COLLISION_DIST;
+		coll_y = -COLLISION_DIST_S;
 	new_x = player->x + player->dx * player->speed * g_s_delta_time;
 	new_y = player->y + player->dy * player->speed * g_s_delta_time;
     if (s->map[(int)player->y * s->map_w + (int)(new_x + coll_x)] != '1')
@@ -102,13 +113,13 @@ void	move_a(t_s_player *player, t_server *s)
 	double	coll_y;
 
 	if (-player->plane_x > 0.0)
-		coll_x = COLLISION_DIST;
+		coll_x = COLLISION_DIST_S;
 	else
-		coll_x = -COLLISION_DIST;
+		coll_x = -COLLISION_DIST_S;
 	if (-player->plane_y > 0.0)
-		coll_y = COLLISION_DIST;
+		coll_y = COLLISION_DIST_S;
 	else
-		coll_y = -COLLISION_DIST;
+		coll_y = -COLLISION_DIST_S;
     side.x = player->dy;
 	side.y = -player->dx;
     new_x = player->x + side.x * player->speed * g_s_delta_time;
@@ -127,13 +138,13 @@ void	move_s(t_s_player *player, t_server *s)
 	double	coll_y;
 
 	if (player->dx > 0.0)
-		coll_x = -COLLISION_DIST;
+		coll_x = -COLLISION_DIST_S;
 	else
-		coll_x = COLLISION_DIST;
+		coll_x = COLLISION_DIST_S;
 	if (player->dy > 0.0)
-		coll_y = -COLLISION_DIST;
+		coll_y = -COLLISION_DIST_S;
 	else
-		coll_y = COLLISION_DIST;
+		coll_y = COLLISION_DIST_S;
 	new_x = player->x + -player->dx * player->speed * g_s_delta_time;
 	new_y = player->y + -player->dy * player->speed * g_s_delta_time;
     if (s->map[(int)player->y * s->map_w + (int)(new_x + coll_x)] != '1')
@@ -151,13 +162,13 @@ void	move_d(t_s_player *player, t_server *s)
 	double	coll_y;
 
 	if (player->plane_x > 0.0)
-		coll_x = COLLISION_DIST;
+		coll_x = COLLISION_DIST_S;
 	else
-		coll_x = -COLLISION_DIST;
+		coll_x = -COLLISION_DIST_S;
 	if (player->plane_y > 0.0)
-		coll_y = COLLISION_DIST;
+		coll_y = COLLISION_DIST_S;
 	else
-		coll_y = -COLLISION_DIST;
+		coll_y = -COLLISION_DIST_S;
     side.x = -player->dy;
 	side.y = player->dx;
     new_x = player->x + side.x * player->speed * g_s_delta_time;
@@ -168,23 +179,25 @@ void	move_d(t_s_player *player, t_server *s)
 		player->y = new_y;
 }
 
-void	simulate_players(t_s_player *players, double delta_time)
+void	simulate_players(t_server *s)
 {
-	int	i;
+	t_s_player	*players;
+	int			i;
 
+	players = s->players;
 	i = -1;
 	while (++i < MAX_PLAYERS)
     {
         if (!players[i].connected)
             continue;
         if (players[i].keys[0] == '1')
-            players[i].y -= players[i].speed * delta_time;
+            move_w(&players[i], s);
         if (players[i].keys[1] == '1')
-            players[i].x -= players[i].speed * delta_time;
+            move_a(&players[i], s);
         if (players[i].keys[2] == '1')
-            players[i].y += players[i].speed * delta_time;
+            move_s(&players[i], s);
         if (players[i].keys[3] == '1')
-            players[i].x += players[i].speed * delta_time;
+            move_d(&players[i], s);
     }
 }
 
@@ -223,14 +236,18 @@ void	send_packets(t_server *s, char *buffer_send)
 void	broadcast_state(t_server *s)
 {
 	t_s_player	*player;
-	char	buffer_send[MAX_PLAYERS * SEND_PACKET_SIZE];
-	int offset = 0;
+	char		buffer_send[MAX_PLAYERS * SEND_PACKET_SIZE];
+	int			offset;
+
 	player = s->players;
+	offset = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
+		/*printf("id: %d\n", player[i].id);
+		printf("connected: %d\n", player[i].connected);
+		printf("plane_x: %f\n", player[i].plane_x);*/
 		if (player[i].connected)
 		{
-			printf("x: %f y: %f delta: %f\n", player[i].x, player[i].y, g_s_delta_time);
 			memcpy(buffer_send + offset, &player[i].id, sizeof(int));
 			memcpy(buffer_send + offset + 4, &player[i].x, sizeof(double));
 			memcpy(buffer_send + offset + 12, &player[i].y, sizeof(double));
@@ -271,7 +288,7 @@ void	update_state(t_server *s)
 	update_idle_time(s->players);
 	while (acumulator >= tick_time)
 	{
-		simulate_players(s->players, tick_time);
+		simulate_players(s);
 		acumulator -= tick_time;
 	}
 	broadcast_state(s);
@@ -299,7 +316,7 @@ int	server_update(t_server *s)
 			if (idx == -1)
 				add_player(s->players, &s->soc.peer, buffer);
 			else
-				update_players_inputs(&s->players[idx], buffer);
+				update_player_inputs(&s->players[idx], buffer);
 		}
 		update_state(s);
 	}
@@ -310,7 +327,6 @@ int	main(int ac, char **av)
 {
 	t_server	s;
 
-	(void)av;
 	if (ac != 2)
 	{
 		ft_putendl_fd("Usage: ./cub3d_server <MAP_PATH>", 2);
@@ -320,7 +336,11 @@ int	main(int ac, char **av)
 		perror("server");
 	initialize_players(s.players);
 	s.map_w = 0;
-	//parse_map_s(&s, av[1]);
+	if (parse_map_s(&s, av[1]))
+	{
+		close(s.soc.socket);
+		return (1);
+	}
 	if (server_update(&s))
 	{
 		perror("server");

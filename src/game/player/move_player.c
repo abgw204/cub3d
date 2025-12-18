@@ -115,6 +115,7 @@ void	update_all_players(t_game *game, char *buffer, int latest_bytes)
 	int	offset;
 	int	id;
 	int	i;
+	//int connected;
 
 	i = -1;
 	offset = 0;
@@ -123,17 +124,19 @@ void	update_all_players(t_game *game, char *buffer, int latest_bytes)
         if (offset + 24 > latest_bytes)
             break;
         memcpy(&id, buffer + offset, sizeof(int));
-		printf("%d\n", id);
+		//memcpy(&connected, buffer + offset + 20, sizeof(int));
+		//printf("player id: %d\n", id);
+		//printf("connected: %d\n", connected);
         if (id == game->my_id)
         {
             memcpy(&game->player.pos.x, buffer + offset + 4, sizeof(double));
             memcpy(&game->player.pos.y, buffer + offset + 12, sizeof(double));
-			printf("%f\n", game->player.pos.x);
-			printf("%f\n", game->player.pos.y);
+			//printf("%f\n", game->player.pos.x);
+			//printf("%f\n", game->player.pos.y);
         }
 		else
 		{
-			memcpy(&game->players[i].id, buffer + offset + 4, sizeof(int));
+			memcpy(&game->players[i].id, buffer + offset, sizeof(int));
             memcpy(&game->players[i].x, buffer + offset + 4, sizeof(double));
             memcpy(&game->players[i].y, buffer + offset + 12, sizeof(double));
 			memcpy(&game->players[i].connected, buffer + offset + 20, sizeof(int));
@@ -156,7 +159,6 @@ int receive_position(t_game *game)
 	{
 		bytes = recvfrom(game->soc.socket, tmp_buffer, sizeof(tmp_buffer), 0,
 			(struct sockaddr *)&game->soc.peer, &game->soc.peer_len);
-		printf("%d\n", bytes);
 		if (bytes > 0 && bytes <= (int)sizeof(tmp_buffer))
 		{
 			memcpy(latest_buffer, tmp_buffer, bytes);
@@ -171,10 +173,10 @@ int receive_position(t_game *game)
 
 void	move_player(t_game *game)
 {
-    t_player	*player;
+    //t_player	*player;
 
-    player = &game->player;
-	printf("SENDTO\n");
+    //player = &game->player;
+	//printf("SENDTO\n");
 	rotate_camera(game);
 	//mouse_move_in_game(game, game->m_x);
 	memcpy(game->keys + 8, &game->player.angle, 8);

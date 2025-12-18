@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
@@ -85,7 +85,7 @@ $(LIBFT):
 	@make -C lib/libft --no-print-directory
 
 $(SERVER_NAME): $(OBJS_SERVER) $(LIBFT)
-	@$(CC) $(FLAGS) server/src/main.c $(OBJS_SERVER) -Llib/libft -lft -o $(SERVER_NAME)
+	@$(CC) $(FLAGS) server/src/main.c -lm $(OBJS_SERVER) -Llib/libft -lft -o $(SERVER_NAME)
 	@echo "\033[46mcub3d server compiled successfully!\033[0m"
 
 server: $(SERVER_NAME)
