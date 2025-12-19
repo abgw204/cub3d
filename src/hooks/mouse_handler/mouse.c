@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 13:11:13 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:32:37 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
 	if (mouse_btn == 1 && game->is_shooting == false)
 	{
 		game->local_keys[2] = '1';
-		system("paplay ../../Downloads/pistol-shot-233473.wav &");
+		system("paplay res/pistol-shot-233473.wav &");
 	}
 	return (0);
 }
