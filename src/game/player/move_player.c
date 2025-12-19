@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:54:32 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 11:58:27 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	update_all_players(t_game *game, char *buffer, int latest_bytes)
 	int	offset;
 	int	id;
 	int	i;
-	//int connected;
 
 	i = -1;
 	offset = 0;
@@ -124,15 +123,10 @@ void	update_all_players(t_game *game, char *buffer, int latest_bytes)
         if (offset + 24 > latest_bytes)
             break;
         memcpy(&id, buffer + offset, sizeof(int));
-		//memcpy(&connected, buffer + offset + 20, sizeof(int));
-		//printf("player id: %d\n", id);
-		//printf("connected: %d\n", connected);
         if (id == game->my_id)
         {
             memcpy(&game->player.pos.x, buffer + offset + 4, sizeof(double));
             memcpy(&game->player.pos.y, buffer + offset + 12, sizeof(double));
-			//printf("%f\n", game->player.pos.x);
-			//printf("%f\n", game->player.pos.y);
         }
 		else
 		{
@@ -178,7 +172,7 @@ void	move_player(t_game *game)
     //player = &game->player;
 	//printf("SENDTO\n");
 	rotate_camera(game);
-	//mouse_move_in_game(game, game->m_x);
+	mouse_move_in_game(game, game->m_x);
 	memcpy(game->keys + 8, &game->player.angle, 8);
 	if (sendto(game->soc.socket, game->keys, 16,
 		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer)) == -1)

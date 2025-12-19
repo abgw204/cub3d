@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/03 14:53:35 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 12:24:01 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ static int	get_button_pos(const char *imgs, int size)
 
 int	mouse_input_menu(t_game *game, int x, int y, int mouse_btn)
 {
-	/*
-	else if (mouse_btn == 5)
-	{
-		game->player.pos.x -= 0.1f;
-	}
-	else if (mouse_btn == 4)
-	{
-		game->player.pos.x += 0.1f;
-	}
-	else if (mouse_btn == 3)
-	{
-		game->player.pos.y += 0.1f;
-	}*/
 	if (check_btn_collision(&game->menu_btns[1], x, y) && mouse_btn == 1)
 	{
 		revert_colors(&game->menu_btns[1], WHITE_ISH, BLACK);

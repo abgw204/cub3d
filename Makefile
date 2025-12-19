@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 
@@ -63,7 +63,7 @@ NAME = cub3d
 
 NAME_BONUS = cub3d_bonus
 
-SERVER_NAME = cub3d_server
+SERVER_NAME = server_cub3d
 
 .c.o:
 	@echo -n "|"

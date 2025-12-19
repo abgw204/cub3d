@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:55:42 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:22:51 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	draw_crosshair(t_image *screen)
 
 	pos.x = SCREEN_WIDTH / 2 - 4;
 	pos.y = SCREEN_HEIGHT / 2 - 4;
-	draw_circle(pos, 3, WHITE, screen);
+	draw_square(pos, 3, WHITE, screen);
 }
 
 int	thread_create(pthread_t *thread, void *(func)(void *), void *data)
@@ -55,22 +55,19 @@ int game_loop(t_game *game)
 int	update(void *param)
 {
 	t_game	*game;
-	static double a = 0.0;
 
 	game = (t_game *)param;
 	mlx_clear_window(game->mlx, game->win);
 	set_delta_time(game);
-	limit_fps(60.0);
-	//printf("alive for: %.2f\n", a);
-	a += g_delta_time;
+	limit_fps(120.0);
 	if (game->state == MAIN_MENU)
     {
-        //enable_mouse(game);
+        enable_mouse(game);
 		show_main_menu(game);
     }
 	else if (game->state == IN_GAME)
     {
-        //disable_mouse(game);
+        disable_mouse(game);
 		game_loop(game);
     }
 	else if (game->state == IN_SETTINGS)

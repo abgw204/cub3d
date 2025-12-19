@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 13:27:33 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 12:59:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ static void	init_vars(t_game *game)
 	game->minimap.pos.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório
 	game->data = get_data();
-	game->keys = ft_calloc(1, 16);
-	game->local_keys = ft_calloc(1, 2);
+	game->keys = ft_calloc(1, 17);
+	game->local_keys = ft_calloc(1, 3);
+	game->is_shooting = false;
 	ft_memset(game->keys, '0', 4);
-	ft_memset(game->local_keys, '0', 2);
+	ft_memset(game->keys + 17, '0', 1);
+	ft_memset(game->local_keys, '0', 3);
 	game->player.speed = 2.0f;
 }
 

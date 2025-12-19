@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 12:23:30 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:11:13 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,28 @@ int	mouse_move(int x, int y, void *param)
 	return (0);
 }
 
+int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
+{
+	(void)x;
+	(void)y;
+	if (mouse_btn == 1 && game->is_shooting == false)
+	{
+		game->local_keys[2] = '1';
+		system("paplay ../../Downloads/pistol-shot-233473.wav &");
+	}
+	return (0);
+}
+
 int	mouse_input(int mouse_btn, int x, int y, void *param)
 {
 	t_game	*game;
 
 	game = (t_game *)param;
 	if (game->state == IN_GAME)
-		/*return (mouse_input_in_game(game, x, y))*/{}
+		return (mouse_input_in_game(game, x, y, mouse_btn));
 	if (game->state == MAIN_MENU)
 		return (mouse_input_menu(game, x, y, mouse_btn));
 	if (game->state == IN_SETTINGS)
 		return (mouse_input_in_settings(game, x, y, mouse_btn));
-	//system("paplay ../../screenshot-iphone-sound-336170.wav &");
 	return (0);
 }

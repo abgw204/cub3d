@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:52:37 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:19:12 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ typedef struct	s_game_data
 	int				screen_w;
 	int				screen_h;
 	int				my_id;
+	bool			is_shooting;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
@@ -329,7 +330,7 @@ void	draw_ceiling(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_floor(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
-void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
+void	draw_square(t_uiv2 pos, int size, int color, t_image *image);
 void	*raycast(void *param);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
 void	draw_sprites(t_game *game);

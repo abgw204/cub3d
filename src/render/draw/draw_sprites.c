@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:31:33 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 13:01:12 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,26 @@ void	draw_sprites(t_game *game)
 			}
 		}
 	}
+	static int current = 0;
+	static int timer = 0;
+
+	if (game->local_keys[2] == '1' && game->is_shooting == false)
+	{
+		current++;
+		game->is_shooting = true;
+		game->local_keys[2] = '0';
+	}
 	// gun
-	draw_sprite_scaled(game, &game->gun, 0 * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
+	draw_sprite_scaled(game, &game->gun, current * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
+	if (game->is_shooting == true)
+	{
+		timer++;
+		if (timer % 2 == 0)
+			current++;
+		if (current > 5)
+		{
+			current = 0;
+			game->is_shooting = false;
+		}
+	}
 }
