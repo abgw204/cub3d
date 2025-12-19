@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:02:43 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 17:30:09 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:38:20 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int find_player(t_s_player *players, struct sockaddr_in *addr)
     return -1;
 }
 
-int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer)
+int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer, t_server *s)
 {
 	for (int i = 0; i < MAX_PLAYERS; i++)
 	{
@@ -50,16 +50,21 @@ int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer)
 			memcpy(&players[i].angle, buffer + 8, sizeof(double));
 			printf("ID: %d\n", players[i].id);
 			players[i].addr = *addr;
-			players[i].connected = 1;
 			players[i].dx = cos(players[i].angle);
 			players[i].dy = sin(players[i].angle);
 			players[i].plane_x = -players[i].dy * FOV;
 			players[i].plane_y =  players[i].dx * FOV;
-			players[i].x = 5.5;
-			players[i].y = 11.5;
-			players[i].speed = 30.0;
+			if (s->valid_spawn_counter == 0)
+				return 1;
+			int r = rand() % s->valid_spawn_counter;
+			players[i].x = (double)(s->pos[r].x + 0.5);
+			players[i].y = (double)(s->pos[r].y + 0.5);
+			printf("x: %.3f\n", players[i].x);
+			printf("y: %.3f\n", players[i].y);
+			players[i].connected = 1;
 			players[i].packet_received = true;
 			players[i].idle_time = 0.0;
+			players[i].speed = 30.0;
 			return 0;
 		}
 	}
@@ -314,7 +319,7 @@ int	server_update(t_server *s)
 				break ;
 			idx = find_player(s->players, &s->soc.peer);
 			if (idx == -1)
-				add_player(s->players, &s->soc.peer, buffer);
+				add_player(s->players, &s->soc.peer, buffer, s);
 			else
 				update_player_inputs(&s->players[idx], buffer);
 		}
@@ -327,19 +332,35 @@ int	main(int ac, char **av)
 {
 	t_server	s;
 
+	srand(time(NULL));
+	
 	if (ac != 2)
 	{
 		ft_putendl_fd("Usage: ./cub3d_server <MAP_PATH>", 2);
 		return (1);
 	}
 	if (init_socket(&s.soc))
-		perror("server");
+	perror("server");
 	initialize_players(s.players);
 	s.map_w = 0;
 	if (parse_map_s(&s, av[1]))
 	{
 		close(s.soc.socket);
 		return (1);
+	}
+	s.valid_spawn_counter = 0;
+	s.pos = malloc(sizeof(t_pos) * s.map_h * s.map_w);
+	for (int y = 0; y < s.map_h; y++)
+	{
+		for (int x = 0; x < s.map_w; x++)
+		{
+			if (s.map[y * s.map_w + x] == '0')
+			{
+				s.pos[s.valid_spawn_counter].x = x;
+				s.pos[s.valid_spawn_counter].y = y;
+				s.valid_spawn_counter++;
+			}
+		}
 	}
 	if (server_update(&s))
 	{

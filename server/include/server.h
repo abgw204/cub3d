@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:03:25 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 12:07:26 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:05:57 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <arpa/inet.h>
 # include <sys/socket.h>
+# include <time.h>
 # include <sys/time.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -72,6 +73,12 @@ typedef struct	s_dv2
 	double	y;
 }	t_double_vector2;
 
+typedef struct s_pos
+{
+	int x;
+	int y;
+} t_pos;
+
 typedef struct	s_server
 {
 	t_socket	soc;
@@ -80,7 +87,11 @@ typedef struct	s_server
 	int			map_w;
 	int			map_h;
 	char		*map;
+	t_pos		*pos;
+	int			valid_spawn_counter;
 }	t_server;
+
+
 
 int		init_socket(t_socket *soc);
 void	set_server_delta_time(void);

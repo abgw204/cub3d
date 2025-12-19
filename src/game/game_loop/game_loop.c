@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 13:22:51 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:33:09 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int game_loop(t_game *game)
 	receive_position(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
+	printf("oi\n");
 	draw_sprites(game);
 	draw_crosshair(&game->screen);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
@@ -48,7 +49,8 @@ int game_loop(t_game *game)
 		mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
     }
-	draw_minimap(game);
+	printf("tchau\n");
+	//draw_minimap(game);
     return (0);
 }
 
