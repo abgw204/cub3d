@@ -31,11 +31,12 @@
 # define INPUT_SIZE 4
 # define ANGLE_SIZE 8
 # define ID_SIZE 4
-# define SEND_PACKET_SIZE 24
+# define SEND_PACKET_SIZE 28
 # define OFFSET SEND_PACKET_SIZE
 
 # define FOV 0.75
 # define COLLISION_DIST_S 0.3
+# define PLAYER_RADIUS 0.3
 
 extern double			g_s_delta_time;
 extern double			acumulator;
@@ -65,6 +66,8 @@ typedef struct	s_s_player
 	char				keys[4];
 	bool				packet_received;
 	double				idle_time;
+	char				shot;
+	int					health;
 }	t_s_player;
 
 typedef struct	s_dv2

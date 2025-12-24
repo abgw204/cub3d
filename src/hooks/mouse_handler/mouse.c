@@ -36,9 +36,10 @@ int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
 {
 	(void)x;
 	(void)y;
-	if (mouse_btn == 1 && game->is_shooting == false)
+	if (mouse_btn == 1 && game->is_shooting == false && game->shoot_timer >= SHOOT_DELAY)
 	{
-		game->local_keys[2] = '1';
+		game->keys[16] = '1';
+		game->shoot_timer = 0.0;
 		system("paplay res/sounds/pistol-shot-233473.wav &");
 	}
 	return (0);

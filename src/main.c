@@ -49,6 +49,7 @@ static void	init_vars(t_game *game)
 	game->map_h = get_data()->map_h;
 	game->m_x = 0;
 	game->m_y = 0;
+	game->health = 3;
 	get_player_info(game);
 	game->minimap.x_bg = (int)game->player.pos.x - 5;
 	game->minimap.y_bg = (int)game->player.pos.y - 5;
@@ -56,13 +57,14 @@ static void	init_vars(t_game *game)
 	game->minimap.y_end = (int)game->player.pos.y + 5;
 	game->minimap.pos.x = 0;
 	game->minimap.pos.y = 0;
-	game->state = MAIN_MENU; // não estará presente no mandatório
+	game->state = IN_GAME; // não estará presente no mandatório
 	game->data = get_data();
 	game->keys = ft_calloc(1, 17);
 	game->local_keys = ft_calloc(1, 3);
 	game->is_shooting = false;
+	game->shoot_timer = 1.0;
 	ft_memset(game->keys, '0', 4);
-	ft_memset(game->keys + 17, '0', 1);
+	ft_memset(game->keys + 16, '0', 1);
 	ft_memset(game->local_keys, '0', 3);
 	game->player.speed = 2.0f;
 }
@@ -91,8 +93,8 @@ int main(int argc, char **argv)
 	memcpy(game.keys + 4, &game.my_id, sizeof(int));
     memset(&game.soc.peer, 0, sizeof(game.soc.peer));
 	game.soc.peer.sin_family = AF_INET;
-	game.soc.peer.sin_port = htons(9800);
-    inet_pton(AF_INET, "127.0.0.1", &game.soc.peer.sin_addr);
+	game.soc.peer.sin_port = htons(5000);
+    inet_pton(AF_INET, "179.158.154.105", &game.soc.peer.sin_addr);
 
 	int i = -1;
 	while (++i < MAX_PLAYERS)

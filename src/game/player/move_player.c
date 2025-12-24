@@ -110,7 +110,7 @@ void	move_d(t_game *game, t_player *player)
 		player->pos.y = new_y;
 }
 
-void	update_all_players(t_game *game, char *buffer, int latest_bytes)
+int	update_all_players(t_game *game, char *buffer, int latest_bytes)
 {
 	int	offset;
 	int	id;
@@ -120,13 +120,20 @@ void	update_all_players(t_game *game, char *buffer, int latest_bytes)
 	offset = 0;
     while (++i < MAX_PLAYERS)
     {
-        if (offset + 24 > latest_bytes)
+        if (offset + 28 > latest_bytes)
             break;
         memcpy(&id, buffer + offset, sizeof(int));
         if (id == game->my_id)
         {
             memcpy(&game->player.pos.x, buffer + offset + 4, sizeof(double));
             memcpy(&game->player.pos.y, buffer + offset + 12, sizeof(double));
+			memcpy(&game->health, buffer + offset + 24, sizeof(int));
+			printf("health: %d\n", game->health);
+			if (game->health <= 0)
+			{
+				game->state = MAIN_MENU;
+				return (1);
+			}
         }
 		else
 		{
@@ -137,6 +144,7 @@ void	update_all_players(t_game *game, char *buffer, int latest_bytes)
 		}
         offset += SEND_PACKET_SIZE;
     }
+	return (0);
 }
 
 int receive_position(t_game *game)
@@ -161,8 +169,7 @@ int receive_position(t_game *game)
 	}
 	if (latest_bytes <= 0)
 		return 0;
-	update_all_players(game, latest_buffer, latest_bytes);
-    return 0;
+	return (update_all_players(game, latest_buffer, latest_bytes));
 }
 
 void	move_player(t_game *game)
@@ -174,7 +181,7 @@ void	move_player(t_game *game)
 	rotate_camera(game);
 	mouse_move_in_game(game, game->m_x);
 	memcpy(game->keys + 8, &game->player.angle, 8);
-	if (sendto(game->soc.socket, game->keys, 16,
+	if (sendto(game->soc.socket, game->keys, 17,
 		0, (struct sockaddr*)&game->soc.peer, sizeof(game->soc.peer)) == -1)
 		exit(EXIT_FAILURE);
 }

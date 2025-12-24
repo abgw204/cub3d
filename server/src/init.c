@@ -27,7 +27,7 @@ int	init_socket(t_socket *soc)
 {
 	soc->me.sin_family = AF_INET;
 	soc->me.sin_addr.s_addr = INADDR_ANY;
-	soc->me.sin_port = htons(9800);
+	soc->me.sin_port = htons(5000);
 	soc->socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
 	if (soc->socket == -1)
 		return (1);

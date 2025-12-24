@@ -27,8 +27,8 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define SCREEN_WIDTH 1920
-# define SCREEN_HEIGHT 1080
+# define SCREEN_WIDTH 800
+# define SCREEN_HEIGHT 800
 
 /* KEYS */
 # define KEY_W 119
@@ -59,8 +59,9 @@
 /* NETWORKING */
 # define MAX_PLAYERS 4
 
+# define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
-# define N_THREADS 6
+# define N_THREADS 4
 
 extern double	g_delta_time;
 
@@ -179,6 +180,8 @@ typedef struct	s_game_data
 	int				screen_h;
 	int				my_id;
 	bool			is_shooting;
+	double			shoot_timer;
+	int				health;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;

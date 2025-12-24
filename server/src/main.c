@@ -65,6 +65,8 @@ int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer, t_se
 			players[i].packet_received = true;
 			players[i].idle_time = 0.0;
 			players[i].speed = 30.0;
+			players[i].shot = '0';
+			players[i].health = 3;
 			return 0;
 		}
 	}
@@ -80,6 +82,8 @@ void update_player_inputs(t_s_player *p, char *buffer)
 	while (++i < 4)
 		p->keys[i] = buffer[i];
 	memcpy(&p->angle, buffer + 8, sizeof(double));
+	memcpy(&p->shot, buffer + 16, sizeof(char));
+	printf("p->shot=%c\n", p->shot);
 	p->dx = cos(p->angle);
 	p->dy = sin(p->angle);
 	p->plane_x = -p->dy * FOV;
@@ -112,10 +116,10 @@ void	move_w(t_s_player *player, t_server *s)
 void	move_a(t_s_player *player, t_server *s)
 {
 	t_double_vector2	side;
-	double	new_x;
-	double	new_y;
-	double	coll_x;
-	double	coll_y;
+	double				new_x;
+	double				new_y;
+	double				coll_x;
+	double				coll_y;
 
 	if (-player->plane_x > 0.0)
 		coll_x = COLLISION_DIST_S;
@@ -161,10 +165,10 @@ void	move_s(t_s_player *player, t_server *s)
 void	move_d(t_s_player *player, t_server *s)
 {
     t_double_vector2	side;
-	double	new_x;
-	double	new_y;
-	double	coll_x;
-	double	coll_y;
+	double				new_x;
+	double				new_y;
+	double				coll_x;
+	double				coll_y;
 
 	if (player->plane_x > 0.0)
 		coll_x = COLLISION_DIST_S;
@@ -182,6 +186,33 @@ void	move_d(t_s_player *player, t_server *s)
 		player->x = new_x;
 	if (s->map[(int)(new_y + coll_y) * s->map_w + (int)player->x] != '1')
 		player->y = new_y;
+}
+
+void	check_players_shots(t_server *s)
+{
+	for (int i = 0; i < MAX_PLAYERS; i++)
+	{
+		if (s->players[i].connected && s->players[i].shot == '1')
+		{
+			for (int j = 0; j < MAX_PLAYERS; j++)
+			{
+				if (s->players[j].id == s->players[i].id || !s->players[j].connected)
+					continue ;
+				double vx = s->players[j].x - s->players[i].x;
+				double vy = s->players[j].y - s->players[i].y;
+				double t = vx * s->players[i].dx + vy * s->players[i].dy;
+				double closest_x = s->players[i].x + s->players[i].dx * t;
+				double closest_y = s->players[i].y + s->players[i].dy * t;
+
+				double dist = sqrt(
+					(s->players[j].x - closest_x) * (s->players[j].x - closest_x) +
+					(s->players[j].y - closest_y) * (s->players[j].y - closest_y)
+				);
+				if (dist <= PLAYER_RADIUS)
+					s->players[j].health--;
+			}
+		}
+	}
 }
 
 void	simulate_players(t_server *s)
@@ -204,6 +235,7 @@ void	simulate_players(t_server *s)
         if (players[i].keys[3] == '1')
             move_d(&players[i], s);
     }
+	check_players_shots(s);
 }
 
 void	update_idle_time(t_s_player *players)
@@ -257,13 +289,11 @@ void	broadcast_state(t_server *s)
 			memcpy(buffer_send + offset + 4, &player[i].x, sizeof(double));
 			memcpy(buffer_send + offset + 12, &player[i].y, sizeof(double));
 			memcpy(buffer_send + offset + 20, &player[i].connected, sizeof(int));
-			offset += OFFSET;
+			memcpy(buffer_send + offset + 24, &player[i].health, sizeof(int));
 		}
 		else
-		{
 			memcpy(buffer_send + offset + 20, &player[i].connected, sizeof(int));
-			offset += OFFSET;
-		}
+		offset += OFFSET;
 	}
 	send_packets(s, buffer_send);
 }
@@ -303,7 +333,7 @@ void	update_state(t_server *s)
 
 int	server_update(t_server *s)
 {
-	char	buffer[16];
+	char	buffer[17];
 	int		idx;
 	int		bytes;
 
@@ -340,7 +370,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (init_socket(&s.soc))
-	perror("server");
+		perror("server");
 	initialize_players(s.players);
 	s.map_w = 0;
 	if (parse_map_s(&s, av[1]))

@@ -188,11 +188,11 @@ void	draw_sprites(t_game *game)
 	static int current = 0;
 	static int timer = 0;
 
-	if (game->local_keys[2] == '1' && game->is_shooting == false)
+	if (game->keys[16] == '1' && game->is_shooting == false)
 	{
 		current++;
 		game->is_shooting = true;
-		game->local_keys[2] = '0';
+		game->keys[16] = '0';
 	}
 	// gun
 	draw_sprite_scaled(game, &game->gun, current * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);

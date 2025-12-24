@@ -12,9 +12,13 @@
 
 #include "../../../include/cub3d.h"
 
-void	clear_screen_image(t_game *game)
+void	show_fps(t_game *game)
 {
-	memset(game->screen.addr, 0, SCREEN_WIDTH * SCREEN_HEIGHT * 4);
+    if (game->config.show_fps && game->fps)
+    {
+		mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
+		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
+    }
 }
 
 void	draw_crosshair(t_image *screen)
@@ -35,22 +39,20 @@ int	thread_create(pthread_t *thread, void *(func)(void *), void *data)
 
 int game_loop(t_game *game)
 {
-	clear_screen_image(game);
     move_player(game);
-	receive_position(game);
+	if (receive_position(game))
+	{
+		game->shoot_timer = 1.0;
+		return (0);
+	}
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
-	printf("oi\n");
 	draw_sprites(game);
 	draw_crosshair(&game->screen);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
-    if (game->config.show_fps && game->fps)
-    {
-		mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
-    }
-	printf("tchau\n");
-	//draw_minimap(game);
+	draw_minimap(game);
+	show_fps(game);
+	game->shoot_timer += g_delta_time;
     return (0);
 }
 
