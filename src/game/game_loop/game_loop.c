@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 16:33:09 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:40:24 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	draw_crosshair(t_image *screen)
 {
 	t_uiv2	pos;
 
-	pos.x = SCREEN_WIDTH / 2 - 4;
-	pos.y = SCREEN_HEIGHT / 2 - 4;
-	draw_square(pos, 3, WHITE, screen);
+	pos.x = SCREEN_WIDTH / 2 - 2;
+	pos.y = SCREEN_HEIGHT / 2 - 2;
+	draw_square(pos, 2, WHITE, screen);
 }
 
 int	thread_create(pthread_t *thread, void *(func)(void *), void *data)

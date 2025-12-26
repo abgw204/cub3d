@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 16:37:41 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:42:26 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int color
 	int			line_len;
 
 	r = *raycast;
-	pitch = screen->bpp >> 3; /* (divide by 8) */
+	pitch = screen->bpp >> 3;
 	line_len = screen->line_len;
 	if (r.side != 1)
 		color = 0x6666FF;
@@ -55,7 +55,7 @@ static void	verify_hit_wall(t_raycast *raycast, t_game *game)
 		if (raycast->map_x < 0 || raycast->map_y < 0 || raycast->map_x >= game->map_w || raycast->map_y >= game->map_h)
 		{
 			raycast->hit = 1;
-			break; // evita sair dos limites
+			break;
 		}
 		// verifica se chegou em uma parede
 		if (game->map[raycast->map_y * game->map_w + raycast->map_x] == '1')

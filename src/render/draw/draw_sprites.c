@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 13:01:12 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:52:47 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	calculate_sprites_size(t_game *game)
 	p = game->players;
 	while (++i < MAX_PLAYERS - 1)
 	{
-		if (p[i].id == game->my_id)
+		if (p[i].id == game->my_id || !p[i].connected)
 			continue ;
 		p[i].sp.x = p[i].x - game->player.pos.x;
 		p[i].sp.y = p[i].y - game->player.pos.y;
@@ -80,8 +80,8 @@ int	get_further_sprite(t_players *players, int my_id)
 /*
  * void draw_sprite_scaled (draws a sprite with an specific size (int scale))
  *
- *  sx: frame x position
- *  sy: frame y position
+ *  sx: frame x position on spritesheet
+ *  sy: frame y position on spritesheet
  *
  *  example: 0, 0 (first frame)
  *          64, 0 (second frame)
@@ -130,7 +130,7 @@ void draw_sprite_scaled(
             	int screen_offset =
             	    screen_y * game->screen.line_len +
             	    screen_x * screen_bpp;
-            	*(int *)(game->screen.addr + screen_offset) = color;
+            	*(unsigned int *)(game->screen.addr + screen_offset) = color;
 			}
         }
     }
@@ -152,7 +152,7 @@ void	draw_sprites(t_game *game)
 	int	line_len = game->screen.line_len;
 	while (++index < MAX_PLAYERS)
 	{
-		if (game->players[index].id == game->my_id)
+		if (game->players[index].id == game->my_id || !game->players[index].connected)
 			continue ;
 		i = get_further_sprite(game->players, game->my_id);
 		sp = game->players[i].sp;

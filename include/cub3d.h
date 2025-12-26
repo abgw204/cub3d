@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 15:38:08 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:36:10 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 800
+# define SCREEN_WIDTH 1280
+# define SCREEN_HEIGHT 768
 
 /* KEYS */
 # define KEY_W 119
@@ -61,7 +61,7 @@
 
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
-# define N_THREADS 4
+# define N_THREADS 8
 
 extern double	g_delta_time;
 

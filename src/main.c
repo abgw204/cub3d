@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 12:59:22 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 12:34:41 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     memset(&game.soc.peer, 0, sizeof(game.soc.peer));
 	game.soc.peer.sin_family = AF_INET;
 	game.soc.peer.sin_port = htons(5000);
-    inet_pton(AF_INET, "179.158.154.105", &game.soc.peer.sin_addr);
+    inet_pton(AF_INET, "127.0.0.1", &game.soc.peer.sin_addr);
 
 	int i = -1;
 	while (++i < MAX_PLAYERS)

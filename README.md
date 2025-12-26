@@ -30,16 +30,15 @@ Este projeto faz parte do currículo da 42 Rio.
 ## 🚀 Como executar
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/vinionix/cub3d.git
+   git clone https://github.com/abgw204/cub3d.git
    cd cub3d
-Compile o projeto:
+2. Compile o projeto:
+   ```bash
+   make
+3. Execute o jogo passando um mapa .cub:
+   ```bash
+   ./cub3d maps/mapa.cub
 
-bash
-make
-Execute o jogo passando um mapa .cub:
-
-bash
-./cub3d maps/mapa.cub
 📚 Aprendizados principais
 Fundamentos de gráficos 2D/3D e algoritmos de raycasting.
 
