@@ -39,28 +39,31 @@ Este projeto faz parte do currículo da 42 Rio.
    ```bash
    ./cub3d maps/mapa.cub
 
-📚 Aprendizados principais
-Fundamentos de gráficos 2D/3D e algoritmos de raycasting.
+## 📚 Principais Aprendizados
 
-Manipulação de eventos e renderização em tempo real.
+Durante o desenvolvimento deste projeto, foram consolidados os seguintes conhecimentos:
 
-Organização modular de código em C para jogos.
+- **Fundamentos de gráficos 2D/3D**, incluindo algoritmos de **raycasting**
+- **Manipulação de eventos** e **renderização em tempo real**
+- **Organização modular de código em C** aplicada ao desenvolvimento de jogos
+- **Introdução à programação de redes** utilizando **sockets UDP**
+- **Estruturas de dados** aplicadas ao **parsing** e ao **game loop**
 
-Introdução à programação de redes com sockets UDP.
+---
 
-Estruturas de dados aplicadas a parsing e game loop.
+## 📌 Roadmap — Próximas Implementações
 
-📌 Roadmap (futuras implementações)
- Suporte a sprites (objetos no cenário).
+Funcionalidades planejadas para evoluir o projeto:
 
- Iluminação e sombras simples.
+- Suporte a **sprites** (objetos no cenário)
+- Sistema de **iluminação e sombras simples**
+- **Multiplayer completo** via **UDP**
+- Sistema de **menu inicial** e **HUD**
+- **Ferramenta de criação de mapas**
 
- Multiplayer completo via UDP.
+---
 
- Sistema de menu inicial e HUD.
+## 👤 Autores
 
- Ferramenta de criação de mapas.
-
-👤 Autores
-[Vinicius Fidelis].
-[Gabriel Salgado].
+- **Vinicius Fidelis**
+- **Gabriel Salgado**
