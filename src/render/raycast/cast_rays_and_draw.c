@@ -12,20 +12,30 @@
 
 #include "../../../include/cub3d.h"
 
-static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int color, int start)
+static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start, t_game *game)
 {
 	t_raycast	r;
 	char		*dst;
 	int			pitch;
 	int			line_len;
+	double			wall_x;
 
 	r = *raycast;
 	pitch = screen->bpp >> 3;
 	line_len = screen->line_len;
-	if (r.side != 1)
-		color = 0x6666FF;
+	if (r.side == 0)
+		wall_x = game->player.pos.y + r.perp_wall_dist * r.ray_dir_y;
+	else
+		wall_x = game->player.pos.x + r.perp_wall_dist * r.ray_dir_x;
+	wall_x -= floor(wall_x);
+	int tex_x = (int)(wall_x * (double)game->n.width);
+	double step = 1.0 * game->n.height / r.line_height;
+	double texPos = (r.draw_start - SCREEN_HEIGHT / 2 + r.line_height / 2) * step;
     while (r.draw_start <= r.draw_end)
     {
+	    int texY = (int)texPos & (game->n.height - 1);
+	    texPos += step;
+	    unsigned int color = *(unsigned int *)game->n.addr + texY * tex_x;
 		dst = screen->addr
 			+ r.draw_start * line_len
 			+ start * pitch;
@@ -91,7 +101,7 @@ static void	set_direction(t_raycast *raycast, t_game *game)
 	}
 }
 
-static void	draw_in_image(t_raycast r, t_image *screen, int start)
+static void	draw_in_image(t_raycast r, t_image *screen, int start, t_game *game)
 {
 	r.draw_start = -r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_start < 0)
@@ -100,7 +110,7 @@ static void	draw_in_image(t_raycast r, t_image *screen, int start)
 	if (r.draw_end >= SCREEN_HEIGHT)
 		r.draw_end = SCREEN_HEIGHT - 1;
 	draw_ceiling(&r, screen, start, r.draw_start);
-	draw_vertical_line(screen, &r, 0x555555, start);
+	draw_vertical_line(screen, &r, start, game);
 	draw_floor(&r, screen, start, SCREEN_HEIGHT);
 }
 
@@ -118,7 +128,7 @@ void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
 	else
 		r->perp_wall_dist = r->side_dist_y - r->delta_dist_y;
 	r->line_height = (int)(SCREEN_HEIGHT / r->perp_wall_dist);
-	draw_in_image(*r, &game->screen, *start);
+	draw_in_image(*r, &game->screen, *start, game);
 	game->z_buffer[*start] = r->perp_wall_dist;
 	(*start)++;
 }
