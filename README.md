@@ -11,7 +11,7 @@ Este projeto faz parte do currículo da 42 Rio.
 - Movimentação do jogador em primeira pessoa.
 - Sistema de colisão contra paredes.  
 - Leitura de mapas a partir de arquivos `.cub`.  
-- Suporte a texturas em paredes, chão e teto.  
+- Suporte a texturas e sprites.
 - Renderização em tempo real com atualizações de FPS.  
 - Servidor **multiplayer online via UDP**.  
 
