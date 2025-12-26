@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 12:52:47 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 14:10:34 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,9 +156,7 @@ void	draw_sprites(t_game *game)
 			continue ;
 		i = get_further_sprite(game->players, game->my_id);
 		sp = game->players[i].sp;
-		if (i == -1)
-			continue ;
-		if (sp.transform_y <= 0.0001)
+		if (i == -1 || sp.transform_y <= 0.0001)
 			continue ;
 		for (sp.stripe = sp.start_x; sp.stripe < sp.end_x; sp.stripe++)
     	{

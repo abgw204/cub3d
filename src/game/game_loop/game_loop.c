@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 12:40:24 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 14:39:25 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	show_fps(t_game *game)
 {
-    if (game->config.show_fps && game->fps)
-    {
+	if (game->config.show_fps && game->fps)
+	{
 		mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
 		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
-    }
+	}
 }
 
 void	draw_crosshair(t_image *screen)
@@ -39,7 +39,7 @@ int	thread_create(pthread_t *thread, void *(func)(void *), void *data)
 
 int game_loop(t_game *game)
 {
-    move_player(game);
+	move_player(game);
 	if (receive_position(game))
 	{
 		game->shoot_timer = 1.0;
@@ -53,7 +53,7 @@ int game_loop(t_game *game)
 	draw_minimap(game);
 	show_fps(game);
 	game->shoot_timer += g_delta_time;
-    return (0);
+	return (0);
 }
 
 int	update(void *param)
@@ -66,7 +66,7 @@ int	update(void *param)
 	limit_fps(120.0);
 	if (game->state == MAIN_MENU)
     {
-        enable_mouse(game);
+		enable_mouse(game);
 		show_main_menu(game);
     }
 	else if (game->state == IN_GAME)

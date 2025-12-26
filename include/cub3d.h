@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 12:36:10 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 14:30:07 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-# define SCREEN_WIDTH 1280
-# define SCREEN_HEIGHT 768
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
 /* KEYS */
 # define KEY_W 119
@@ -316,7 +316,6 @@ int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 int		load_minimap(t_game *game);
 void	draw_minimap(t_game *game);
 int		in_bounds(int x, int y, int endx, int endy);
-void	clear_minimap(t_image *minimap);
 void	init_mini(t_minimap *mini, t_game *game);
 
 /* SETTINGS */

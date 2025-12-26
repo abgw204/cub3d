@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 12:34:41 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 14:37:09 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	init_vars(t_game *game)
 	game->minimap.y_end = (int)game->player.pos.y + 5;
 	game->minimap.pos.x = 0;
 	game->minimap.pos.y = 0;
-	game->state = IN_GAME; // não estará presente no mandatório
+	game->state = MAIN_MENU; // não estará presente no mandatório
 	game->data = get_data();
 	game->keys = ft_calloc(1, 17);
 	game->local_keys = ft_calloc(1, 3);

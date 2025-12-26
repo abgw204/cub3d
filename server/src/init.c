@@ -6,22 +6,24 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:02:43 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 15:57:13 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/26 14:14:11 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/server.h"
 
 /*
-	1. Set socket family to ipv4
-	2. Make it listen to any local address
-	3. Set the port clients will access
-	4. Create UDP socket (SOCK_DGRAM) fd with NONBLOCK FLAG
-		(recvfrom won't wait for packets, it will only
-		read the packets in the network stack and continue)
-	5. Assign the address of the server program to socket
-	6. Get peer length to use later on recvfrom
-*/
+ *
+ *  1. Set socket family to ipv4
+ *  2. Make it listen to any local address
+ *  3. Set the port clients will access
+ *  4. Create UDP socket (SOCK_DGRAM) fd with NONBLOCK FLAG
+ *  	(recvfrom won't wait for packets, it will only
+ *  	read the packets in the network stack and continue)
+ *  5. Assign the address of the server program to socket
+ *  6. Get peer length to use later on recvfrom
+ *
+ */
 
 int	init_socket(t_socket *soc)
 {
