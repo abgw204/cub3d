@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:02:43 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 16:38:20 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:55:58 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer, t_se
 			players[i].connected = 1;
 			players[i].packet_received = true;
 			players[i].idle_time = 0.0;
-			players[i].speed = 30.0;
+			players[i].speed = 50.0;
 			players[i].shot = '0';
 			players[i].health = 3;
 			return 0;

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 12:42:26 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:59:37 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 	double texPos = (r.draw_start - SCREEN_HEIGHT / 2 + r.line_height / 2) * step;
     while (r.draw_start <= r.draw_end)
     {
-	    int texY = (int)texPos & (game->n.height - 1);
+	    int texY = (int)texPos % game->n.height;
 	    texPos += step;
-	    unsigned int color = *(unsigned int *)game->n.addr + texY * tex_x;
+	    unsigned int color = *(unsigned int *)
+			(
+				game->n.addr
+				+ (texY * game->n.line_len)
+				+ (tex_x * pitch)
+			);
 		dst = screen->addr
 			+ r.draw_start * line_len
 			+ start * pitch;

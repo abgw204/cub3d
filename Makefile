@@ -43,8 +43,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/game/player/move_player.c \
 			src/game/player/rotate_camera.c \
 			src/load_images/load_weapon_images.c \
-			src/render/raycast/draw_utils.c \
-			server/src/init.c
+			src/render/raycast/draw_utils.c
 
 FUNCTIONS_BONUS =
 

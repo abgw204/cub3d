@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 14:37:09 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/29 14:45:35 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ int main(int argc, char **argv)
 
 	int i = -1;
 	while (++i < MAX_PLAYERS)
+	{
 		game.players[i].connected = 0;
+		game.players[i].id = -1;
+	}
 	if (init_game(&game))
 		return (1);
 	return (0);

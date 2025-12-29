@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:03:25 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 16:05:57 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/29 13:53:50 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define OFFSET SEND_PACKET_SIZE
 
 # define FOV 0.75
-# define COLLISION_DIST_S 0.3
+# define COLLISION_DIST_S 0.2
 # define PLAYER_RADIUS 0.3
 
 extern double			g_s_delta_time;
