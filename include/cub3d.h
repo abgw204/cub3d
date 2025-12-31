@@ -61,7 +61,7 @@
 
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
-# define N_THREADS 8
+# define N_THREADS 4
 
 extern double	g_delta_time;
 

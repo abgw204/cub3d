@@ -18,15 +18,28 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 	char		*dst;
 	int			pitch;
 	int			line_len;
-	double			wall_x;
+	double		wall_x;
 
+	t_image *tex = NULL;
 	r = *raycast;
 	pitch = screen->bpp >> 3;
 	line_len = screen->line_len;
 	if (r.side == 0)
+	{
 		wall_x = game->player.pos.y + r.perp_wall_dist * r.ray_dir_y;
+		if (r.ray_dir_x > 0.0)
+			tex = &game->w;
+		else
+			tex = &game->e;
+	}
 	else
+	{
 		wall_x = game->player.pos.x + r.perp_wall_dist * r.ray_dir_x;
+		if (r.ray_dir_y > 0.0)
+			tex = &game->n;
+		else
+			tex = &game->s;
+	}
 	wall_x -= floor(wall_x);
 	int tex_x = (int)(wall_x * (double)game->n.width);
 	double step = 1.0 * game->n.height / r.line_height;
@@ -37,8 +50,8 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 	    texPos += step;
 	    unsigned int color = *(unsigned int *)
 			(
-				game->n.addr
-				+ (texY * game->n.line_len)
+				tex->addr
+				+ (texY * tex->line_len)
 				+ (tex_x * pitch)
 			);
 		dst = screen->addr
