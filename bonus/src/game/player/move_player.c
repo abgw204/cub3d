@@ -1,0 +1,125 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move_player.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
+/*   Updated: 2025/12/29 16:48:13 by gada-sil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../include/cub3d.h"
+
+void	move_w(t_game *game, t_player *player)
+{
+	double	new_x;
+	double	new_y;
+	double	coll_x;
+	double	coll_y;
+
+	if (player->dir.x > 0.0)
+		coll_x = COLLISION_DIST;
+	else
+		coll_x = -COLLISION_DIST;
+	if (player->dir.y > 0.0)
+		coll_y = COLLISION_DIST;
+	else
+		coll_y = -COLLISION_DIST;
+	new_x = player->pos.x + player->dir.x * player->speed * g_delta_time;
+	new_y = player->pos.y + player->dir.y * player->speed * g_delta_time;
+    if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
+		player->pos.x = new_x;
+	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
+		player->pos.y = new_y;
+}
+
+void	move_a(t_game *game, t_player *player)
+{
+	t_dv2	side;
+	double	new_x;
+	double	new_y;
+	double	coll_x;
+	double	coll_y;
+
+	if (-player->plane.x > 0.0)
+		coll_x = COLLISION_DIST;
+	else
+		coll_x = -COLLISION_DIST;
+	if (-player->plane.y > 0.0)
+		coll_y = COLLISION_DIST;
+	else
+		coll_y = -COLLISION_DIST;
+    side.x = player->dir.y;
+	side.y = -player->dir.x;
+    new_x = player->pos.x + side.x * player->speed * g_delta_time;
+    new_y = player->pos.y + side.y * player->speed * g_delta_time;
+	if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
+		player->pos.x = new_x;
+	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
+		player->pos.y = new_y;
+}
+
+void	move_s(t_game *game, t_player *player)
+{
+	double	new_x;
+	double	new_y;
+	double	coll_x;
+	double	coll_y;
+
+	if (player->dir.x > 0.0)
+		coll_x = -COLLISION_DIST;
+	else
+		coll_x = COLLISION_DIST;
+	if (player->dir.y > 0.0)
+		coll_y = -COLLISION_DIST;
+	else
+		coll_y = COLLISION_DIST;
+	new_x = player->pos.x + -player->dir.x * player->speed * g_delta_time;
+	new_y = player->pos.y + -player->dir.y * player->speed * g_delta_time;
+    if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
+		player->pos.x = new_x;
+	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
+		player->pos.y = new_y;
+}
+
+void	move_d(t_game *game, t_player *player)
+{
+    t_dv2	side;
+	double	new_x;
+	double	new_y;
+	double	coll_x;
+	double	coll_y;
+
+	if (player->plane.x > 0.0)
+		coll_x = COLLISION_DIST;
+	else
+		coll_x = -COLLISION_DIST;
+	if (player->plane.y > 0.0)
+		coll_y = COLLISION_DIST;
+	else
+		coll_y = -COLLISION_DIST;
+    side.x = -player->dir.y;
+	side.y = player->dir.x;
+    new_x = player->pos.x + side.x * player->speed * g_delta_time;
+    new_y = player->pos.y + side.y * player->speed * g_delta_time;
+	if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
+		player->pos.x = new_x;
+	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
+		player->pos.y = new_y;
+}
+
+void	move_player(t_game *game)
+{
+	rotate_camera(game);
+	mouse_move_in_game(game, game->m_x);
+	if (game->keys[0] == '1')
+		move_w(game, &game->player);
+	if (game->keys[1] == '1')
+		move_a(game, &game->player);
+	if (game->keys[2] == '1')
+		move_s(game, &game->player);
+	if (game->keys[3] == '1')
+		move_d(game, &game->player);
+}

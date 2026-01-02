@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "libft.h"
 
 char	**create_matrix(int rows, int cols)
 {

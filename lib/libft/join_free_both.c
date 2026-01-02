@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "libft.h"
 
 char	*join_free_both(char *s1, char *s2)
 {

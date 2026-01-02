@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#include "libft.h"
 
 int	compare_sep(char c, char *sep)
 {
