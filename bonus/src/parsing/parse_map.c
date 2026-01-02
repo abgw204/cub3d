@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 17:28:22 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/02 12:49:31 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	check_invalid_chars(t_list *map)
 	temp = map;
 	while (temp)
 	{
-		if (!check_valid(temp->content, "01NSWE "))
+		if (!check_valid(temp->content, "01NSWED "))
 			return (error(NULL, map, "Invalid character in map!"));
 		temp = temp->next;
 	}
@@ -57,6 +57,7 @@ static int	count_map_chars(t_list *map)
 
 	i = 0;
 	letter = 0;
+	get_data()->doors_n = 0;
 	while (map)
 	{
 		while (map->content[i])
@@ -64,6 +65,8 @@ static int	count_map_chars(t_list *map)
 			if (map->content[i] == 'N' || map->content[i] == 'S'
 				|| map->content[i] == 'W' || map->content[i] == 'E')
 				letter++;
+			else if (map->content[i] == 'D')
+				get_data()->doors_n++;
 			i++;
 		}
 		i = 0;
@@ -124,5 +127,7 @@ int	parse_map(int file_fd)
 		if ((int)(i + 1) % get_data()->map_w == 0)
 			printf("\n");
 	}
+	if (parse_doors(get_data()->map, get_data()->map_w, get_data()->map_h))
+		return (1);
 	return (0);
 }

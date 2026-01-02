@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/26 14:30:07 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/02 19:44:58 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
-# define N_THREADS 4
+# define N_THREADS 1
 
 extern double	g_delta_time;
 
@@ -133,9 +133,10 @@ typedef struct	s_game_data
 	int				state;
 	char			*fps;
 	char			*keys;
-	int				my_id;
 	bool			is_shooting;
 	double			shoot_timer;
+	unsigned int 	doors_n;
+	t_iv2			*doors;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
@@ -145,12 +146,12 @@ typedef struct	s_game_data
 	t_image			screen;
 	t_image			menu_btns[4];
 	t_image			settings[3];
-	t_image			enemy;
 	t_image			gun;
 	t_image			n;
 	t_image			s;
 	t_image			e;
 	t_image			w;
+	t_image			door;
 
 	/* THREADS */
 	pthread_t		th[N_THREADS];
@@ -164,13 +165,15 @@ typedef struct	s_game_data
 
 typedef struct s_data
 {
-	char	**config[7];
-	t_list	*map_list;
-	char	*map;
-	int		map_w;
-	int		map_h;
-	int		f_color;
-	int		c_color;
+	char			**config[7];
+	t_list			*map_list;
+	char			*map;
+	int				map_w;
+	int				map_h;
+	int				f_color;
+	int				c_color;
+	unsigned int 	doors_n;
+	t_iv2			*doors;
 }	t_data;
 
 typedef struct	s_raycast
@@ -237,6 +240,7 @@ int		check_valid(char *line, char *valids);
 void	get_player_info(t_game *game);
 int		close_fd(int fd);
 char	**fill_in_with_x(void);
+int		parse_doors(char *map, int map_w, int map_h);
 
 /* KEYBOARD*/
 int	key_press(int key, void *param);

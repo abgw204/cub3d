@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:35:59 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/08 11:00:02 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/02 18:35:38 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 
 void	set_textures_images_info(t_game *game)
 {
-	game->n.addr = mlx_get_data_addr(game->n.img, &game->n.bpp, &game->n.line_len, &game->n.endian);
-	game->s.addr = mlx_get_data_addr(game->s.img, &game->s.bpp, &game->s.line_len, &game->s.endian);
-	game->w.addr = mlx_get_data_addr(game->w.img, &game->w.bpp, &game->w.line_len, &game->w.endian);
-	game->e.addr = mlx_get_data_addr(game->e.img, &game->e.bpp, &game->e.line_len, &game->e.endian);
+	game->n.addr = mlx_get_data_addr(game->n.img, &game->n.bpp,
+		&game->n.line_len, &game->n.endian);
+	game->s.addr = mlx_get_data_addr(game->s.img, &game->s.bpp,
+		&game->s.line_len, &game->s.endian);
+	game->w.addr = mlx_get_data_addr(game->w.img, &game->w.bpp,
+		&game->w.line_len, &game->w.endian);
+	game->e.addr = mlx_get_data_addr(game->e.img, &game->e.bpp,
+		&game->e.line_len, &game->e.endian);
+	game->door.addr = mlx_get_data_addr(game->door.img,
+		&game->door.bpp, &game->door.line_len, &game->door.endian);
 }
 
 int	check_images(t_game *game)
 {
-	if (!game->n.img || !game->s.img || !game->w.img || !game->e.img)
+	game->door.img = mlx_xpm_file_to_image(game->mlx,
+	"bonus/res/textures/open_door.xpm",
+	&game->door.width,
+	&game->door.height);
+	if (!game->n.img || !game->s.img || !game->w.img || !game->e.img
+		|| !game->door.img)
 	{
 		if (game->n.img)
 			mlx_destroy_image(game->mlx, game->n.img);
@@ -32,10 +43,13 @@ int	check_images(t_game *game)
 			mlx_destroy_image(game->mlx, game->w.img);
 		if (game->e.img)
 			mlx_destroy_image(game->mlx, game->e.img);
+		if (game->door.img)
+			mlx_destroy_image(game->mlx, game->door.img);
 		game->n.img = NULL;
 		game->s.img = NULL;
 		game->w.img = NULL;
 		game->e.img = NULL;
+		game->door.img = NULL;
 		return (print_error("One or more textures failed to load!"));
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 15:41:38 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/02 15:15:39 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	free_textures(t_game *game)
 		mlx_destroy_image(game->mlx, game->w.img);
 	if (game->e.img)
 		mlx_destroy_image(game->mlx, game->e.img);
-	if (game->enemy.img)
-		mlx_destroy_image(game->mlx, game->enemy.img);
 	if (game->gun.img)
 		mlx_destroy_image(game->mlx, game->gun.img);
+	if (game->door.img)
+		mlx_destroy_image(game->mlx, game->door.img);
 }
 
 void	free_images(t_game *game)
@@ -64,6 +64,7 @@ void	free_and_exit(t_game *game)
 		free_matrix(game->data->config[i++]);
 	free_images(game);
 	free_textures(game);
+	free(game->doors);
 	free(game->keys);
 	free(game->map);
 	free(game->fps);

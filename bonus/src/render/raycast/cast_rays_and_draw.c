@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/29 13:59:37 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/02 19:44:44 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 		else
 			tex = &game->s;
 	}
+	int a = 0;
+	if (r.hit == 2)
+	{
+		a = 1;
+		tex = &game->door;
+	}
 	wall_x -= floor(wall_x);
 	int tex_x = (int)(wall_x * (double)game->n.width);
 	double step = 1.0 * game->n.height / r.line_height;
@@ -54,10 +60,23 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 				+ (texY * tex->line_len)
 				+ (tex_x * pitch)
 			);
-		dst = screen->addr
-			+ r.draw_start * line_len
-			+ start * pitch;
-		*(unsigned int *)dst = color;
+		if (a == 1)
+		{
+			if ((color & 0x00FFFFFF) != 0)
+			{
+				dst = screen->addr
+					+ r.draw_start * line_len
+					+ start * pitch;
+				*(unsigned int *)dst = color;
+			}
+		}
+		else
+		{
+			dst = screen->addr
+					+ r.draw_start * line_len
+					+ start * pitch;
+				*(unsigned int *)dst = color;
+		}
         r.draw_start++;
     }
 }
@@ -88,6 +107,8 @@ static void	verify_hit_wall(t_raycast *raycast, t_game *game)
 		// verifica se chegou em uma parede
 		if (game->map[raycast->map_y * game->map_w + raycast->map_x] == '1')
 			raycast->hit = 1;
+		else if (game->map[raycast->map_y * game->map_w + raycast->map_x] == 'D')
+			raycast->hit = 2;
 	}
 }
 

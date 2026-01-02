@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT = lib/libft/libft.a
 
@@ -85,7 +85,8 @@ FUNCTIONS_BONUS = bonus/src/parsing/parsing.c \
 				bonus/src/game/player/move_player.c \
 				bonus/src/game/player/rotate_camera.c \
 				bonus/src/load_images/load_weapon_images.c \
-				bonus/src/render/raycast/draw_utils.c
+				bonus/src/render/raycast/draw_utils.c \
+				bonus/src/parsing/parse_doors.c
 
 OBJS = $(FUNCTIONS:.c=.o)
 

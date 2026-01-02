@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/29 14:45:35 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/02 15:05:15 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	set_null(t_game *game)
 	game->s.img = NULL;
 	game->w.img = NULL;
 	game->e.img = NULL;
-	game->enemy.img = NULL;
 }
 
 t_data *get_data(void)
@@ -47,6 +46,7 @@ static void	init_vars(t_game *game)
 	game->map = get_data()->map;
 	game->map_w = get_data()->map_w;
 	game->map_h = get_data()->map_h;
+	game->doors = get_data()->doors;
 	game->m_x = 0;
 	game->m_y = 0;
 	get_player_info(game);
