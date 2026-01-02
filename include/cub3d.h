@@ -29,6 +29,7 @@
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
+# define CONFIG_TOKENS 6
 
 /* KEYS */
 # define KEY_W 119

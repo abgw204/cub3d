@@ -55,6 +55,7 @@ static void	init_vars(t_game *game)
 	game->minimap.y_bg = (int)game->player.pos.y - 5;
 	game->minimap.x_end = (int)game->player.pos.x + 5;
 	game->minimap.y_end = (int)game->player.pos.y + 5;
+	game->z_buffer = (double *)malloc(SCREEN_WIDTH * sizeof(double));
 	game->minimap.pos.x = 0;
 	game->minimap.pos.y = 0;
 	game->state = MAIN_MENU; // não estará presente no mandatório

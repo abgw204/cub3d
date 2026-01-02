@@ -75,7 +75,6 @@ int	init_game(t_game *game)
 		return (1);
 	if (load_mlx_window(game))
 		return (1);
-	game->z_buffer = (double *)malloc(SCREEN_WIDTH * sizeof(double));
 	set_game_hooks(game);
 	init_threads(game);
 	mlx_loop(game->mlx);
