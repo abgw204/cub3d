@@ -42,6 +42,7 @@ int game_loop(t_game *game)
 	move_player(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
+	raycast_door(game);
 	draw_sprites(game);
 	draw_crosshair(&game->screen);
 	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);

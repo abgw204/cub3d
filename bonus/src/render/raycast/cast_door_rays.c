@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cast_rays_and_draw.c                               :+:      :+:    :+:   */
+/*   cast_door_rays.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../../include/cub3d.h"
 
-static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start, t_game *game)
+static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start, t_game *game, int x_offset)
 {
 	t_raycast	r;
 	char		*dst;
@@ -20,32 +20,15 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 	int			line_len;
 	double		wall_x;
 
-	t_image *tex = NULL;
+	t_image *tex = &game->door;
 	r = *raycast;
 	pitch = screen->bpp >> 3;
 	line_len = screen->line_len;
+	int len = tex->line_len;
 	if (r.side == 0)
-	{
 		wall_x = game->player.pos.y + r.perp_wall_dist * r.ray_dir_y;
-		if (r.ray_dir_x > 0.0)
-			tex = &game->w;
-		else
-			tex = &game->e;
-	}
 	else
-	{
 		wall_x = game->player.pos.x + r.perp_wall_dist * r.ray_dir_x;
-		if (r.ray_dir_y > 0.0)
-			tex = &game->n;
-		else
-			tex = &game->s;
-	}
-	int a = 0;
-	if (r.hit == 2)
-	{
-		a = 1;
-		tex = &game->door;
-	}
 	wall_x -= floor(wall_x);
 	int tex_x = (int)(wall_x * (double)game->n.width);
 	double step = 1.0 * game->n.height / r.line_height;
@@ -57,31 +40,21 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 	    unsigned int color = *(unsigned int *)
 			(
 				tex->addr
-				+ (texY * tex->line_len)
-				+ (tex_x * pitch)
+				+ ((texY - 1) * len)
+				+ ((tex_x + x_offset) * pitch)
 			);
-		if (a == 1)
-		{
-			if ((color & 0x00FFFFFF) != 0)
-			{
-				dst = screen->addr
-					+ r.draw_start * line_len
-					+ start * pitch;
-				*(unsigned int *)dst = color;
-			}
-		}
-		else
+		if ((color & 0x00FFFFFF) != 0)
 		{
 			dst = screen->addr
-					+ r.draw_start * line_len
-					+ start * pitch;
-				*(unsigned int *)dst = color;
+				+ r.draw_start * line_len
+				+ start * pitch;
+			*(unsigned int *)dst = color;
 		}
         r.draw_start++;
     }
 }
 
-static void	verify_hit_wall(t_raycast *raycast, t_game *game)
+static int	verify_hit_wall(t_raycast *raycast, t_game *game)
 {
 	raycast->hit = 0;
 	raycast->side = 0;
@@ -106,10 +79,11 @@ static void	verify_hit_wall(t_raycast *raycast, t_game *game)
 		}
 		// verifica se chegou em uma parede
 		if (game->map[raycast->map_y * game->map_w + raycast->map_x] == '1')
-			raycast->hit = 1;
+			return (1);
 		else if (game->map[raycast->map_y * game->map_w + raycast->map_x] == 'D')
-			raycast->hit = 0;
+			raycast->hit = 1;
 	}
+	return (0);
 }
 
 static void	set_direction(t_raycast *raycast, t_game *game)
@@ -148,25 +122,25 @@ static void	draw_in_image(t_raycast r, t_image *screen, int start, t_game *game)
 	r.draw_end = r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_end >= SCREEN_HEIGHT)
 		r.draw_end = SCREEN_HEIGHT - 1;
-	draw_ceiling(&r, screen, start, r.draw_start);
-	draw_vertical_line(screen, &r, start, game);
-	draw_floor(&r, screen, start, SCREEN_HEIGHT);
+	draw_vertical_line(screen, &r, start, game, 0);
+	draw_vertical_line(screen, &r, start, game, 192);
 }
 
-void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
+int	cast_door_rays(t_raycast *r, t_game *game, int start)
 {
 	r->f_color = game->data->f_color;
 	r->c_color = game->data->c_color;
 	r->map_x = (int)game->player.pos.x;
 	r->map_y = (int)game->player.pos.y;
-	r->camera_x = 2.0 * (*start) / (double)SCREEN_WIDTH - 1;
+	r->camera_x = 2.0 * start / (double)SCREEN_WIDTH - 1;
 	set_direction(r, game);
-	verify_hit_wall(r, game);
+	if (verify_hit_wall(r, game))
+		return (1);
 	if (r->side == 0)
 		r->perp_wall_dist = r->side_dist_x - r->delta_dist_x;
 	else
 		r->perp_wall_dist = r->side_dist_y - r->delta_dist_y;
 	r->line_height = (int)(SCREEN_HEIGHT / r->perp_wall_dist);
-	draw_in_image(*r, &game->screen, *start, game);
-	(*start)++;
+	draw_in_image(*r, &game->screen, start, game);
+	return (0);
 }

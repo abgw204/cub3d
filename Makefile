@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
@@ -75,6 +75,8 @@ FUNCTIONS_BONUS = bonus/src/parsing/parsing.c \
 				bonus/src/render/draw/draw_pixel_in_image.c \
 				bonus/src/render/draw/draw_sprites.c \
 				bonus/src/render/raycast/raycast.c \
+				bonus/src/render/raycast/raycast_door.c \
+				bonus/src/render/raycast/cast_door_rays.c \
 				bonus/src/render/raycast/threads_cond.c \
 				bonus/src/render/raycast/cast_rays_and_draw.c \
 				bonus/src/render/raycast/getters_setters.c \

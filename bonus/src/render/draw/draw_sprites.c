@@ -43,6 +43,8 @@ void draw_sprite_scaled(
 
     int bpp = sheet->bpp / 8;
     int screen_bpp = game->screen.bpp / 8;
+	int line_len = game->screen.line_len;
+	int sheet_len = sheet->line_len;
 
     for (int j = 0; j < dst_h; j++)
     {
@@ -57,13 +59,13 @@ void draw_sprite_scaled(
             int orig_x = (i * src_w) / dst_w;
             int orig_y = (j * src_h) / dst_h;
             int sheet_offset =
-                (sy + orig_y) * sheet->line_len +
+                (sy + orig_y) * sheet_len +
                 (sx + orig_x) * bpp;
             unsigned int color = *(unsigned int *)(sheet->addr + sheet_offset);
             if ((color & 0x00FFFFFF) != 0)
             {
             	int screen_offset =
-            	    screen_y * game->screen.line_len +
+            	    screen_y * line_len +
             	    screen_x * screen_bpp;
             	*(unsigned int *)(game->screen.addr + screen_offset) = color;
 			}

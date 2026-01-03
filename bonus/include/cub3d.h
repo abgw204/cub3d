@@ -57,7 +57,7 @@
 
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
-# define N_THREADS 1
+# define N_THREADS 4
 
 extern double	g_delta_time;
 
@@ -284,6 +284,8 @@ void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
 void	draw_square(t_uiv2 pos, int size, int color, t_image *image);
 void	*raycast(void *param);
+void    raycast_door(t_game *game);
+int		cast_door_rays(t_raycast *r, t_game *game, int start);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
 void	draw_sprites(t_game *game);
 
