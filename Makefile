@@ -67,6 +67,7 @@ FUNCTIONS_BONUS = bonus/src/parsing/parsing.c \
 				bonus/src/game/menu_screen/main_menu.c \
 				bonus/src/game/minimap/minimap.c \
 				bonus/src/game/minimap/minimap_utils.c \
+				bonus/src/game/door/update_door.c \
 				bonus/src/game/menu_screen/set_img_info.c \
 				bonus/src/game/menu_screen/settings.c \
 				bonus/src/hooks/mouse_handler/mouse.c \

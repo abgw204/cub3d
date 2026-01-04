@@ -28,23 +28,17 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 	{
 		wall_x = game->player.pos.y + r.perp_wall_dist * r.ray_dir_y;
 		if (r.ray_dir_x > 0.0)
-			tex = &game->w;
-		else
 			tex = &game->e;
+		else
+			tex = &game->w;
 	}
 	else
 	{
 		wall_x = game->player.pos.x + r.perp_wall_dist * r.ray_dir_x;
 		if (r.ray_dir_y > 0.0)
-			tex = &game->n;
-		else
 			tex = &game->s;
-	}
-	int a = 0;
-	if (r.hit == 2)
-	{
-		a = 1;
-		tex = &game->door;
+		else
+			tex = &game->n;
 	}
 	wall_x -= floor(wall_x);
 	int tex_x = (int)(wall_x * (double)game->n.width);
@@ -60,23 +54,10 @@ static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start
 				+ (texY * tex->line_len)
 				+ (tex_x * pitch)
 			);
-		if (a == 1)
-		{
-			if ((color & 0x00FFFFFF) != 0)
-			{
-				dst = screen->addr
-					+ r.draw_start * line_len
-					+ start * pitch;
-				*(unsigned int *)dst = color;
-			}
-		}
-		else
-		{
-			dst = screen->addr
-					+ r.draw_start * line_len
-					+ start * pitch;
-				*(unsigned int *)dst = color;
-		}
+		dst = screen->addr
+			+ r.draw_start * line_len
+			+ start * pitch;
+		*(unsigned int *)dst = color;
         r.draw_start++;
     }
 }

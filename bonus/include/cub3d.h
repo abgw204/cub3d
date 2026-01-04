@@ -27,6 +27,8 @@
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
+# define VERTICAL_WALL 0
+# define HORIZONTAL_WALL 1
 # define CONFIG_TOKENS 6
 
 /* KEYS */
@@ -57,6 +59,7 @@
 
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
+# define DOOR_ANIM_DURATION 0.4
 # define N_THREADS 4
 
 extern double	g_delta_time;
@@ -95,6 +98,24 @@ typedef struct	s_double_vector
 	double	y;
 }	t_dv2;
 
+typedef enum	e_door_state
+{
+	DOOR_CLOSED,
+	DOOR_OPENING,
+	DOOR_OPEN,
+	DOOR_CLOSING
+}	t_door_state;
+
+typedef struct s_door
+{
+	t_iv2			pos;
+	t_door_state	state;
+	double			anim_time;
+	double			anim_duration;
+	int				frame_count;
+	int				current_frame;
+}	t_door;
+
 typedef struct	s_player
 {
 	t_dv2	pos;
@@ -120,6 +141,24 @@ typedef struct	s_minimap
 	t_image	img;
 }	t_minimap;
 
+typedef struct	s_door_texture
+{
+	int		tex_x;
+	int		tex_y;
+	int		pitch;
+	int		len;
+	int		color;
+	int		x_offset;
+	int		height;
+	int		sc_pitch;
+	int		sc_line_len;
+	char	*dst;
+	t_image	*tex;
+	double	wall_x;
+	double	step;
+	double	tex_pos;
+}	t_door_tex;
+
 typedef struct	s_game_data
 {
 	/* GAME */
@@ -136,7 +175,7 @@ typedef struct	s_game_data
 	bool			is_shooting;
 	double			shoot_timer;
 	unsigned int 	doors_n;
-	t_iv2			*doors;
+	t_door			*doors;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
@@ -173,7 +212,7 @@ typedef struct s_data
 	int				f_color;
 	int				c_color;
 	unsigned int 	doors_n;
-	t_iv2			*doors;
+	t_door			*doors;
 }	t_data;
 
 typedef struct	s_raycast
@@ -307,6 +346,8 @@ int		game_loop(t_game *game);
 void	rotate_camera(t_game *game);
 void	rotate_camera_mouse(t_game *game, int middle, int x);
 int		mouse_move_in_game(t_game *game, int x);
+void	update_door(t_door *door, double dt);
+void	toggle_door(t_door *door);
 int		thread_create(pthread_t *thread, void *(func)(void *), void *data);
 int		close_window_x(void *param);
 

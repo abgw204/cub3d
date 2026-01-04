@@ -14,11 +14,8 @@
 
 int	mouse_move_in_game(t_game *game, int x)
 {
-	int	middle;
-
-	middle = SCREEN_WIDTH / 2;
-	rotate_camera_mouse(game, middle, x);
-	mlx_mouse_move(game->mlx, game->win, middle, SCREEN_HEIGHT / 2);
+	rotate_camera_mouse(game, SCREEN_WIDTH / 2, x);
+	mlx_mouse_move(game->mlx, game->win, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 	return (0);
 }
 
@@ -34,13 +31,19 @@ int	mouse_move(int x, int y, void *param)
 
 int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
 {
+	unsigned int	i;
+
 	(void)x;
 	(void)y;
-	if (mouse_btn == 1 && game->is_shooting == false && game->shoot_timer >= SHOOT_DELAY)
+	i = -1;
+	if (mouse_btn == 1 && game->is_shooting == false
+		&& game->shoot_timer >= SHOOT_DELAY)
 	{
 		game->keys[7] = '1';
 		game->shoot_timer = 0.0;
 		system("paplay bonus/res/sounds/pistol-shot-233473.wav &"); // decide
+		while (++i < game->doors_n)
+			toggle_door(&game->doors[i]);
 	}
 	return (0);
 }

@@ -30,8 +30,7 @@ int	check_images(t_game *game)
 {
 	game->door.img = mlx_xpm_file_to_image(game->mlx,
 	"bonus/res/textures/door_spritesheet.xpm",
-	&game->door.width,
-	&game->door.height);
+	&game->door.width, &game->door.height);
 	if (!game->n.img || !game->s.img || !game->w.img || !game->e.img
 		|| !game->door.img)
 	{

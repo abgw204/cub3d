@@ -47,6 +47,7 @@ static void	init_vars(t_game *game)
 	game->map_w = get_data()->map_w;
 	game->map_h = get_data()->map_h;
 	game->doors = get_data()->doors;
+	game->doors_n = get_data()->doors_n;
 	game->m_x = 0;
 	game->m_y = 0;
 	get_player_info(game);

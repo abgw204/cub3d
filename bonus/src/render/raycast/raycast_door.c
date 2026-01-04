@@ -15,9 +15,9 @@
 void    raycast_door(t_game *game)
 {
 	t_raycast	raycast;
-	int			start;
+	int			column;
 
-	start = 0;
-	while (start < SCREEN_WIDTH)
-		cast_door_rays(&raycast, game, start++);
+	column = 0;
+	while (column < SCREEN_WIDTH)
+		cast_door_rays(&raycast, game, column++);
 }

@@ -10,7 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h" // free_all(NULL, get_data()->config, "")
+#include "../../include/cub3d.h"
+
+void	init_doors(t_door *doors)
+{
+	unsigned int	i;
+
+	i = -1;
+	while (++i < get_data()->doors_n)
+	{
+		doors[i].state = DOOR_CLOSED;
+		doors[i].anim_time = 0.0;
+		doors[i].anim_duration = DOOR_ANIM_DURATION;
+		doors[i].frame_count = 5;
+		doors[i].current_frame = 1;
+	}
+}
 
 static bool	door_in_bounds(t_iv2 door, int map_w, int map_h)
 {
@@ -38,13 +53,13 @@ static int	validate_door(char *map, t_iv2 door, int map_w, int map_h)
 static int	verify_doors(char *map, int map_w, int map_h)
 {
 	unsigned int	i;
-	t_iv2			*doors;
+	t_door			*doors;
 
 	i = -1;
 	doors = get_data()->doors;
 	while (++i < get_data()->doors_n)
 	{
-		if (validate_door(map, doors[i], map_w, map_h))
+		if (validate_door(map, doors[i].pos, map_w, map_h))
 		{
 			free(map);
 			return (free_all(NULL, get_data()->config, "Invalid door in map!"));
@@ -63,14 +78,15 @@ int	parse_doors(char *map, int map_w, int map_h)
 	pos.y = i;
 	if (!get_data()->doors_n)
 		return (0);
-	get_data()->doors = (t_iv2 *)malloc(get_data()->doors_n * sizeof(t_iv2));
+	get_data()->doors = (t_door *)malloc(get_data()->doors_n * sizeof(t_door));
 	if (!get_data()->doors)
 		return (free_all(NULL, get_data()->config, "Memory allocation failed!"));
+	init_doors(get_data()->doors);
 	while (++pos.y < map_h)
 	{
 		while (++pos.x < map_w)
 			if (map[pos.y * map_w + pos.x] == 'D')
-				get_data()->doors[++i] = pos;
+				get_data()->doors[++i].pos = pos;
 		pos.x = -1;
 	}
 	if (verify_doors(map, map_w, map_h))

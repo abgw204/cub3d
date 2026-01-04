@@ -42,6 +42,8 @@ int game_loop(t_game *game)
 	move_player(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
+	for (unsigned int i = 0; i < game->doors_n; i++)
+		update_door(&game->doors[i], g_delta_time);
 	raycast_door(game);
 	draw_sprites(game);
 	draw_crosshair(&game->screen);
