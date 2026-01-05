@@ -78,6 +78,7 @@ FUNCTIONS_BONUS = bonus/src/parsing/parsing.c \
 				bonus/src/render/raycast/raycast.c \
 				bonus/src/render/raycast/raycast_door.c \
 				bonus/src/render/raycast/cast_door_rays.c \
+				bonus/src/render/raycast/texture_utils.c \
 				bonus/src/render/raycast/threads_cond.c \
 				bonus/src/render/raycast/cast_rays_and_draw.c \
 				bonus/src/render/raycast/getters_setters.c \

@@ -76,7 +76,7 @@ static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 		draw_block(&mini->img, mini->pos, 20, 0x5555AA);
 	else if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 		&& (map_c == '0' || map_c == 'N' || map_c == 'S' || map_c == 'W'
-			|| map_c == 'E'))
+			|| map_c == 'E' || map_c == 'D'))
 		draw_block(&mini->img, mini->pos, 20, BLACK);
 }
 

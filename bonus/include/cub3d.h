@@ -27,15 +27,13 @@
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
-# define VERTICAL_WALL 0
-# define HORIZONTAL_WALL 1
-# define CONFIG_TOKENS 6
 
 /* KEYS */
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+# define KEY_E 101
 # define KEY_ESC 65307
 
 # define LEFT_ARROW 65361
@@ -57,9 +55,13 @@
 # define PI 3.14159265358979323846
 # define FOV 0.75
 
+/* MISC */
+# define VERTICAL_WALL 0
+# define HORIZONTAL_WALL 1
+# define CONFIG_TOKENS 6
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
-# define DOOR_ANIM_DURATION 0.4
+# define DOOR_ANIM_DURATION 0.3
 # define N_THREADS 4
 
 extern double	g_delta_time;
@@ -141,7 +143,7 @@ typedef struct	s_minimap
 	t_image	img;
 }	t_minimap;
 
-typedef struct	s_door_texture
+typedef struct	s_texture
 {
 	int		tex_x;
 	int		tex_y;
@@ -157,7 +159,7 @@ typedef struct	s_door_texture
 	double	wall_x;
 	double	step;
 	double	tex_pos;
-}	t_door_tex;
+}	t_texture;
 
 typedef struct	s_game_data
 {
@@ -346,12 +348,16 @@ int		game_loop(t_game *game);
 void	rotate_camera(t_game *game);
 void	rotate_camera_mouse(t_game *game, int middle, int x);
 int		mouse_move_in_game(t_game *game, int x);
-void	update_door(t_door *door, double dt);
+void	update_door(t_door *door, double dt, t_game *game, double progress);
 void	toggle_door(t_door *door);
 int		thread_create(pthread_t *thread, void *(func)(void *), void *data);
 int		close_window_x(void *param);
 
 /* TEXTURES */
-int	configure_textures_images(t_game *game);
+int		configure_textures_images(t_game *game);
+t_image	*get_tex(double ray_dir_x, double ray_dir_y, int side, t_game *game);
+void	draw_tex(t_image *screen, t_raycast r, t_texture t, int column);
+void	draw_door(t_image *screen, t_raycast r, t_texture t, int column);
+int		get_door_at(t_raycast *r, t_game *game);
 
 #endif

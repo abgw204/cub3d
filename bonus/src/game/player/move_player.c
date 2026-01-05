@@ -12,106 +12,122 @@
 
 #include "../../../include/cub3d.h"
 
-void	move_w(t_game *game, t_player *player)
+void	move_w(t_game *game, t_player *p)
 {
-	double	new_x;
-	double	new_y;
-	double	coll_x;
-	double	coll_y;
+	t_dv2	nw;
+	t_dv2	coll;
 
-	if (player->dir.x > 0.0)
-		coll_x = COLLISION_DIST;
+	if (p->dir.x > 0.0)
+		coll.x = COLLISION_DIST;
 	else
-		coll_x = -COLLISION_DIST;
-	if (player->dir.y > 0.0)
-		coll_y = COLLISION_DIST;
+		coll.x = -COLLISION_DIST;
+	if (p->dir.y > 0.0)
+		coll.y = COLLISION_DIST;
 	else
-		coll_y = -COLLISION_DIST;
-	new_x = player->pos.x + player->dir.x * player->speed * g_delta_time;
-	new_y = player->pos.y + player->dir.y * player->speed * g_delta_time;
-    if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
-		player->pos.x = new_x;
-	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
-		player->pos.y = new_y;
+		coll.y = -COLLISION_DIST;
+	nw.x = p->pos.x + p->dir.x * p->speed * g_delta_time;
+	nw.y = p->pos.y + p->dir.y * p->speed * g_delta_time;
+	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
+		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
+		p->pos.x = nw.x;
+	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+		p->pos.y = nw.y;
 }
 
-void	move_a(t_game *game, t_player *player)
+void	move_a(t_game *game, t_player *p)
 {
 	t_dv2	side;
-	double	new_x;
-	double	new_y;
-	double	coll_x;
-	double	coll_y;
+	t_dv2	nw;
+	t_dv2	coll;
 
-	if (-player->plane.x > 0.0)
-		coll_x = COLLISION_DIST;
+	if (-p->plane.x > 0.0)
+		coll.x = COLLISION_DIST;
 	else
-		coll_x = -COLLISION_DIST;
-	if (-player->plane.y > 0.0)
-		coll_y = COLLISION_DIST;
+		coll.x = -COLLISION_DIST;
+	if (-p->plane.y > 0.0)
+		coll.y = COLLISION_DIST;
 	else
-		coll_y = -COLLISION_DIST;
-    side.x = player->dir.y;
-	side.y = -player->dir.x;
-    new_x = player->pos.x + side.x * player->speed * g_delta_time;
-    new_y = player->pos.y + side.y * player->speed * g_delta_time;
-	if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
-		player->pos.x = new_x;
-	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
-		player->pos.y = new_y;
+		coll.y = -COLLISION_DIST;
+    side.x = p->dir.y;
+	side.y = -p->dir.x;
+    nw.x = p->pos.x + side.x * p->speed * g_delta_time;
+    nw.y = p->pos.y + side.y * p->speed * g_delta_time;
+	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
+		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
+		p->pos.x = nw.x;
+	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+		p->pos.y = nw.y;
 }
 
-void	move_s(t_game *game, t_player *player)
+void	move_s(t_game *game, t_player *p)
 {
-	double	new_x;
-	double	new_y;
-	double	coll_x;
-	double	coll_y;
+	t_dv2	nw;
+	t_dv2	coll;
 
-	if (player->dir.x > 0.0)
-		coll_x = -COLLISION_DIST;
+	if (p->dir.x > 0.0)
+		coll.x = -COLLISION_DIST;
 	else
-		coll_x = COLLISION_DIST;
-	if (player->dir.y > 0.0)
-		coll_y = -COLLISION_DIST;
+		coll.x = COLLISION_DIST;
+	if (p->dir.y > 0.0)
+		coll.y = -COLLISION_DIST;
 	else
-		coll_y = COLLISION_DIST;
-	new_x = player->pos.x + -player->dir.x * player->speed * g_delta_time;
-	new_y = player->pos.y + -player->dir.y * player->speed * g_delta_time;
-    if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
-		player->pos.x = new_x;
-	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
-		player->pos.y = new_y;
+		coll.y = COLLISION_DIST;
+	nw.x = p->pos.x + -p->dir.x * p->speed * g_delta_time;
+	nw.y = p->pos.y + -p->dir.y * p->speed * g_delta_time;
+	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
+		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
+		p->pos.x = nw.x;
+	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+		p->pos.y = nw.y;
 }
 
-void	move_d(t_game *game, t_player *player)
+void	move_d(t_game *game, t_player *p)
 {
     t_dv2	side;
-	double	new_x;
-	double	new_y;
-	double	coll_x;
-	double	coll_y;
+	t_dv2	nw;
+	t_dv2	coll;
 
-	if (player->plane.x > 0.0)
-		coll_x = COLLISION_DIST;
+	if (p->plane.x > 0.0)
+		coll.x = COLLISION_DIST;
 	else
-		coll_x = -COLLISION_DIST;
-	if (player->plane.y > 0.0)
-		coll_y = COLLISION_DIST;
+		coll.x = -COLLISION_DIST;
+	if (p->plane.y > 0.0)
+		coll.y = COLLISION_DIST;
 	else
-		coll_y = -COLLISION_DIST;
-    side.x = -player->dir.y;
-	side.y = player->dir.x;
-    new_x = player->pos.x + side.x * player->speed * g_delta_time;
-    new_y = player->pos.y + side.y * player->speed * g_delta_time;
-	if (game->map[(int)game->player.pos.y * game->map_w + (int)(new_x + coll_x)] != '1')
-		player->pos.x = new_x;
-	if (game->map[(int)(new_y + coll_y) * game->map_w + (int)player->pos.x] != '1')
-		player->pos.y = new_y;
+		coll.y = -COLLISION_DIST;
+    side.x = -p->dir.y;
+	side.y = p->dir.x;
+    nw.x = p->pos.x + side.x * p->speed * g_delta_time;
+    nw.y = p->pos.y + side.y * p->speed * g_delta_time;
+	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
+		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
+		p->pos.x = nw.x;
+	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+		p->pos.y = nw.y;
+}
+
+t_door	*get_door_at_pos(t_door *doors, t_iv2 pos, unsigned int n)
+{
+	unsigned int	i;
+
+	i = -1;
+	while (++i < n)
+	{
+		if (doors[i].pos.x == pos.x
+			&& doors[i].pos.y == pos.y)
+			return (&doors[i]);
+	}
+	return (NULL);
 }
 
 void	move_player(t_game *game)
 {
+	t_iv2	pos;
+
 	rotate_camera(game);
 	mouse_move_in_game(game, game->m_x);
 	if (game->keys[0] == '1')
@@ -122,4 +138,12 @@ void	move_player(t_game *game)
 		move_s(game, &game->player);
 	if (game->keys[3] == '1')
 		move_d(game, &game->player);
+	if (game->keys[8] == '1')
+	{
+		pos.x = game->player.pos.x + game->player.dir.x * 1.3;
+		pos.y = game->player.pos.y + game->player.dir.y * 1.3;
+		if (game->map[pos.y * game->map_w + pos.x] == 'D'
+			|| game->map[pos.y * game->map_w + pos.x] == 'O')
+			toggle_door(get_door_at_pos(game->doors, pos, game->doors_n));
+	}
 }

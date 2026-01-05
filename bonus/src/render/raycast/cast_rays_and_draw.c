@@ -12,54 +12,27 @@
 
 #include "../../../include/cub3d.h"
 
-static void    draw_vertical_line(t_image *screen, t_raycast *raycast, int start, t_game *game)
+static void    draw_column(t_image *screen, t_raycast r, int col, t_game *game)
 {
-	t_raycast	r;
-	char		*dst;
-	int			pitch;
-	int			line_len;
-	double		wall_x;
+	t_texture	t;
 
-	t_image *tex = NULL;
-	r = *raycast;
-	pitch = screen->bpp >> 3;
-	line_len = screen->line_len;
-	if (r.side == 0)
-	{
-		wall_x = game->player.pos.y + r.perp_wall_dist * r.ray_dir_y;
-		if (r.ray_dir_x > 0.0)
-			tex = &game->e;
-		else
-			tex = &game->w;
-	}
+	if (r.side == VERTICAL_WALL)
+		t.wall_x = game->player.pos.y + r.perp_wall_dist * r.ray_dir_y;
 	else
-	{
-		wall_x = game->player.pos.x + r.perp_wall_dist * r.ray_dir_x;
-		if (r.ray_dir_y > 0.0)
-			tex = &game->s;
-		else
-			tex = &game->n;
-	}
-	wall_x -= floor(wall_x);
-	int tex_x = (int)(wall_x * (double)game->n.width);
-	double step = 1.0 * game->n.height / r.line_height;
-	double texPos = (r.draw_start - SCREEN_HEIGHT / 2 + r.line_height / 2) * step;
-    while (r.draw_start <= r.draw_end)
-    {
-	    int texY = (int)texPos % game->n.height;
-	    texPos += step;
-	    unsigned int color = *(unsigned int *)
-			(
-				tex->addr
-				+ (texY * tex->line_len)
-				+ (tex_x * pitch)
-			);
-		dst = screen->addr
-			+ r.draw_start * line_len
-			+ start * pitch;
-		*(unsigned int *)dst = color;
-        r.draw_start++;
-    }
+		t.wall_x = game->player.pos.x + r.perp_wall_dist * r.ray_dir_x;
+	t.tex = get_tex(r.ray_dir_x, r.ray_dir_y, r.side, game);
+	if (!t.tex)
+		return ;
+	t.height = t.tex->height;
+	t.pitch = t.tex->bpp >> 3;
+	t.sc_pitch = screen->bpp >> 3;
+	t.sc_line_len = screen->line_len;
+	t.len = t.tex->line_len;
+	t.wall_x -= floor(t.wall_x);
+	t.tex_x = (int)(t.wall_x * (double)t.tex->width);
+	t.step = 1.0 * t.tex->height / r.line_height;
+	t.tex_pos = (r.draw_start - SCREEN_HEIGHT / 2 + r.line_height / 2) * t.step;
+	draw_tex(screen, r, t, col);
 }
 
 static void	verify_hit_wall(t_raycast *raycast, t_game *game)
@@ -121,7 +94,7 @@ static void	set_direction(t_raycast *raycast, t_game *game)
 	}
 }
 
-static void	draw_in_image(t_raycast r, t_image *screen, int start, t_game *game)
+static void	draw_in_image(t_raycast r, t_image *screen, int column, t_game *game)
 {
 	r.draw_start = -r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_start < 0)
@@ -129,18 +102,18 @@ static void	draw_in_image(t_raycast r, t_image *screen, int start, t_game *game)
 	r.draw_end = r.line_height / 2 + SCREEN_HEIGHT / 2;
 	if (r.draw_end >= SCREEN_HEIGHT)
 		r.draw_end = SCREEN_HEIGHT - 1;
-	draw_ceiling(&r, screen, start, r.draw_start);
-	draw_vertical_line(screen, &r, start, game);
-	draw_floor(&r, screen, start, SCREEN_HEIGHT);
+	draw_ceiling(&r, screen, column, r.draw_start);
+	draw_column(screen, r, column, game);
+	draw_floor(&r, screen, column, SCREEN_HEIGHT);
 }
 
-void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
+void	cast_rays_and_draw(t_raycast *r, t_game *game, int *column)
 {
 	r->f_color = game->data->f_color;
 	r->c_color = game->data->c_color;
 	r->map_x = (int)game->player.pos.x;
 	r->map_y = (int)game->player.pos.y;
-	r->camera_x = 2.0 * (*start) / (double)SCREEN_WIDTH - 1;
+	r->camera_x = 2.0 * (*column) / (double)SCREEN_WIDTH - 1;
 	set_direction(r, game);
 	verify_hit_wall(r, game);
 	if (r->side == 0)
@@ -148,6 +121,6 @@ void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start)
 	else
 		r->perp_wall_dist = r->side_dist_y - r->delta_dist_y;
 	r->line_height = (int)(SCREEN_HEIGHT / r->perp_wall_dist);
-	draw_in_image(*r, &game->screen, *start, game);
-	(*start)++;
+	draw_in_image(*r, &game->screen, *column, game);
+	(*column)++;
 }

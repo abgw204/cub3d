@@ -31,19 +31,14 @@ int	mouse_move(int x, int y, void *param)
 
 int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
 {
-	unsigned int	i;
-
 	(void)x;
 	(void)y;
-	i = -1;
 	if (mouse_btn == 1 && game->is_shooting == false
 		&& game->shoot_timer >= SHOOT_DELAY)
 	{
 		game->keys[7] = '1';
 		game->shoot_timer = 0.0;
 		system("paplay bonus/res/sounds/pistol-shot-233473.wav &"); // decide
-		while (++i < game->doors_n)
-			toggle_door(&game->doors[i]);
 	}
 	return (0);
 }

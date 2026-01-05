@@ -12,7 +12,7 @@
 
 #include "../include/cub3d.h"
 
-void	set_null(t_game *game)
+static void	set_null(t_game *game)
 {
 	int	i;
 
@@ -59,10 +59,10 @@ static void	init_vars(t_game *game)
 	game->minimap.pos.y = 0;
 	game->state = MAIN_MENU;
 	game->data = get_data();
-	game->keys = ft_calloc(1, 7);
+	game->keys = ft_calloc(1, 8);
 	game->is_shooting = false;
 	game->shoot_timer = 1.0;
-	ft_memset(game->keys, '0', 7);
+	ft_memset(game->keys, '0', 8);
 	game->player.speed = 3.0f;
 }
 

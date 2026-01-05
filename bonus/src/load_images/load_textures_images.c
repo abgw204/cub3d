@@ -28,9 +28,6 @@ void	set_textures_images_info(t_game *game)
 
 int	check_images(t_game *game)
 {
-	game->door.img = mlx_xpm_file_to_image(game->mlx,
-	"bonus/res/textures/door_spritesheet.xpm",
-	&game->door.width, &game->door.height);
 	if (!game->n.img || !game->s.img || !game->w.img || !game->e.img
 		|| !game->door.img)
 	{
@@ -73,25 +70,21 @@ static int	load_textures_images(t_game *game)
 	int	tex;
 
 	tex = get_texture_dir(game->data->config, "NO");
-	game->n.img = mlx_xpm_file_to_image(game->mlx,
-	game->data->config[tex][1],
-	&game->n.width,
-	&game->n.height);
+		game->n.img = mlx_xpm_file_to_image(game->mlx,
+		game->data->config[tex][1], &game->n.width,
+		&game->n.height);
 	tex = get_texture_dir(game->data->config, "SO");
-	game->s.img = mlx_xpm_file_to_image(game->mlx,
-	game->data->config[tex][1],
-	&game->s.width,
-	&game->s.height);
+		game->s.img = mlx_xpm_file_to_image(game->mlx,
+		game->data->config[tex][1], &game->s.width,
+		&game->s.height);
 	tex = get_texture_dir(game->data->config, "EA");
-	game->e.img = mlx_xpm_file_to_image(game->mlx,
-	game->data->config[tex][1],
-	&game->e.width,
-	&game->e.height);
+		game->e.img = mlx_xpm_file_to_image(game->mlx,
+		game->data->config[tex][1], &game->e.width,
+		&game->e.height);
 	tex = get_texture_dir(game->data->config, "WE");
-	game->w.img = mlx_xpm_file_to_image(game->mlx,
-	game->data->config[tex][1],
-	&game->w.width,
-	&game->w.height);
+		game->w.img = mlx_xpm_file_to_image(game->mlx,
+		game->data->config[tex][1], &game->w.width,
+		&game->w.height);
 	if (check_images(game))
 		return (1);
 	return (0);
@@ -101,6 +94,19 @@ int	configure_textures_images(t_game *game)
 {
 	if (load_textures_images(game))
 		return (1);
+	game->door.img = mlx_xpm_file_to_image(game->mlx,
+		"bonus/res/textures/door_spritesheet.xpm",
+		&game->door.width, &game->door.height);
+	if (game->door.width / 6 != 64 || game->door.height != 64)
+	{
+		mlx_destroy_image(game->mlx, game->door.img);
+		game->door.img = NULL;
+		if (check_images(game))
+		{
+			ft_putendl_fd("Invalid door spritesheet (nice try)", 2);
+			return (1);
+		}
+	}
 	set_textures_images_info(game);
 	return (0);
 }

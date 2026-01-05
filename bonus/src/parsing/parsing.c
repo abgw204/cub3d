@@ -75,6 +75,9 @@ static int	validate_config(int file_fd)
 	possible_symbols = create_symbols_matrix();
 	if (!possible_symbols)
 		return (print_error("Memory allocation error!"));
+	file = (char **)ft_calloc((CONFIG_TOKENS + 1) * sizeof(char *), 1);
+	if (!file)
+		return (print_error("Memory allocation error!"));
 	if (parse_file(file_fd, file, possible_symbols, 0))
 		return (free_matrix(possible_symbols));
 	if (validate_parameters_number(get_data()->config))

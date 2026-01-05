@@ -71,9 +71,6 @@ static char	**parse_symbol(char *str, char **symbols)
 
 int	parse_file(int map_fd, char **config, char **symbols, int i)
 {
-	config = (char **)ft_calloc((CONFIG_TOKENS + 1) * sizeof(char *), 1);
-	if (!config)
-		return (print_error("Memory allocation error!"));
 	initialize_matrix(config, CONFIG_TOKENS + 1);
 	while (i < CONFIG_TOKENS)
 	{

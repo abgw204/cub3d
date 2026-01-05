@@ -12,49 +12,9 @@
 
 #include "../../../include/cub3d.h"
 
-void	draw_door(t_image *screen, t_raycast r, t_door_tex t, int column)
-{
-	unsigned int	casing_color;
-
-	while (r.draw_start <= r.draw_end)
-    {
-	    t.tex_y = (int)t.tex_pos % t.height;
-	    t.tex_pos += t.step;
-	    t.color = *(unsigned int *)(t.tex->addr + ((t.tex_y - 1) * t.len)
-				+ ((t.tex_x + t.x_offset) * t.pitch));
-		casing_color = *(unsigned int *)(t.tex->addr + ((t.tex_y - 1) * t.len)
-				+ (t.tex_x * t.pitch));
-		if ((t.color & 0x00FFFFFF) != 0)
-		{
-			t.dst = screen->addr + r.draw_start * t.sc_line_len + column * t.sc_pitch;
-			*(unsigned int *)t.dst = t.color;
-		}
-		else if ((casing_color & 0x00FFFFFF) != 0)
-		{
-			t.dst = screen->addr + r.draw_start * t.sc_line_len + column * t.sc_pitch;
-			*(unsigned int *)t.dst = casing_color;
-		}
-        r.draw_start++;
-    }
-}
-
-int	get_door_at(t_raycast *r, t_game *game)
-{
-	unsigned int	i;
-
-	i = -1;
-	while (++i < game->doors_n)
-	{
-		if (game->doors[i].pos.x == r->map_x
-			&& game->doors[i].pos.y == r->map_y)
-			return (game->doors[i].current_frame * (game->door.width / 6));
-	}
-	return (-1);
-}
-
 static void    draw_column(t_image *screen, t_raycast r, int col, t_game *game)
 {
-	t_door_tex	t;
+	t_texture	t;
 
 	t.x_offset = get_door_at(&r, game);
 	if (t.x_offset == -1)
@@ -94,15 +54,10 @@ static int	verify_hit_wall(t_raycast *r, t_game *game)
 			r->map_y += r->step_y;
 			r->side = HORIZONTAL_WALL;
 		}
-		if (r->map_x < 0 || r->map_y < 0 || r->map_x >= game->map_w
-			|| r->map_y >= game->map_h)
-		{
-			r->hit = 1;
-			break;
-		}
 		if (game->map[r->map_y * game->map_w + r->map_x] == '1')
 			return (1);
-		else if (game->map[r->map_y * game->map_w + r->map_x] == 'D')
+		else if (game->map[r->map_y * game->map_w + r->map_x] == 'D'
+			|| game->map[r->map_y * game->map_w + r->map_x] == 'O')
 			r->hit = 1;
 	}
 	return (0);
