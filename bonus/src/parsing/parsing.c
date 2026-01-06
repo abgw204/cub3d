@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/10 17:21:03 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:06:17 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	validate_config(int file_fd)
 	if (parse_file(file_fd, file, possible_symbols, 0))
 		return (free_matrix(possible_symbols));
 	if (validate_parameters_number(get_data()->config))
-		return (free_matrix(possible_symbols));
+		return (free_all(possible_symbols, get_data()->config, NULL));
 	free_matrix(possible_symbols);
 	return (0);
 }

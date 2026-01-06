@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 04:19:39 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 11:32:56 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:06:04 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int key_release(int key, void *param)
     else if (key == RIGHT_ARROW)
         game->keys[5] = '0';
     else if (key == KEY_E)
-        game->keys[8] = '0';
+        game->keys[7] = '0';
     else if (key == KEY_ESC)
         free_and_exit(game);
     return (0);
@@ -54,6 +54,6 @@ int key_press(int key, void *param)
     else if (key == RIGHT_ARROW)
 		game->keys[5] = '1';
     else if (key == KEY_E)
-        game->keys[8] = '1';
+        game->keys[7] = '1';
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 16:30:25 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:05:10 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
 	if (mouse_btn == 1 && game->is_shooting == false
 		&& game->shoot_timer >= SHOOT_DELAY)
 	{
-		game->keys[7] = '1';
+		game->keys[6] = '1';
 		game->shoot_timer = 0.0;
 		system("paplay bonus/res/sounds/pistol-shot-233473.wav &"); // decide
 	}

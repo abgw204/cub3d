@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:28 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/08 11:09:37 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 12:05:45 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int	print_error(char *error_message)
 {
-	ft_putendl_fd("Error", 2);
-	ft_putendl_fd(error_message, 2);
+	if (error_message)
+	{
+		ft_putendl_fd("Error", 2);
+		ft_putendl_fd(error_message, 2);
+	}
 	return (1);
 }
 
@@ -26,6 +29,7 @@ int	print_error_free(t_game *game, char *error_message)
 	free(game->map);
 	free(game->keys);
 	free_images(game);
+	free(get_data()->doors);
 	if (game->mlx)
 	{
 		if (game->win)

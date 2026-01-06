@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/29 16:48:13 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:05:18 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	move_player(t_game *game)
 	t_iv2	pos;
 
 	rotate_camera(game);
-	mouse_move_in_game(game, game->m_x);
+	//mouse_move_in_game(game, game->m_x);
 	if (game->keys[0] == '1')
 		move_w(game, &game->player);
 	if (game->keys[1] == '1')
@@ -138,7 +138,7 @@ void	move_player(t_game *game)
 		move_s(game, &game->player);
 	if (game->keys[3] == '1')
 		move_d(game, &game->player);
-	if (game->keys[8] == '1')
+	if (game->keys[7] == '1')
 	{
 		pos.x = game->player.pos.x + game->player.dir.x * 1.3;
 		pos.y = game->player.pos.y + game->player.dir.y * 1.3;

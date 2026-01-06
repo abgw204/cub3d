@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/02 15:05:15 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:37:59 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	set_null(t_game *game)
 	game->s.img = NULL;
 	game->w.img = NULL;
 	game->e.img = NULL;
+	game->door.img = NULL;
 }
 
 t_data *get_data(void)

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/02 19:44:44 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:28:45 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	draw_door(t_image *screen, t_raycast r, t_texture t, int column)
     {
 	    t.tex_y = (int)t.tex_pos % t.height;
 	    t.tex_pos += t.step;
-	    t.color = *(unsigned int *)(t.tex->addr + ((t.tex_y - 1) * t.len)
+	    t.color = *(unsigned int *)(t.tex->addr + ((t.tex_y) * t.len)
 				+ ((t.tex_x + t.x_offset) * t.pitch));
-		casing_color = *(unsigned int *)(t.tex->addr + ((t.tex_y - 1) * t.len)
+		casing_color = *(unsigned int *)(t.tex->addr + ((t.tex_y) * t.len)
 				+ (t.tex_x * t.pitch));
 		if ((t.color & 0x00FFFFFF) != 0)
 		{
@@ -73,7 +73,7 @@ void	draw_door(t_image *screen, t_raycast r, t_texture t, int column)
 
 int	get_door_at(t_raycast *r, t_game *game)
 {
-	unsigned int	i;
+	unsigned int	i; // trocar pra int
 
 	i = -1;
 	while (++i < game->doors_n)

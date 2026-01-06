@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/06 18:06:14 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:34:42 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	images_error(t_game *game)
 	game->settings[0].img = NULL;
 	game->settings[1].img = NULL;
 	game->settings[2].img = NULL;
-	return (print_error("One or more images failed to load!"));
+	return (print_error("One or more images failed to load!4"));
 }
 
 int	load_settings_images(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 19:58:15 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:34:40 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	images_error(t_game *game)
 	game->menu_btns[1].img = NULL;
 	game->menu_btns[2].img = NULL;
 	game->menu_btns[3].img = NULL;
-	return (print_error("One or more images failed to load!"));
+	return (print_error("One or more images failed to load!3"));
 }
 
 int	load_menu_images(t_game *game)

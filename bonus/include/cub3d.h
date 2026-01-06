@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/02 19:44:58 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:47:18 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
 # define DOOR_ANIM_DURATION 0.3
-# define N_THREADS 4
+# define N_THREADS 16
 
 extern double	g_delta_time;
 

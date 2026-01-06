@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:35:59 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/02 18:35:38 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:43:13 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_images(t_game *game)
 		game->w.img = NULL;
 		game->e.img = NULL;
 		game->door.img = NULL;
-		return (print_error("One or more textures failed to load!"));
+		return (print_error("One or more textures failed to load!1"));
 	}
 	return (0);
 }
@@ -92,15 +92,13 @@ static int	load_textures_images(t_game *game)
 
 int	configure_textures_images(t_game *game)
 {
-	if (load_textures_images(game))
-		return (1);
 	game->door.img = mlx_xpm_file_to_image(game->mlx,
 		"bonus/res/textures/door_spritesheet.xpm",
 		&game->door.width, &game->door.height);
+	if (load_textures_images(game))
+		return (1);
 	if (game->door.width / 6 != 64 || game->door.height != 64)
 	{
-		mlx_destroy_image(game->mlx, game->door.img);
-		game->door.img = NULL;
 		if (check_images(game))
 		{
 			ft_putendl_fd("Invalid door spritesheet (nice try)", 2);
