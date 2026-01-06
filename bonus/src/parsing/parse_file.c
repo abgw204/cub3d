@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:00:22 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 19:26:13 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/06 19:09:54 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static char	**parse_symbol(char *str, char **symbols)
 
 int	parse_file(int map_fd, char **config, char **symbols, int i)
 {
+	char	**temp;
+
 	initialize_matrix(config, CONFIG_TOKENS + 1);
 	while (i < CONFIG_TOKENS)
 	{
@@ -83,7 +85,8 @@ int	parse_file(int map_fd, char **config, char **symbols, int i)
 				config[i] = NULL;
 				continue ;
 			}
-			get_data()->config[i] = parse_symbol(config[i], symbols);
+			temp = parse_symbol(config[i], symbols);
+			get_data()->config[i] = temp;
 			if (!get_data()->config[i])
 				return (free_all(config, get_data()->config, "Wrong config in file!"));
 		}

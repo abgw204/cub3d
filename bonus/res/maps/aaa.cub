@@ -3,10 +3,10 @@ WE bonus/res/textures/brick.xpm
 SO bonus/res/textures/grass.xpm
 EA bonus/res/textures/wood.xpm
 
-F 120, 0, 255
-C 0, 0, 255
+F 0, 0, 0
+C 0, 0, 0
 
-111111111111111111111
+11111111111111111111
 1E0000000000000000001
 100000000111110000001
 100000000D000D0000001
