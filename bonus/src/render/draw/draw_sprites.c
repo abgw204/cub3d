@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/06 19:18:58 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:39:28 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,29 @@
  *  sx: frame x position on spritesheet
  *  sy: frame y position on spritesheet
  *
- *  example: 0, 0 (first frame)
- *          64, 0 (second frame)
+ *  example:    0, 0 (first frame)
+ *              64, 0 (second frame)
  *
  *  src_w: original frame width
  *  src_h: original frame height
+ *
  *
  *  x: x on screen
  *  y: y on screen
  *
  *  scale: the desired scale to draw the sprite
+ *
+ *  dst_w: expected width of the final frame on screen
+ *  dst_h: expected height of the final frame on screen
+ * 
+ *  orig_x: corresponding pixel x on the original sprite
+ *  orig_y: corresponding pixel y on the original sprite
+ * 
+ *  example:    Destination (8px):  0 1 2 3 4 5 6 7
+ *              Origin  (4px):      0 0 1 1 2 2 3 3
+ *
+ *  It repeats pixels until the division makes another digit
+ *  
 */
 
 void draw_sprite_scaled(

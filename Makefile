@@ -96,9 +96,9 @@ OBJS = $(FUNCTIONS:.c=.o)
 
 OBJS_BONUS = $(FUNCTIONS_BONUS:.c=.o)
 
-NAME = cub3d
+NAME = cub3D
 
-NAME_BONUS = cub3d_bonus
+NAME_BONUS = cub3D_bonus
 
 .c.o:
 	@echo -n "|"

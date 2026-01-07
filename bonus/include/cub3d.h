@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 10:47:18 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:32:01 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ typedef struct	s_game_data
 	char			*keys;
 	bool			is_shooting;
 	double			shoot_timer;
-	unsigned int 	doors_n;
+	int 			doors_n;
 	t_door			*doors;
 	t_player		player;
 	t_minimap		minimap;
@@ -213,7 +213,7 @@ typedef struct s_data
 	int				map_h;
 	int				f_color;
 	int				c_color;
-	unsigned int 	doors_n;
+	int				doors_n;
 	t_door			*doors;
 }	t_data;
 

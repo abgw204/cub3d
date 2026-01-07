@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/06 19:01:09 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:33:38 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ int	thread_create(pthread_t *thread, void *(func)(void *), void *data)
 
 int game_loop(t_game *game)
 {
+	int	i;
+
+	i = 0;
 	move_player(game);
 	start_all_render_threads(&game->cond_start, &game->m);
 	wait_all_render_threads(&game->cond_done, &game->m);
-	for (unsigned int i = 0; i < game->doors_n; i++)
-		update_door(&game->doors[i], g_delta_time, game, 0.0);
+	while (i < game->doors_n)
+		update_door(&game->doors[i++], g_delta_time, game, 0.0);
 	raycast_door(game);
 	draw_sprites(game);
 	draw_crosshair(&game->screen);

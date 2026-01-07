@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 11:28:45 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:32:49 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	draw_door(t_image *screen, t_raycast r, t_texture t, int column)
 
 int	get_door_at(t_raycast *r, t_game *game)
 {
-	unsigned int	i; // trocar pra int
+	int	i;
 
 	i = -1;
 	while (++i < game->doors_n)

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 12:26:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/02 15:45:02 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/07 12:32:26 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_doors(t_door *doors)
 {
-	unsigned int	i;
+	int	i;
 
 	i = -1;
 	while (++i < get_data()->doors_n)
@@ -52,7 +52,7 @@ static int	validate_door(char *map, t_iv2 door, int map_w, int map_h)
 
 static int	verify_doors(char *map, int map_w, int map_h)
 {
-	unsigned int	i;
+	int	i;
 	t_door			*doors;
 
 	i = -1;
