@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/07 12:32:01 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:28:05 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ int		check_valid(char *line, char *valids);
 void	get_player_info(t_game *game);
 int		close_fd(int fd);
 char	**fill_in_with_x(void);
+void	ft_flood_fill(char **map, int x, int y, int *valid_map);
 int		parse_doors(char *map, int map_w, int map_h);
 
 /* KEYBOARD*/
