@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/07 16:39:18 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:40:55 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,9 @@ int main(int argc, char **argv)
 	if (parse_given_file(argv[1]))
 		return (1);
 	init_vars(&game);
-	char **map = fill_in_with_x();
-	int j = 0;
-	ft_flood_fill(map, 2, 2, &j);
 	init_config(&game.config);
 	set_null(&game);
-	for (size_t i = 0;  map[i]; i++)
-	{
-		printf("%s", map[i]);
-		printf("\n");
-	}
-	printf("\n%d\n", j);
-	/*if (init_game(&game))
+	if (init_game(&game))
 		return (1);
-	*/
 	return (0);
 }
