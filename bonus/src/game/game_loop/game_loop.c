@@ -23,7 +23,7 @@ void	show_fps(t_game *game)
 
 void	draw_crosshair(t_image *screen)
 {
-	t_uiv2	pos;
+	t_iv2	pos;
 
 	pos.x = SCREEN_WIDTH / 2 - 2;
 	pos.y = SCREEN_HEIGHT / 2 - 2;

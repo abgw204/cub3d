@@ -62,7 +62,8 @@
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
 # define DOOR_ANIM_DURATION 0.3
-# define N_THREADS 16
+# define GUN_SCALE 5
+# define N_THREADS 4
 
 extern double	g_delta_time;
 
@@ -160,6 +161,35 @@ typedef struct	s_texture
 	double	step;
 	double	tex_pos;
 }	t_texture;
+
+typedef struct	s_gun
+{
+	int		sx;
+	int		sy;
+	int		x;
+	int		y;
+	int		src_w;
+	int		src_h;
+	int		dst_w;
+	int		dst_h;
+	int		bpp;
+	int		line_len;
+	int		color;
+	int		sheet_offset;
+	int		sc_offset;
+	int		sc_x;
+	int		sc_y;
+	int		sc_line_len;
+	int		sc_bpp;
+	int		orig_x;
+	int		orig_y;
+	int		width;
+	int		height;
+	int		i;
+	int		j;
+	char	*dst;
+	t_image	*tex;
+}	t_gun;
 
 typedef struct	s_game_data
 {
@@ -323,8 +353,7 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
 void	draw_ceiling(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_floor(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
-void	draw_pixel_in_image(t_image *image, int x, int y, int color);
-void	draw_square(t_uiv2 pos, int size, int color, t_image *image);
+void	draw_square(t_iv2 pos, int size, int color, t_image *image);
 void	*raycast(void *param);
 void    raycast_door(t_game *game);
 int		cast_door_rays(t_raycast *r, t_game *game, int start);

@@ -93,8 +93,7 @@ int main(int argc, char **argv)
 		printf("\n");
 	}
 	printf("\n%d\n", j);
-	/*if (init_game(&game))
+	if (init_game(&game))
 		return (1);
-	*/
 	return (0);
 }
