@@ -25,8 +25,8 @@
 # include "../../lib/minilibx-linux/mlx.h"
 # include "../../lib/libft/libft.h"
 
-# define SCREEN_WIDTH 800
-# define SCREEN_HEIGHT 800
+# define SCREEN_WIDTH 1920
+# define SCREEN_HEIGHT 1080
 
 /* KEYS */
 # define KEY_W 119

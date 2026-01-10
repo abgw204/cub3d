@@ -27,21 +27,21 @@ void	update_door(t_door *door, double dt, t_game *game, double progress)
 	if (door->state == DOOR_OPENING)
 	{
 		door->anim_time += dt;
+		game->map[door->pos.y * game->map_w + door->pos.x] = 'O';
 		if (door->anim_time >= door->anim_duration)
 		{
 			door->anim_time = door->anim_duration;
 			door->state = DOOR_OPEN;
-			game->map[door->pos.y * game->map_w + door->pos.x] = 'O';
 		}
 	}
 	else if (door->state == DOOR_CLOSING)
 	{
 		door->anim_time -= dt;
+		game->map[door->pos.y * game->map_w + door->pos.x] = 'D';
 		if (door->anim_time <= 0.0)
 		{
 			door->anim_time = 0.0;
 			door->state = DOOR_CLOSED;
-			game->map[door->pos.y * game->map_w + door->pos.x] = 'D';
 		}
 	}
 	progress = door->anim_time / door->anim_duration;
