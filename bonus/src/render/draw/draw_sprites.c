@@ -13,7 +13,7 @@
 #include "../../../include/cub3d.h"
 
 /*
- * void draw_sprite_scaled (draws a sprite with an specific size (int scale))
+ * void draw_gun (draws gun spritesheet with an specific size (GUN_SCALE))
  *
  *  sx: frame x position on spritesheet
  *  sy: frame y position on spritesheet
@@ -24,11 +24,8 @@
  *  src_w: original frame width
  *  src_h: original frame height
  *
- *
  *  x: x on screen
  *  y: y on screen
- *
- *  scale: the desired scale to draw the sprite
  *
  *  dst_w: expected width of the final frame on screen
  *  dst_h: expected height of the final frame on screen
@@ -40,50 +37,55 @@
  *              Origin  (4px):      0 0 1 1 2 2 3 3
  *
  *  It repeats pixels until the division makes another digit
- *  
+ *
 */
 
-void draw_sprite_scaled(
-    t_game *game,
-    t_image *sheet,
-    int sx, int sy,     // Posição do frame no spritesheet
-    int src_w, int src_h, // Tamanho do frame original
-    int x, int y,       // Posição na tela
-    float scale)        // Fator de escala
+static void draw_loop(t_gun g, t_image *screen, int i, int j)
 {
-    int dst_w = src_w * scale;
-    int dst_h = src_h * scale;
-
-    int bpp = sheet->bpp / 8;
-    int screen_bpp = game->screen.bpp / 8;
-	int line_len = game->screen.line_len;
-	int sheet_len = sheet->line_len;
-
-    for (int j = 0; j < dst_h; j++)
+	while (++j < g.dst_h)
     {
-        int screen_y = y + j;
-        if (screen_y < 0 || screen_y >= SCREEN_HEIGHT)
+		i = -1;
+        g.sc_y = g.y + j;
+        if (g.sc_y < 0 || g.sc_y >= SCREEN_HEIGHT)
             continue;
-        for (int i = 0; i < dst_w; i++)
+        while (++i < g.dst_w)
         {
-            int screen_x = x + i;
-            if (screen_x < 0 || screen_x >= SCREEN_WIDTH)
+            g.sc_x = g.x + i;
+            if (g.sc_x < 0 || g.sc_x >= SCREEN_WIDTH)
                 continue;
-            int orig_x = (i * src_w) / dst_w;
-            int orig_y = (j * src_h) / dst_h;
-            int sheet_offset =
-                (sy + orig_y) * sheet_len +
-                (sx + orig_x) * bpp;
-            unsigned int color = *(unsigned int *)(sheet->addr + sheet_offset);
-            if ((color & 0x00FFFFFF) != 0)
+            g.orig_x = (i * g.src_w) / g.dst_w;
+            g.orig_y = (j * g.src_h) / g.dst_h;
+            g.sheet_offset = (g.sy + g.orig_y) * g.line_len +
+                (g.sx + g.orig_x) * g.bpp;
+            g.color = *(unsigned int *)(g.tex->addr + g.sheet_offset);
+            if ((g.color & 0x00FFFFFF) != 0)
             {
-            	int screen_offset =
-            	    screen_y * line_len +
-            	    screen_x * screen_bpp;
-            	*(unsigned int *)(game->screen.addr + screen_offset) = color;
+            	g.sc_offset = g.sc_y * g.sc_line_len +
+            	    g.sc_x * g.sc_bpp;
+            	*(unsigned int *)(screen->addr + g.sc_offset) = g.color;
 			}
         }
     }
+}
+
+void draw_gun(t_game *game, int current, int x, int y)
+{
+	t_gun	g;
+
+	g.x = x;
+	g.y = y;
+	g.sx = current * (game->gun.width / 5);
+	g.sy = 0;
+	g.tex = &game->gun;
+    g.src_w = game->gun.width / 5;
+    g.src_h = game->gun.height;
+    g.dst_w = g.src_w * GUN_SCALE;
+    g.dst_h = g.src_h * GUN_SCALE;
+    g.bpp = g.tex->bpp >> 3;
+	g.line_len = g.tex->line_len;
+    g.sc_bpp = game->screen.bpp >> 3;
+	g.sc_line_len = game->screen.line_len;
+	draw_loop(g, &game->screen, -1, -1);
 }
 
 void	draw_sprites(t_game *game)
@@ -97,8 +99,7 @@ void	draw_sprites(t_game *game)
 		game->is_shooting = true;
 		game->keys[6] = '0';
 	}
-	// gun
-	draw_sprite_scaled(game, &game->gun, current * (game->gun.width / 5), 0, game->gun.width / 5, game->gun.height, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50, 5);
+	draw_gun(game, current, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50);
 	if (game->is_shooting == true)
 	{
 		timer++;
