@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/07 12:33:38 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 14:00:20 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	show_fps(t_game *game)
 	if (game->config.show_fps && game->fps)
 	{
 		mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
+			SCREEN_HEIGHT - (SCREEN_HEIGHT - 30), 0xFFFFFF, game->fps);
 	}
 }
 
@@ -37,7 +37,7 @@ int	thread_create(pthread_t *thread, void *(func)(void *), void *data)
 	return (0);
 }
 
-int game_loop(t_game *game)
+int	game_loop(t_game *game)
 {
 	int	i;
 
@@ -66,18 +66,12 @@ int	update(void *param)
 	set_delta_time(game);
 	limit_fps(120.0);
 	if (game->state == MAIN_MENU)
-    {
-		//enable_mouse(game);
 		show_main_menu(game);
-    }
 	else if (game->state == IN_GAME)
-    {
-        //disable_mouse(game);
 		game_loop(game);
-    }
 	else if (game->state == IN_SETTINGS)
 		show_settings(game);
 	free(game->fps);
-    game->fps = NULL;
+	game->fps = NULL;
 	return (0);
 }

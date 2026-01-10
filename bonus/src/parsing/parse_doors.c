@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_doors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 12:26:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/07 12:32:26 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:35:19 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static int	validate_door(char *map, t_iv2 door, int map_w, int map_h)
 
 static int	verify_doors(char *map, int map_w, int map_h)
 {
-	int	i;
-	t_door			*doors;
+	int			i;
+	t_door		*doors;
 
 	i = -1;
 	doors = get_data()->doors;
@@ -80,7 +80,8 @@ int	parse_doors(char *map, int map_w, int map_h)
 		return (0);
 	get_data()->doors = (t_door *)malloc(get_data()->doors_n * sizeof(t_door));
 	if (!get_data()->doors)
-		return (free_all(NULL, get_data()->config, "Memory allocation failed!"));
+		return (free_all(NULL, get_data()->config,
+				"Memory allocation failed!"));
 	init_doors(get_data()->doors);
 	while (++pos.y < map_h)
 	{

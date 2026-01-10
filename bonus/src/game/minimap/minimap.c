@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/05 03:47:03 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 14:53:36 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ static void	draw_block(t_image *minimap, t_iv2 pos, int size, int color)
 	{
 		while (j < pos.y + size)
 		{
-			dst = minimap->addr
-				+ j++ * minimap->line_len
-				+ i * pitch;
-			*(unsigned int*)dst = color;
+			dst = minimap->addr + j * minimap->line_len + i * pitch;
+			*(unsigned int *) dst = color;
+			j++;
 		}
 		j = pos.y;
 		i++;
@@ -51,7 +50,6 @@ static void	draw_player(t_game *game, t_iv2 minipos)
 	minipos.y += gap_y;
 	draw_block(&game->minimap.img, minipos, 9, 0x00AA00);
 }
-
 
 static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 {

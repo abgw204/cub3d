@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_fc_colors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 12:09:33 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:36:26 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ int	parse_fc_colors(char ***config)
 		config++;
 	}
 	if (get_data()->f_color == -1)
-		return(free_all(NULL, get_data()->config, "Invalid floor color number!"));
+		return (free_all(NULL, get_data()->config,
+				"Invalid floor color number!"));
 	if (get_data()->c_color == -1)
-		return(free_all(NULL, get_data()->config, "Invalid ceiling color number!"));
+		return (free_all(NULL, get_data()->config,
+				"Invalid ceiling color number!"));
 	return (0);
 }

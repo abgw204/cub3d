@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/09 17:51:30 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/10 13:34:45 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@
 # define GUN_SCALE 5
 # define N_THREADS 4
 
-extern double	g_delta_time;
+extern double				g_delta_time;
 
-typedef struct	s_data t_data;
-typedef struct	s_game_data t_game;
+typedef struct s_game_data	t_game;
+typedef struct s_data		t_data;
 
-typedef struct	s_image
+typedef struct s_image
 {
 	void	*img;
 	char	*addr;
@@ -83,25 +83,25 @@ typedef struct	s_image
 	int		y;
 }	t_image;
 
-typedef struct	s_uint_vector
+typedef struct s_uint_vector
 {
 	unsigned int	x;
 	unsigned int	y;
 }	t_uiv2;
 
-typedef struct	s_int_vector
+typedef struct s_int_vector
 {
 	int	x;
 	int	y;
 }	t_iv2;
 
-typedef struct	s_double_vector
+typedef struct s_double_vector
 {
 	double	x;
 	double	y;
 }	t_dv2;
 
-typedef enum	e_door_state
+typedef enum e_door_state
 {
 	DOOR_CLOSED,
 	DOOR_OPENING,
@@ -119,7 +119,7 @@ typedef struct s_door
 	int				current_frame;
 }	t_door;
 
-typedef struct	s_player
+typedef struct s_player
 {
 	t_dv2	pos;
 	t_dv2	dir;
@@ -128,13 +128,13 @@ typedef struct	s_player
 	double	speed;
 }	t_player;
 
-typedef struct	s_config
+typedef struct s_config
 {
 	bool	show_fps;
 	bool	show_mouse;
 }	t_config;
 
-typedef struct	s_minimap
+typedef struct s_minimap
 {
 	int		x_bg;
 	int		y_bg;
@@ -144,7 +144,7 @@ typedef struct	s_minimap
 	t_image	img;
 }	t_minimap;
 
-typedef struct	s_texture
+typedef struct s_texture
 {
 	int		tex_x;
 	int		tex_y;
@@ -162,7 +162,7 @@ typedef struct	s_texture
 	double	tex_pos;
 }	t_texture;
 
-typedef struct	s_gun
+typedef struct s_gun
 {
 	int		sx;
 	int		sy;
@@ -191,7 +191,7 @@ typedef struct	s_gun
 	t_image	*tex;
 }	t_gun;
 
-typedef struct	s_game_data
+typedef struct s_game_data
 {
 	/* GAME */
 	void			*win;
@@ -206,7 +206,7 @@ typedef struct	s_game_data
 	char			*keys;
 	bool			is_shooting;
 	double			shoot_timer;
-	int 			doors_n;
+	int				doors_n;
 	t_door			*doors;
 	t_player		player;
 	t_minimap		minimap;
@@ -247,30 +247,29 @@ typedef struct s_data
 	t_door			*doors;
 }	t_data;
 
-typedef struct	s_raycast
+typedef struct s_raycast
 {
-	double	delta_dist_x;
-    double	delta_dist_y;
-    double	side_dist_x;
-    double	side_dist_y;
-    double	perp_wall_dist;
-	double	camera_x;
-	double	ray_dir_x;
-	double	ray_dir_y;
-	int		collum;
-    int		step_y;
-    int		step_x;
-	int		map_x;
-	int		map_y;
-	int		hit;
-    int		side;
-	int		line_height;
-    int		draw_start;
-	int		draw_end;
-	int		f_color;
-	int		c_color;
-}			t_raycast;
-
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		perp_wall_dist;
+	double		camera_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	int			collum;
+	int			step_y;
+	int			step_x;
+	int			map_x;
+	int			map_y;
+	int			hit;
+	int			side;
+	int			line_height;
+	int			draw_start;
+	int			draw_end;
+	int			f_color;
+	int			c_color;
+}	t_raycast;
 
 /* THREADS */
 void	init_threads(t_game *game);
@@ -282,7 +281,8 @@ void	send_signal_to_main_thread(pthread_cond_t *done, pthread_mutex_t *m);
 void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m);
 void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m);
 void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m);
-void	set_double(pthread_mutex_t *mutex, double **variable, double value, int i);
+void	set_double(pthread_mutex_t *mutex, double **variable,
+			double value, int i);
 bool	get_bool(pthread_mutex_t *mutex, bool *variable);
 
 /* TIME */
@@ -299,7 +299,7 @@ char	*rgb_to_hex(int rgb);
 int		hex_str_to_int(char *str, char *hex);
 int		compare_symbols(char *str, char **symbols);
 int		free_all(char **textures_matrix, char ***textures_array,
-		char *error_msg);
+			char *error_msg);
 void	free_stack_matrix_array(char ***arr);
 void	initialize_matrix(char **matrix, int size);
 void	trim_newline_chars(char ***config);
@@ -315,8 +315,8 @@ void	ft_flood_fill(char **map, int x, int y, int *valid_map);
 int		parse_doors(char *map, int map_w, int map_h);
 
 /* KEYBOARD*/
-int	key_press(int key, void *param);
-int	key_release(int key, void *param);
+int		key_press(int key, void *param);
+int		key_release(int key, void *param);
 
 /* MOUSE */
 int		mouse_move(int x, int y, void *param);
@@ -355,7 +355,7 @@ void	draw_floor(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_square(t_iv2 pos, int size, int color, t_image *image);
 void	*raycast(void *param);
-void    raycast_door(t_game *game);
+void	raycast_door(t_game *game);
 int		cast_door_rays(t_raycast *r, t_game *game, int start);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
 void	draw_sprites(t_game *game);

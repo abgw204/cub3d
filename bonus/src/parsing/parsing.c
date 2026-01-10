@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 12:06:17 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:40:45 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	validate_config(int file_fd)
 	file = (char **)ft_calloc((CONFIG_TOKENS + 1) * sizeof(char *), 1);
 	if (!file)
 		return (print_error("Memory allocation error!"));
+	initialize_matrix(file, CONFIG_TOKENS + 1);
 	if (parse_file(file_fd, file, possible_symbols, 0))
 		return (free_matrix(possible_symbols));
 	if (validate_parameters_number(get_data()->config))

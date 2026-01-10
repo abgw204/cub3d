@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:17 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/09 17:40:55 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/10 13:56:18 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	set_null(t_game *game)
 	game->door.img = NULL;
 }
 
-t_data *get_data(void)
+t_data	*get_data(void)
 {
 	static t_data	data_cub;
 
@@ -73,7 +73,7 @@ void	init_config(t_config *config)
 	config->show_mouse = true;
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_game	game;
 

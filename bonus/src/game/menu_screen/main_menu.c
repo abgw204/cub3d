@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_menu.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:34 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/12 12:24:39 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 14:03:14 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2)
 int	check_btn_collision(t_image *img, int x, int y)
 {
 	if (x >= img->x && y >= img->y
-		&& x <=  img->x + img->width
+		&& x <= img->x + img->width
 		&& y <= img->y + img->height)
 		return (1);
 	return (0);

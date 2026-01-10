@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:00:22 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/06 19:09:54 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/10 11:41:23 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_commas_number(char *str)
 	return (0);
 }
 
-static	int check_double_comma(char *str)
+static int	check_double_comma(char *str)
 {
 	char	*pos;
 
@@ -73,7 +73,6 @@ int	parse_file(int map_fd, char **config, char **symbols, int i)
 {
 	char	**temp;
 
-	initialize_matrix(config, CONFIG_TOKENS + 1);
 	while (i < CONFIG_TOKENS)
 	{
 		config[i] = get_next_line(map_fd);
@@ -88,7 +87,8 @@ int	parse_file(int map_fd, char **config, char **symbols, int i)
 			temp = parse_symbol(config[i], symbols);
 			get_data()->config[i] = temp;
 			if (!get_data()->config[i])
-				return (free_all(config, get_data()->config, "Wrong config in file!"));
+				return (free_all(config, get_data()->config,
+						"Wrong config in file!"));
 		}
 		else
 			return (free_all(config, get_data()->config, "Few lines in file!"));
@@ -97,4 +97,3 @@ int	parse_file(int map_fd, char **config, char **symbols, int i)
 	free_matrix(config);
 	return (0);
 }
-
