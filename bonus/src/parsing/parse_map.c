@@ -111,7 +111,7 @@ static int	get_map(int file_fd)
 int	parse_map(int file_fd)
 {
 	char	**map;
-	int	valid_map; 
+	int	valid_map;
 	
 	valid_map = 0;
 	if (get_map(file_fd))
@@ -128,8 +128,7 @@ int	parse_map(int file_fd)
 	if (valid_map == 1)
 	{
 		free_matrix(map);
-		printf("Invalid map\n");
-		return (1);
+		return (print_error("Invalid map!"));
 	}
 	if (parse_doors(get_data()->map, get_data()->map_w, get_data()->map_h))
 		return (1);
