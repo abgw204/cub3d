@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 12:26:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 11:35:19 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/10 15:46:57 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ static int	verify_doors(char *map, int map_w, int map_h)
 	while (++i < get_data()->doors_n)
 	{
 		if (validate_door(map, doors[i].pos, map_w, map_h))
-		{
-			free(map);
 			return (free_all(NULL, get_data()->config, "Invalid door in map!"));
-		}
 	}
 	return (0);
 }

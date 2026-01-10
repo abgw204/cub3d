@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/09 18:59:53 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/10 15:50:16 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,9 @@ int	parse_map(int file_fd)
 	ft_lstclear(&get_data()->map_list, free);
 	map = fill_in_with_x();
 	ft_flood_fill(map, 0, 0, &valid_map);
+	free_matrix(map);
 	if (valid_map == 1)
-	{
-		free_matrix(map);
-		return (print_error("Invalid map!"));
-	}
+		return (free_all(NULL, get_data()->config, "Invalid map!"));
 	if (parse_doors(get_data()->map, get_data()->map_w, get_data()->map_h))
 		return (1);
 	return (0);

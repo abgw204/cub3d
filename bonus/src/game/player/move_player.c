@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 14:20:08 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:01:56 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	move_w(t_game *game, t_player *p)
 	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
 		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
 		p->pos.x = nw.x;
-	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
-		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+	if (game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != 'D')
 		p->pos.y = nw.y;
 }
 
@@ -49,15 +49,15 @@ void	move_a(t_game *game, t_player *p)
 		coll.y = COLLISION_DIST;
 	else
 		coll.y = -COLLISION_DIST;
-    side.x = p->dir.y;
+	side.x = p->dir.y;
 	side.y = -p->dir.x;
-    nw.x = p->pos.x + side.x * p->speed * g_delta_time;
-    nw.y = p->pos.y + side.y * p->speed * g_delta_time;
+	nw.x = p->pos.x + side.x * p->speed * g_delta_time;
+	nw.y = p->pos.y + side.y * p->speed * g_delta_time;
 	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
 		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
 		p->pos.x = nw.x;
-	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
-		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+	if (game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != 'D')
 		p->pos.y = nw.y;
 }
 
@@ -79,14 +79,14 @@ void	move_s(t_game *game, t_player *p)
 	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
 		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
 		p->pos.x = nw.x;
-	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
-		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+	if (game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != 'D')
 		p->pos.y = nw.y;
 }
 
 void	move_d(t_game *game, t_player *p)
 {
-    t_dv2	side;
+	t_dv2	side;
 	t_dv2	nw;
 	t_dv2	coll;
 
@@ -98,15 +98,15 @@ void	move_d(t_game *game, t_player *p)
 		coll.y = COLLISION_DIST;
 	else
 		coll.y = -COLLISION_DIST;
-    side.x = -p->dir.y;
+	side.x = -p->dir.y;
 	side.y = p->dir.x;
-    nw.x = p->pos.x + side.x * p->speed * g_delta_time;
-    nw.y = p->pos.y + side.y * p->speed * g_delta_time;
+	nw.x = p->pos.x + side.x * p->speed * g_delta_time;
+	nw.y = p->pos.y + side.y * p->speed * g_delta_time;
 	if (game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != '1'
 		&& game->map[(int)p->pos.y * game->map_w + (int)(nw.x + coll.x)] != 'D')
 		p->pos.x = nw.x;
-	if (game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != '1'
-		&& game->map[(int)(nw.y + coll.y) * game->map_w + (int)p->pos.x] != 'D')
+	if (game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != '1'
+		&& game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != 'D')
 		p->pos.y = nw.y;
 }
 
@@ -129,7 +129,7 @@ void	move_player(t_game *game)
 	t_iv2	pos;
 
 	rotate_camera(game);
-	//mouse_move_in_game(game, game->m_x);
+	mouse_move_in_game(game, game->m_x);
 	if (game->keys[0] == '1')
 		move_w(game, &game->player);
 	if (game->keys[1] == '1')

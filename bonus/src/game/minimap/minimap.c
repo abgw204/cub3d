@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 14:53:36 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/10 15:48:23 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 	if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h))
 		map_c = map[mini->y_bg * game->map_w + mini->x_bg];
 	if (!in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
-		|| map_c == 'X' || map_c == ' ')
+		|| map_c == 'X')
 	{
 		draw_block(&mini->img, mini->pos, 20, 0x5555AA);
 		return ;
@@ -74,7 +74,7 @@ static void	draw_in_minimap(t_minimap *mini, t_game *game, char *map)
 		draw_block(&mini->img, mini->pos, 20, 0x5555AA);
 	else if (in_bounds(mini->x_bg, mini->y_bg, game->map_w, game->map_h)
 		&& (map_c == '0' || map_c == 'N' || map_c == 'S' || map_c == 'W'
-			|| map_c == 'E' || map_c == 'D'))
+			|| map_c == 'E' || map_c == 'D' || map_c == ' '))
 		draw_block(&mini->img, mini->pos, 20, BLACK);
 }
 
