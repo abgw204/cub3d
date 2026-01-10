@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/02 12:49:31 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:59:53 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ static int	get_map(int file_fd)
 
 int	parse_map(int file_fd)
 {
+	char	**map;
+	int	valid_map; 
+	
+	valid_map = 0;
 	if (get_map(file_fd))
 		return (1);
 	trim_newlines_map(get_data()->map_list);
@@ -117,15 +121,15 @@ int	parse_map(int file_fd)
 		return (1);
 	if (count_map_chars(get_data()->map_list))
 		return (1);
-	// if (expand_map(get_data()->map_list))
-		// return (1);
 	get_data()->map = linearize_map(get_data()->map_list);
 	ft_lstclear(&get_data()->map_list, free);
-	for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
+	map = fill_in_with_x();
+	ft_flood_fill(map, 0, 0, &valid_map);
+	if (valid_map == 1)
 	{
-		printf("%c", get_data()->map[i]);
-		if ((int)(i + 1) % get_data()->map_w == 0)
-			printf("\n");
+		free_matrix(map);
+		printf("Invalid map\n");
+		return (1);
 	}
 	if (parse_doors(get_data()->map, get_data()->map_w, get_data()->map_h))
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:30:11 by vfidelis          #+#    #+#             */
-/*   Updated: 2026/01/07 16:35:02 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/09 19:04:37 by vfidelis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ char	**fill_in_with_x(void)
 
 	linear_pos = 0;
 	i = 0;
-	matrix = malloc(sizeof(char *) * (get_data()->map_h + 2));
-	matrix[get_data()->map_h + 2] = NULL;
+	matrix = ft_calloc(sizeof(char *), (get_data()->map_h + 3));
 	while (i < (size_t)(get_data()->map_h + 2))
 	{
 		matrix[i] = ft_calloc(get_data()->map_w + 5, sizeof(char));     
@@ -60,7 +59,7 @@ void	ft_flood_fill(char **map, int x, int y, int *valid_map)
 {
 	if (x < 0 || y < 0 || x >= get_data()->map_h + 2 || y >= get_data()->map_w + 2)
 		return ;
-	if (map[x][y] == 'X')
+	if (map[x][y] == '0')
 	{
 		*valid_map = 1;
 		return ;
