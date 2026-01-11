@@ -73,10 +73,4 @@ void	ft_flood_fill(char **map, int x, int y, int *valid_map)
 	ft_flood_fill(map, x + 1, y, valid_map);
 	ft_flood_fill(map, x, y - 1, valid_map);
 	ft_flood_fill(map, x, y + 1, valid_map);
-	
-}*/
-
-//int	main()
-//{
-//	char **matrix = fill_in_with_x();
-//}
+}
