@@ -12,17 +12,18 @@
 
 #include "../../include/cub3d.h"
 
-void	insert_in_matrix(char **matrix, int i, size_t *linear_pos)
+static void	insert_in_matrix(char **matrix, int i, size_t *linear_pos)
 {
 	size_t	j;
 	
-	j = 0;
-	matrix[i][j++] = 'X';
-	while ((*linear_pos) < ft_strlen(get_data()->map))
+	j = 1;
+	matrix[i][0] = 'X';
+	while ((*linear_pos) <= ft_strlen(get_data()->map))
 	{
 		if ((int)((*linear_pos) + 1) % get_data()->map_w == 0)
 		{
-			matrix[i][j++] = 'X';
+			matrix[i][j++] = get_data()->map[(*linear_pos)];
+			matrix[i][j] = 'X';
 			(*linear_pos)++;
 			break ;
 		}
@@ -45,22 +46,33 @@ char	**fill_in_with_x(void)
 	matrix[get_data()->map_h + 2] = NULL;
 	while (i < (size_t)(get_data()->map_h + 2))
 	{
-		matrix[i] = ft_calloc(get_data()->map_w + 2, sizeof(char));     
+		matrix[i] = ft_calloc(get_data()->map_w + 5, sizeof(char));     
 		if (i > 0 && i < (size_t)(get_data()->map_h + 1))
 			insert_in_matrix(matrix, i, &linear_pos);
 		else
-			ft_memset(matrix[i], 'X', get_data()->map_w + 1);
+			ft_memset(matrix[i], 'X', get_data()->map_w + 2);
 		i++;
 	}
 	return (matrix);
 }
 
-/*int	flood_fill()
+void	ft_flood_fill(char **map, int x, int y, int *valid_map)
 {
-	char **map;
-
-	map = fill_in_with_x();
-	
+	if (x < 0 || y < 0 || x >= get_data()->map_h + 2 || y >= get_data()->map_w + 2)
+		return ;
+	if (map[x][y] == 'X')
+	{
+		*valid_map = 1;
+		return ;
+	}
+	if (map[x][y] == '1' || map[x][y] == 'Y')
+		return ;
+	map[x][y] = 'Y';
+	printf("x = %d\ny = %d\n", x, y);
+	ft_flood_fill(map, x - 1, y, valid_map);
+	ft_flood_fill(map, x + 1, y, valid_map);
+	ft_flood_fill(map, x, y - 1, valid_map);
+	ft_flood_fill(map, x, y + 1, valid_map);
 	
 }*/
 

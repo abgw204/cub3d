@@ -7,7 +7,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
 			src/parsing/parse_file.c \
 			src/parsing/parse_fc_colors.c \
-			src/parsing/parse_map_flood_fill.c \
+			src/parsing/parse_map_flood_fill.c\
 			src/parsing/free_all.c \
 			src/parsing/compare_symbols.c \
 			src/parsing/parse_map.c \

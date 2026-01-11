@@ -292,6 +292,7 @@ int		check_valid(char *line, char *valids);
 void	get_player_info(t_game *game);
 int		close_fd(int fd);
 char	**fill_in_with_x(void);
+void	ft_flood_fill(char **map, int x, int y, int *valid_map);
 
 /* KEYBOARD*/
 int	key_press(int key, void *param);
