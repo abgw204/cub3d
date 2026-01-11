@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:58 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/24 17:05:59 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/11/25 15:47:05 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void    limit_fps(double target_fps)
     double			frame_time;
     double			elapsed;
 
-	now = get_time_in_seconds();
+    if (target_fps == 0)
+        target_fps = 1000;
+    now = get_time_in_seconds();
 	frame_time = 1.0 / target_fps;
 	elapsed = now - last;
     if (elapsed < frame_time)

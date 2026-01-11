@@ -1,19 +1,19 @@
 # 🎮 Cub3D
 
 Cub3D é um projeto desenvolvido em **C** inspirado em *Wolfenstein 3D*, utilizando a técnica de **raycasting** para renderizar um ambiente 3D a partir de mapas 2D.  
-O objetivo é explorar conceitos de gráficos, estruturas de dados e programação de baixo nível em tempo real.  
+O objetivo é explorar conceitos de gráficos, estruturas de dados, networking e programação de baixo nível em tempo real.
 Este projeto faz parte do currículo da 42 Rio.
 
 ---
 
 ## ✨ Funcionalidades
 - Renderização 3D baseada em **raycasting**.  
-- Movimentação do jogador em primeira pessoa.  
+- Movimentação do jogador em primeira pessoa.
 - Sistema de colisão contra paredes.  
 - Leitura de mapas a partir de arquivos `.cub`.  
-- Suporte a texturas em paredes, chão e teto.  
+- Suporte a texturas e sprites.
 - Renderização em tempo real com atualizações de FPS.  
-- Versão em desenvolvimento com suporte a **multiplayer online via UDP**.  
+- Servidor **multiplayer online via UDP**.  
 
 ---
 
@@ -23,45 +23,32 @@ Este projeto faz parte do currículo da 42 Rio.
 - **Manipulação de imagens** e buffers de tela  
 - **Estruturas de dados** aplicadas a jogos  
 - **Eventos de teclado e mouse**  
-- **Programação de redes (UDP)** para suporte online (em andamento)  
+- **Programação de redes (UDP)** para suporte online 
 
 ---
 
 ## 🚀 Como executar
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/vinionix/cub3d.git
+   git clone https://github.com/abgw204/cub3d.git
    cd cub3d
-Compile o projeto:
+2. Compile o projeto:
+   ```bash
+   make
+3. Execute o jogo passando um mapa .cub:
+   ```bash
+   ./cub3d maps/mapa.cub
 
-bash
-make
-Execute o jogo passando um mapa .cub:
+## 📚 Principais Aprendizados
 
-bash
-./cub3d maps/mapa.cub
-📚 Aprendizados principais
-Fundamentos de gráficos 2D/3D e algoritmos de raycasting.
+Durante o desenvolvimento deste projeto, foram consolidados os seguintes conhecimentos:
 
-Manipulação de eventos e renderização em tempo real.
+- **Fundamentos de gráficos 2D/3D**, incluindo algoritmos de **raycasting**
+- **Manipulação de eventos** e **renderização em tempo real**
+- **Introdução à programação de redes** utilizando **sockets UDP**
+- **Multi-threading** para **rendenização** mais rápida (mais fps)
 
-Organização modular de código em C para jogos.
+## 👤 Autores
 
-Introdução à programação de redes com sockets UDP.
-
-Estruturas de dados aplicadas a parsing e game loop.
-
-📌 Roadmap (futuras implementações)
- Suporte a sprites (objetos no cenário).
-
- Iluminação e sombras simples.
-
- Multiplayer completo via UDP.
-
- Sistema de menu inicial e HUD.
-
- Ferramenta de criação de mapas.
-
-👤 Autores
-[Vinicius Fidelis].
-[Gabriel Salgado].
+- **Vinicius Fidelis**
+- **Gabriel Salgado**

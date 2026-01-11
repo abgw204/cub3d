@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:39:15 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/07 08:29:41 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 11:56:58 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ static void	set_draw_range(int *start, int *limit, int id, int width)
 	}
 }
 
+void	*terminate_job(t_game *game)
+{
+	increment_int(&game->m, &game->threads_done);
+	if (get_int(&game->m, &game->threads_done) == N_THREADS)
+		send_signal_to_main_thread(&game->cond_done, &game->m);
+	return (NULL);
+}
+
 void    *raycast(void *param)
 {
 	t_raycast	raycast;
@@ -42,6 +50,8 @@ void    *raycast(void *param)
 	while (true)
 	{
 		wait_signal_from_main_thread(&game->cond_start, &game->m);
+		if (get_bool(&game->m, &game->stop))
+			return (terminate_job(game));
 		while (start < limit)
 			cast_rays_and_draw(&raycast, game, &start);
 		increment_int(&game->m, &game->threads_done);

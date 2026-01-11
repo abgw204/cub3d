@@ -20,15 +20,9 @@ void	init_mini(t_minimap *mini, t_game *game)
 	mini->y_bg = (int)game->player.pos.y - 5;
 	mini->x_end = (int)game->player.pos.x + 5;
 	mini->y_end = (int)game->player.pos.y + 5;
-	clear_minimap(&mini->img);
 }
 
 int	in_bounds(int x, int y, int endx, int endy)
 {
 	return (x >= 0 && y >= 0 && x < endx && y < endy);
-}
-
-void	clear_minimap(t_image *minimap)
-{
-	memset(minimap->addr, 0, minimap->width * minimap->height * 4);
 }

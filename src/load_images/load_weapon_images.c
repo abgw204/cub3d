@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_screen_image.c                                :+:      :+:    :+:   */
+/*   load_weapon_images.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 18:39:01 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/04 13:56:19 by gada-sil         ###   ########.fr       */
+/*   Created: 2025/12/08 14:48:46 by gada-sil          #+#    #+#             */
+/*   Updated: 2025/12/12 13:40:29 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int configure_screen_image(t_game *game)
+int	load_weapon_images(t_game *game)
 {
-    game->screen.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-    if (!game->screen.img)
-        return (1);
-    game->screen.addr = mlx_get_data_addr(game->screen.img,
-        &game->screen.bpp, &game->screen.line_len, &game->screen.endian);
-    return (0);
+	game->gun.img = mlx_xpm_file_to_image(game->mlx,
+								"res/textures/sprites/gun/gun_spritesheet.xpm",
+								&game->gun.width,
+								&game->gun.height);
+	if (!game->gun.img)
+		return (print_error("One or more images failed to load!"));
+	game->gun.addr = mlx_get_data_addr(game->gun.img,
+		&game->gun.bpp, &game->gun.line_len, &game->gun.endian);
+	return (0);
 }

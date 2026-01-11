@@ -1,24 +1,13 @@
-NO ./res/textures/sprites/orb.xpm
-SO ./res/textures/SO.xpm
-WE ./res/textures/WE.xpm
-EA ./res/textures/EA.xpm
+NO ./res/textures/wood1.xpm
+SO ./res/textures/grass.xpm
+WE ./res/textures/wood.xpm
+EA ./res/textures/brick.xpm
 
-F 255,	255, 255
-C 0, 0, 255
+F 0, 0, 0
+C 0, 0, 0
 
 
-   111
-   101
-   101
-   101
-   101
-111101111
-100101001
-110000001111
-100000000001
-100010001111
-100000001
-10000N001
-100000001
-100010001
-111111111
+111111111111111111111
+100000000001N00000001
+100000000000000000001
+111111111111111111111

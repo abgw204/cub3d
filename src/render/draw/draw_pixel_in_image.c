@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:52 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/09/30 18:20:50 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/19 12:48:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image)
 	}
 }
 
-void	draw_square(t_game *game, t_uiv2 pos, int size, int color)
+void	draw_square(t_uiv2 pos, int size, int color, t_image *image)
 {
 	uint32_t	i;
 	uint32_t	j;
@@ -42,7 +42,7 @@ void	draw_square(t_game *game, t_uiv2 pos, int size, int color)
 	while (i < pos.x + size)
 	{
 		while (j < pos.y + size)
-			mlx_pixel_put(game->mlx, game->win, i, j++, color);
+			draw_pixel_in_image(image, i, j++, color);
 		j = pos.y;
 		i++;
 	}

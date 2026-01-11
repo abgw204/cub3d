@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
@@ -31,26 +31,38 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/hooks/menu.c \
 			src/hooks/keyboard_inputs/keyboard_handler.c \
 			src/render/draw/draw_pixel_in_image.c \
-			src/render/draw/calculate_sprites.c \
+			src/render/draw/draw_sprites.c \
 			src/render/raycast/raycast.c \
 			src/render/raycast/threads_cond.c \
 			src/render/raycast/cast_rays_and_draw.c \
 			src/render/raycast/getters_setters.c \
 			src/game/start/init_game.c \
+			src/game/start/init_game_utils.c \
 			src/game/game_loop/game_loop.c \
 			src/game/utils/mouse_utils.c \
 			src/game/player/move_player.c \
-			src/game/player/rotate_camera.c
+			src/game/player/rotate_camera.c \
+			src/load_images/load_weapon_images.c \
+			src/render/raycast/draw_utils.c
 
 FUNCTIONS_BONUS =
+
+FUNCTIONS_SERVER = server/src/init.c \
+					server/src/time.c \
+					server/src/parse_map_server.c \
+					server/src/parse_map_s_utils.c
 
 OBJS = $(FUNCTIONS:.c=.o)
 
 OBJS_BONUS = $(FUNCTIONS_BONUS:.c=.o)
 
+OBJS_SERVER = $(FUNCTIONS_SERVER:.c=.o)
+
 NAME = cub3d
 
 NAME_BONUS = cub3d_bonus
+
+SERVER_NAME = server_cub3d
 
 .c.o:
 	@echo -n "|"
@@ -71,12 +83,18 @@ $(LIBFT):
 	@echo
 	@make -C lib/libft --no-print-directory
 
+$(SERVER_NAME): $(OBJS_SERVER) $(LIBFT)
+	@$(CC) $(FLAGS) server/src/main.c -lm $(OBJS_SERVER) -Llib/libft -lft -o $(SERVER_NAME)
+	@echo "\033[46mcub3d server compiled successfully!\033[0m"
+
+server: $(SERVER_NAME)
+
 clean:
-	@rm -f $(OBJS) $(OBJS_BONUS)
+	@rm -f $(OBJS) $(OBJS_BONUS) $(OBJS_SERVER)
 	@make clean -C lib/libft --no-print-directory
 
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS) $(NAME_LIB) $(NAME_LIB_BONUS)
+	@rm -f $(NAME) $(NAME_BONUS) $(NAME_LIB) $(NAME_LIB_BONUS) $(SERVER_NAME)
 	@make fclean -C lib/libft --no-print-directory
 
 re: fclean all

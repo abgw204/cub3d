@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/03 16:41:09 by vfidelis         ###   ########.fr       */
+/*   Updated: 2025/12/26 14:30:07 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,21 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <pthread.h>
+# include <sys/socket.h>
+# include "../server/include/server.h"
 # include "../lib/minilibx-linux/mlx.h"
 # include "libft.h"
 
-/* SCREEN SIZE */
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
+# define CONFIG_TOKENS 6
 
 /* KEYS */
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
 # define KEY_D 100
+# define KEY_ESC 65307
 
 # define LEFT_ARROW 65361
 # define RIGHT_ARROW 65363
@@ -52,17 +55,19 @@
 
 /* MATH */
 # define PI 3.14159265358979323846
-# define FOV 0.75
+//# define FOV 0.66
 
 /* NETWORKING */
 # define MAX_PLAYERS 4
 
-# define COLLISION_DIST 0.2
-# define N_THREADS 6
+# define SHOOT_DELAY 0.3
+# define COLLISION_DIST 0.3
+# define N_THREADS 4
 
 extern double	g_delta_time;
 
 typedef struct	s_data t_data;
+typedef struct	s_game_data t_game;
 
 typedef struct	s_image
 {
@@ -148,6 +153,15 @@ typedef struct	s_sprite
 	bool			drawn;
 }	t_sprite;
 
+typedef struct	s_players
+{
+	int			id;
+	double		x;
+	double		y;
+	int			connected;
+	t_sprite	sp;
+}	t_players;
+
 typedef struct	s_game_data
 {
 	/* GAME */
@@ -156,10 +170,19 @@ typedef struct	s_game_data
 	char			*map;
 	int				map_w;
 	int				map_h;
+	int				m_x;
+	int				m_y;
 	int				state;
 	char			*fps;
 	char			*keys;
+	char			*local_keys;
 	double			*z_buffer;
+	int				screen_w;
+	int				screen_h;
+	int				my_id;
+	bool			is_shooting;
+	double			shoot_timer;
+	int				health;
 	t_player		player;
 	t_minimap		minimap;
 	t_config		config;
@@ -170,6 +193,8 @@ typedef struct	s_game_data
 	t_image			screen;
 	t_image			menu_btns[4];
 	t_image			settings[3];
+	t_image			enemy;
+	t_image			gun;
 	t_image			n;
 	t_image			s;
 	t_image			e;
@@ -177,11 +202,18 @@ typedef struct	s_game_data
 
 	/* THREADS */
 	pthread_t		th[N_THREADS];
-	int				id;
-	int				threads_done;
 	pthread_mutex_t	m;
 	pthread_cond_t	cond_start;
 	pthread_cond_t	cond_done;
+	int				id;
+	int				threads_done;
+	bool			stop;
+
+	/* NETWORKING */
+	t_players		players[MAX_PLAYERS];
+	t_socket		soc;
+	double			server_down_timer;
+	bool			packet_received;
 }			t_game;
 
 typedef struct s_data
@@ -216,6 +248,8 @@ typedef struct	s_raycast
 	int		line_height;
     int		draw_start;
 	int		draw_end;
+	int		f_color;
+	int		c_color;
 }			t_raycast;
 
 
@@ -230,6 +264,7 @@ void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m);
 void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m);
 void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m);
 void	set_double(pthread_mutex_t *mutex, double **variable, double value, int i);
+bool	get_bool(pthread_mutex_t *mutex, bool *variable);
 
 /* TIME */
 void	set_delta_time(t_game *game);
@@ -276,7 +311,6 @@ int		load_menu_images(t_game *game);
 int		configure_screen_image(t_game *game);
 int		show_main_menu(t_game *game);
 int		check_btn_collision(t_image *img, int x, int y);
-void	set_buttons_pos(t_image *menu_btns);
 void	set_menu_images_info(t_image *images);
 int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 
@@ -284,7 +318,6 @@ int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 int		load_minimap(t_game *game);
 void	draw_minimap(t_game *game);
 int		in_bounds(int x, int y, int endx, int endy);
-void	clear_minimap(t_image *minimap);
 void	init_mini(t_minimap *mini, t_game *game);
 
 /* SETTINGS */
@@ -297,13 +330,15 @@ int		mouse_input_in_settings(t_game *game, int x, int y, int mouse_btn);
 
 /* DRAW */
 void	revert_colors(t_image *image, unsigned int color1, unsigned int color2);
+void	draw_ceiling(t_raycast *r, t_image *screen, int start, int limit);
+void	draw_floor(t_raycast *r, t_image *screen, int start, int limit);
 void	draw_circle(t_uiv2 pos, int radius, int color, t_image *image);
 void	draw_pixel_in_image(t_image *image, int x, int y, int color);
-void	draw_square(t_game *game, t_uiv2 pos, int size, int color);
+void	draw_square(t_uiv2 pos, int size, int color, t_image *image);
 void	*raycast(void *param);
 void	cast_rays_and_draw(t_raycast *r, t_game *game, int *start);
-void	calculate_sprites(t_game *game);
-int		get_further_sprite(t_sprite *sp);
+void	draw_sprites(t_game *game);
+int		get_further_sprite(t_players *players, int my_id);
 
 /* ERROR */
 int		print_error(char *error_message);
@@ -312,6 +347,9 @@ int		print_perror(void);
 
 /* GAME */
 int		init_game(t_game *game);
+int		load_mlx_window(t_game *game);
+int		load_weapon_images(t_game *game);
+int		load_enemy_sprite(t_game *game);
 int		update(void *param);
 void	move_player(t_game *game);
 t_data	*get_data(void);
@@ -320,9 +358,12 @@ void	free_images(t_game *game);
 int		game_loop(t_game *game);
 void	rotate_camera(t_game *game);
 void	rotate_camera_mouse(t_game *game, int middle, int x);
-void	thread_create(pthread_t *thread, void *(func)(void *), void *data);
+int		mouse_move_in_game(t_game *game, int x);
+int		thread_create(pthread_t *thread, void *(func)(void *), void *data);
 
 /* TEXTURES */
 int	configure_textures_images(t_game *game);
+
+int receive_position(t_game *game);
 
 #endif

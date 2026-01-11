@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/24 19:10:05 by vfidelis         ###   ########.fr       */
+/*   Updated: 2025/12/10 17:28:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	get_map(int file_fd)
 	get_data()->map_list = ft_lstnew(line);
 	if (search_bigger(line, &get_data()->map_w))
 		return (error(line, get_data()->map_list, "Newline in map!"));
-    free(line);
+	free(line);
     line = get_next_line(file_fd);
     while (line)
     {
@@ -118,11 +118,11 @@ int	parse_map(int file_fd)
 		// return (1);
 	get_data()->map = linearize_map(get_data()->map_list);
 	ft_lstclear(&get_data()->map_list, free);
-	//for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
-	//{
-	//	printf("%c", get_data()->map[i]);
-	//	if ((int)(i + 1) % get_data()->map_w == 0)
-	//		printf("\n");
-	//}
+	for (size_t i = 0;  i < ft_strlen(get_data()->map); i++)
+	{
+		printf("%c", get_data()->map[i]);
+		if ((int)(i + 1) % get_data()->map_w == 0)
+			printf("\n");
+	}
 	return (0);
 }

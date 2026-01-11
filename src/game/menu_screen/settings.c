@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/14 19:40:37 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:54:48 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,18 @@ int	configure_settings_images(t_game *game)
 
 int	show_settings(t_game *game)
 {
+	int	i;
+
+	i = -1;
+	mouse_move_settings(game, game->m_x, game->m_y);
 	mlx_put_image_to_window(game->mlx, game->win,
-						 game->settings[0].img,
-						 game->settings[0].x,
-						 game->settings[0].y);
-	mlx_put_image_to_window(game->mlx, game->win,
-						 game->menu_btns[2].img,
-						 game->menu_btns[2].x,
-						 game->menu_btns[2].y - 450);
-	mlx_put_image_to_window(game->mlx, game->win,
-						 game->settings[1].img,
-						 game->settings[1].x,
-						 game->settings[1].y);
-	mlx_put_image_to_window(game->mlx, game->win,
-						 game->settings[2].img,
-						 game->settings[2].x,
-						 game->settings[2].y);
+		game->menu_btns[2].img,
+		game->menu_btns[2].x,
+		game->menu_btns[2].y - 450);
+	while (++i < 3)
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->settings[i].img,
+			game->settings[i].x,
+			game->settings[i].y);
 	return (0);
 }

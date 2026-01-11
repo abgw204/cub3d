@@ -6,11 +6,19 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 16:35:59 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/11/06 17:47:22 by gada-sil         ###   ########.fr       */
+/*   Updated: 2025/12/08 11:00:02 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	set_textures_images_info(t_game *game)
+{
+	game->n.addr = mlx_get_data_addr(game->n.img, &game->n.bpp, &game->n.line_len, &game->n.endian);
+	game->s.addr = mlx_get_data_addr(game->s.img, &game->s.bpp, &game->s.line_len, &game->s.endian);
+	game->w.addr = mlx_get_data_addr(game->w.img, &game->w.bpp, &game->w.line_len, &game->w.endian);
+	game->e.addr = mlx_get_data_addr(game->e.img, &game->e.bpp, &game->e.line_len, &game->e.endian);
+}
 
 int	check_images(t_game *game)
 {
@@ -56,8 +64,7 @@ static int	load_textures_images(t_game *game)
 	game->data->config[tex][1],
 	&game->n.width,
 	&game->n.height);
-	game->n.addr = mlx_get_data_addr(game->n.img, &game->n.bpp, &game->n.line_len, &game->n.endian);
-	/*tex = get_texture_dir(game->data->config, "SO");
+	tex = get_texture_dir(game->data->config, "SO");
 	game->s.img = mlx_xpm_file_to_image(game->mlx,
 	game->data->config[tex][1],
 	&game->s.width,
@@ -71,9 +78,9 @@ static int	load_textures_images(t_game *game)
 	game->w.img = mlx_xpm_file_to_image(game->mlx,
 	game->data->config[tex][1],
 	&game->w.width,
-	&game->w.height);*/
-	//if (check_images(game))
-	//	return (1);
+	&game->w.height);
+	if (check_images(game))
+		return (1);
 	return (0);
 }
 
@@ -81,5 +88,6 @@ int	configure_textures_images(t_game *game)
 {
 	if (load_textures_images(game))
 		return (1);
+	set_textures_images_info(game);
 	return (0);
 }
