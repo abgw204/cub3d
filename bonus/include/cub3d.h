@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 13:34:45 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:19:54 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,7 @@ typedef struct s_raycast
 
 /* THREADS */
 void	init_threads(t_game *game);
-long	get_int_and_increment(pthread_mutex_t *mutex, int *variable);
+int		get_int_and_increment(pthread_mutex_t *mutex, int *variable);
 int		get_int(pthread_mutex_t *mutex, int *variable);
 void	increment_int(pthread_mutex_t *mutex, int *value);
 void	set_int(pthread_mutex_t *mutex, int *variable, int value);
@@ -281,8 +281,6 @@ void	send_signal_to_main_thread(pthread_cond_t *done, pthread_mutex_t *m);
 void	wait_signal_from_main_thread(pthread_cond_t *start, pthread_mutex_t *m);
 void	start_all_render_threads(pthread_cond_t *start, pthread_mutex_t *m);
 void	wait_all_render_threads(pthread_cond_t *done, pthread_mutex_t *m);
-void	set_double(pthread_mutex_t *mutex, double **variable,
-			double value, int i);
 bool	get_bool(pthread_mutex_t *mutex, bool *variable);
 
 /* TIME */
@@ -330,7 +328,7 @@ int		configure_menu_images(t_game *game);
 int		load_menu_images(t_game *game);
 int		configure_screen_image(t_game *game);
 int		show_main_menu(t_game *game);
-int		check_btn_collision(t_image *img, int x, int y);
+int		check_btn_coll(t_image *img, int x, int y);
 void	set_menu_images_info(t_image *images);
 int		mouse_input_menu(t_game *game, int x, int y, int mouse_btn);
 
@@ -389,5 +387,6 @@ t_image	*get_tex(double ray_dir_x, double ray_dir_y, int side, t_game *game);
 void	draw_tex(t_image *screen, t_raycast r, t_texture t, int column);
 void	draw_door(t_image *screen, t_raycast r, t_texture t, int column);
 int		get_door_at(t_raycast *r, t_game *game);
+t_door	*get_door_at_pos(t_door *doors, t_iv2 pos, unsigned int n);
 
 #endif

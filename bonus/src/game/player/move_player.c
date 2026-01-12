@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 20:18:14 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 16:01:56 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:37:01 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,20 +108,6 @@ void	move_d(t_game *game, t_player *p)
 	if (game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != '1'
 		&& game->map[(int)(nw.y + coll.y) *game->map_w + (int)p->pos.x] != 'D')
 		p->pos.y = nw.y;
-}
-
-t_door	*get_door_at_pos(t_door *doors, t_iv2 pos, unsigned int n)
-{
-	unsigned int	i;
-
-	i = -1;
-	while (++i < n)
-	{
-		if (doors[i].pos.x == pos.x
-			&& doors[i].pos.y == pos.y)
-			return (&doors[i]);
-	}
-	return (NULL);
 }
 
 void	move_player(t_game *game)

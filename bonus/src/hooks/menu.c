@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 12:24:01 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:47:13 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,29 @@ static int	get_button_pos(const char *imgs, int size)
 
 int	mouse_input_menu(t_game *game, int x, int y, int mouse_btn)
 {
-	if (check_btn_collision(&game->menu_btns[1], x, y) && mouse_btn == 1)
+	if (check_btn_coll(&game->menu_btns[1], x, y) && mouse_btn == 1)
 	{
 		revert_colors(&game->menu_btns[1], WHITE_ISH, BLACK);
 		game->state = IN_GAME;
 	}
-	else if (check_btn_collision(&game->menu_btns[2], x, y) && mouse_btn == 1)
+	else if (check_btn_coll(&game->menu_btns[2], x, y) && mouse_btn == 1)
 	{
 		revert_colors(&game->menu_btns[2], WHITE_ISH, BLACK);
 		game->state = IN_SETTINGS;
 	}
-	else if (check_btn_collision(&game->menu_btns[3], x, y) && mouse_btn == 1)
+	else if (check_btn_coll(&game->menu_btns[3], x, y) && mouse_btn == 1)
 		free_and_exit(game);
 	return (0);
 }
 
 int	mouse_input_in_settings(t_game *game, int x, int y, int mouse_btn)
 {
-	if (check_btn_collision(&game->settings[0], x, y) && mouse_btn == 1)
+	if (check_btn_coll(&game->settings[0], x, y) && mouse_btn == 1)
 	{
 		revert_colors(&game->settings[0], WHITE_ISH, BLACK);
 		game->state = MAIN_MENU;
 	}
-	else if (check_btn_collision(&game->settings[2], x, y) && mouse_btn == 1)
+	else if (check_btn_coll(&game->settings[2], x, y) && mouse_btn == 1)
 	{
 		if (game->config.show_fps == 0)
 		{
@@ -74,7 +74,7 @@ int	mouse_move_settings(t_game *game, int x, int y)
 	i = 0;
 	while (i < 2)
 	{
-		if (check_btn_collision(&game->settings[i], x, y))
+		if (check_btn_coll(&game->settings[i], x, y))
 			break ;
 		i++;
 	}
@@ -82,13 +82,13 @@ int	mouse_move_settings(t_game *game, int x, int y)
 	{
 		revert_colors(&game->settings[i], BLACK, WHITE_ISH);
 		imgs[i] = '1';
-		return (0);
 	}
 	else if (i == 2 && get_button_pos(imgs, 2) != -1)
 	{
-		if (!check_btn_collision(&game->settings[get_button_pos(imgs, 2)], x, y))
+		if (!check_btn_coll(&game->settings[get_button_pos(imgs, 2)], x, y))
 		{
-			revert_colors(&game->settings[get_button_pos(imgs, 2)], WHITE_ISH, BLACK);
+			revert_colors(&game->settings[get_button_pos(imgs, 2)],
+				WHITE_ISH, BLACK);
 			imgs[get_button_pos(imgs, 2)] = '0';
 		}
 	}
@@ -103,7 +103,7 @@ int	mouse_move_menu(t_game *game, int x, int y)
 	i = 1;
 	while (i < 4)
 	{
-		if (check_btn_collision(&game->menu_btns[i], x, y))
+		if (check_btn_coll(&game->menu_btns[i], x, y))
 			break ;
 		i++;
 	}
@@ -111,13 +111,13 @@ int	mouse_move_menu(t_game *game, int x, int y)
 	{
 		revert_colors(&game->menu_btns[i], BLACK, WHITE_ISH);
 		imgs[i] = '1';
-		return (0);
 	}
 	else if (i == 4 && get_button_pos(imgs, 4) != -1)
 	{
-		if (!check_btn_collision(&game->menu_btns[get_button_pos(imgs, 4)], x, y))
+		if (!check_btn_coll(&game->menu_btns[get_button_pos(imgs, 4)], x, y))
 		{
-			revert_colors(&game->menu_btns[get_button_pos(imgs, 4)], WHITE_ISH, BLACK);
+			revert_colors(&game->menu_btns[get_button_pos(imgs, 4)],
+				WHITE_ISH, BLACK);
 			imgs[get_button_pos(imgs, 4)] = '0';
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_menu.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:34 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 14:03:14 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:42:25 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	revert_colors(t_image *image, unsigned int color1, unsigned int color2)
 	}
 }
 
-int	check_btn_collision(t_image *img, int x, int y)
+int	check_btn_coll(t_image *img, int x, int y)
 {
 	if (x >= img->x && y >= img->y
 		&& x <= img->x + img->width

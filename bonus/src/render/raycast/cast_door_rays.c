@@ -6,13 +6,13 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 11:28:22 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:11:47 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/cub3d.h"
 
-static void    draw_column(t_image *screen, t_raycast r, int col, t_game *game)
+static void	draw_column(t_image *screen, t_raycast r, int col, t_game *game)
 {
 	t_texture	t;
 
@@ -65,8 +65,6 @@ static int	verify_hit_wall(t_raycast *r, t_game *game)
 
 static void	set_direction(t_raycast *r, t_game *game)
 {
-	r->ray_dir_x = game->player.dir.x + game->player.plane.x * r->camera_x;
-	r->ray_dir_y = game->player.dir.y + game->player.plane.y * r->camera_x;
 	r->delta_dist_x = fabs(1 / r->ray_dir_x);
 	r->delta_dist_y = fabs(1 / r->ray_dir_y);
 	if (r->ray_dir_x < 0)
@@ -77,7 +75,8 @@ static void	set_direction(t_raycast *r, t_game *game)
 	else
 	{
 		r->step_x = 1;
-		r->side_dist_x = (r->map_x + 1.0 - game->player.pos.x) * r->delta_dist_x;
+		r->side_dist_x = (r->map_x + 1.0 - game->player.pos.x)
+			* r->delta_dist_x;
 	}
 	if (r->ray_dir_y < 0)
 	{
@@ -87,7 +86,8 @@ static void	set_direction(t_raycast *r, t_game *game)
 	else
 	{
 		r->step_y = 1;
-		r->side_dist_y = (r->map_y + 1.0 - game->player.pos.y) * r->delta_dist_y;
+		r->side_dist_y = (r->map_y + 1.0 - game->player.pos.y)
+			* r->delta_dist_y;
 	}
 }
 
@@ -111,6 +111,8 @@ int	cast_door_rays(t_raycast *r, t_game *game, int column)
 	r->camera_x = 2.0 * column / (double)SCREEN_WIDTH - 1;
 	r->hit = 0;
 	r->side = 0;
+	r->ray_dir_x = game->player.dir.x + game->player.plane.x * r->camera_x;
+	r->ray_dir_y = game->player.dir.y + game->player.plane.y * r->camera_x;
 	set_direction(r, game);
 	if (verify_hit_wall(r, game))
 		return (1);

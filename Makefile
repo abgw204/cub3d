@@ -30,7 +30,7 @@ FUNCTIONS = src/parsing/parsing.c \
 			src/hooks/mouse_handler/mouse.c \
 			src/hooks/menu.c \
 			src/hooks/keyboard_inputs/keyboard_handler.c \
-			src/render/draw/draw_pixel_in_image.c \
+			src/render/draw/draw_square.c \
 			src/render/draw/draw_sprites.c \
 			src/render/raycast/raycast.c \
 			src/render/raycast/threads_cond.c \
@@ -73,7 +73,7 @@ FUNCTIONS_BONUS = bonus/src/parsing/parsing.c \
 				bonus/src/hooks/mouse_handler/mouse.c \
 				bonus/src/hooks/menu.c \
 				bonus/src/hooks/keyboard_inputs/keyboard_handler.c \
-				bonus/src/render/draw/draw_pixel_in_image.c \
+				bonus/src/render/draw/draw_square.c \
 				bonus/src/render/draw/draw_sprites.c \
 				bonus/src/render/raycast/raycast.c \
 				bonus/src/render/raycast/raycast_door.c \
@@ -82,6 +82,7 @@ FUNCTIONS_BONUS = bonus/src/parsing/parsing.c \
 				bonus/src/render/raycast/threads_cond.c \
 				bonus/src/render/raycast/cast_rays_and_draw.c \
 				bonus/src/render/raycast/getters_setters.c \
+				bonus/src/render/raycast/get_int_and_increment.c \
 				bonus/src/game/start/init_game.c \
 				bonus/src/game/start/init_game_utils.c \
 				bonus/src/game/game_loop/game_loop.c \

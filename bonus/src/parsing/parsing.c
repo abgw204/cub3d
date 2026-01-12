@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:06 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 11:40:45 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:03:29 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	**create_symbols_matrix(void)
 static int	invalid_extension(char *file)
 {
 	char	*dot;
-	
+
 	dot = ft_strrchr(file, '.');
 	if (dot)
 	{
@@ -50,15 +50,15 @@ static int	validate_parameters_number(char ***config)
 		{
 			if (ft_len_matrix(*config) != 2)
 				if (!(ft_len_matrix(*config) == 3
-				&& !ft_strcmp((*config)[2], "\n")))
-				return (print_error("Texture with invalid parameters number!"));
+						&& !ft_strcmp((*config)[2], "\n")))
+					return (print_error("Texture with invalid parameters!"));
 		}
 		else
 		{
 			if (ft_len_matrix(*config) != 4)
 				if (!(ft_len_matrix(*config) == 5
-				&& !ft_strcmp((*config)[4], "\n")))
-				return (print_error("Color with invalid paramenters number!"));
+						&& !ft_strcmp((*config)[4], "\n")))
+					return (print_error("Color with invalid paramenters!"));
 		}
 		config++;
 	}
@@ -77,7 +77,10 @@ static int	validate_config(int file_fd)
 		return (print_error("Memory allocation error!"));
 	file = (char **)ft_calloc((CONFIG_TOKENS + 1) * sizeof(char *), 1);
 	if (!file)
+	{
+		free_matrix(possible_symbols);
 		return (print_error("Memory allocation error!"));
+	}
 	initialize_matrix(file, CONFIG_TOKENS + 1);
 	if (parse_file(file_fd, file, possible_symbols, 0))
 		return (free_matrix(possible_symbols));

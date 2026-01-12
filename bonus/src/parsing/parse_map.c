@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 19:14:13 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 15:50:16 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:53:22 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,38 +81,38 @@ static int	count_map_chars(t_list *map)
 
 static int	get_map(int file_fd)
 {
-    char	*line;
+	char	*line;
 
-    line = jump_blank_lines(&file_fd);
+	line = jump_blank_lines(&file_fd);
 	if (!line)
-    	return (free_all(NULL, get_data()->config, "No map found!"));
+		return (free_all(NULL, get_data()->config, "No map found!"));
 	get_data()->map_list = ft_lstnew(line);
 	if (search_bigger(line, &get_data()->map_w))
 		return (error(line, get_data()->map_list, "Newline in map!"));
 	free(line);
-    line = get_next_line(file_fd);
-    while (line)
-    {
-    	if (search_bigger(line, &get_data()->map_w))
+	line = get_next_line(file_fd);
+	while (line)
+	{
+		if (search_bigger(line, &get_data()->map_w))
 		{
 			free(line);
 			line = jump_blank_lines(&file_fd);
 			if (line)
 				return (error(line, get_data()->map_list, "Newline in map!"));
 		}
-        ft_lstadd_back(&get_data()->map_list, ft_lstnew(line));
+		ft_lstadd_back(&get_data()->map_list, ft_lstnew(line));
 		free(line);
 		line = get_next_line(file_fd);
-    }
+	}
 	get_data()->map_h = ft_lstsize(get_data()->map_list);
-    return (0);
+	return (0);
 }
 
 int	parse_map(int file_fd)
 {
 	char	**map;
-	int	valid_map;
-	
+	int		valid_map;
+
 	valid_map = 0;
 	if (get_map(file_fd))
 		return (1);

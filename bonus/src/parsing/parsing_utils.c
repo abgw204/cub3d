@@ -6,13 +6,13 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:01:51 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/10/17 18:07:04 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:03:51 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int		close_fd(int fd)
+int	close_fd(int fd)
 {
 	close(fd);
 	return (1);
@@ -28,7 +28,7 @@ void	trim_newlines_map(t_list *map)
 		map->content = ft_strtrim(temp, "\n");
 		free(temp);
 		map = map->next;
-	}	
+	}
 }
 
 void	trim_newline_chars(char ***config)

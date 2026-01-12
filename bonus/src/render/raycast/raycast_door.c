@@ -6,13 +6,13 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:39:15 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 11:02:48 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 19:18:17 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/cub3d.h"
 
-void    raycast_door(t_game *game)
+void	raycast_door(t_game *game)
 {
 	t_raycast	raycast;
 	int			column;

@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 18:39:15 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 11:02:41 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 19:18:06 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*terminate_job(t_game *game)
 	return (NULL);
 }
 
-void    *raycast(void *param)
+void	*raycast(void *param)
 {
 	t_raycast	raycast;
 	t_game		*game;

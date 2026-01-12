@@ -6,11 +6,25 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:52 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/19 12:48:22 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:36:34 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../include/cub3d.h"
+
+t_door	*get_door_at_pos(t_door *doors, t_iv2 pos, unsigned int n)
+{
+	unsigned int	i;
+
+	i = -1;
+	while (++i < n)
+	{
+		if (doors[i].pos.x == pos.x
+			&& doors[i].pos.y == pos.y)
+			return (&doors[i]);
+	}
+	return (NULL);
+}
 
 void	toggle_door(t_door *door)
 {

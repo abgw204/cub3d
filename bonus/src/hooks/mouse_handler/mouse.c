@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:05:19 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/05 11:05:10 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:46:25 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,14 @@ int	mouse_move(int x, int y, void *param)
 	return (0);
 }
 
-int	mouse_input_in_game(t_game *game, int x, int y, int mouse_btn)
+static int	mouse_input_in_game(t_game *game, int mouse_btn)
 {
-	(void)x;
-	(void)y;
 	if (mouse_btn == 1 && game->is_shooting == false
 		&& game->shoot_timer >= SHOOT_DELAY)
 	{
 		game->keys[6] = '1';
 		game->shoot_timer = 0.0;
-		system("paplay bonus/res/sounds/pistol-shot-233473.wav &"); // decide
+		system("paplay bonus/res/sounds/pistol-shot-233473.wav &");
 	}
 	return (0);
 }
@@ -49,7 +47,7 @@ int	mouse_input(int mouse_btn, int x, int y, void *param)
 
 	game = (t_game *)param;
 	if (game->state == IN_GAME)
-		return (mouse_input_in_game(game, x, y, mouse_btn));
+		return (mouse_input_in_game(game, mouse_btn));
 	if (game->state == MAIN_MENU)
 		return (mouse_input_menu(game, x, y, mouse_btn));
 	if (game->state == IN_SETTINGS)
