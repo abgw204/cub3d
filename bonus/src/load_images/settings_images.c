@@ -23,7 +23,7 @@ static int	images_error(t_game *game)
 	game->settings[0].img = NULL;
 	game->settings[1].img = NULL;
 	game->settings[2].img = NULL;
-	return (print_error("One or more images failed to load!4"));
+	return (print_error("One or more images failed to load!"));
 }
 
 int	load_settings_images(t_game *game)

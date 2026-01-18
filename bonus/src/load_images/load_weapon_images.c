@@ -19,8 +19,10 @@ int	load_weapon_images(t_game *game)
 			&game->gun.width,
 			&game->gun.height);
 	if (!game->gun.img)
-		return (print_error("One or more images failed to load!2"));
+		return (print_error("One or more images failed to load!"));
 	game->gun.addr = mlx_get_data_addr(game->gun.img,
 			&game->gun.bpp, &game->gun.line_len, &game->gun.endian);
+	if (game->gun.width != 615)
+		return (print_error("Invalid gun spritesheet!"));
 	return (0);
 }

@@ -26,7 +26,7 @@ static int	images_error(t_game *game)
 	game->menu_btns[1].img = NULL;
 	game->menu_btns[2].img = NULL;
 	game->menu_btns[3].img = NULL;
-	return (print_error("One or more images failed to load!3"));
+	return (print_error("One or more images failed to load!"));
 }
 
 int	load_menu_images(t_game *game)

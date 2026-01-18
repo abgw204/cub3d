@@ -19,8 +19,6 @@ static void	set_pos(t_game *game, int x, int y)
 	pos.x = (double)x + 0.5;
 	pos.y = (double)y + 0.5;
 	game->player.pos = pos;
-	printf("PlayerX: %.2f | PlayerY: %.2f\n", game->player.pos.x,
-		game->player.pos.y);
 }
 
 static void	aux_set_dir(t_game *game, char dir)

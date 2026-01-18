@@ -46,7 +46,7 @@ int	check_images(t_game *game)
 		game->w.img = NULL;
 		game->e.img = NULL;
 		game->door.img = NULL;
-		return (print_error("One or more textures failed to load!1"));
+		return (print_error("One or more textures failed to load!"));
 	}
 	return (0);
 }
@@ -93,7 +93,7 @@ static int	load_textures_images(t_game *game)
 int	configure_textures_images(t_game *game)
 {
 	game->door.img = mlx_xpm_file_to_image(game->mlx,
-			"bonus/res/textures/door_spritesheet.xpm",
+			"bonus/res/textures/sprites/door_spritesheet.xpm",
 			&game->door.width, &game->door.height);
 	if (load_textures_images(game))
 		return (1);
