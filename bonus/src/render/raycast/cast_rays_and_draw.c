@@ -6,7 +6,7 @@
 /*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:54:32 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/12 12:15:55 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/01/24 14:24:16 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static void	verify_hit_wall(t_raycast *r, t_game *game)
 		{
 			r->side_dist_x += r->delta_dist_x;
 			r->map_x += r->step_x;
-			r->side = 0;
+			r->side = VERTICAL_WALL;
 		}
 		else
 		{
 			r->side_dist_y += r->delta_dist_y;
 			r->map_y += r->step_y;
-			r->side = 1;
+			r->side = HORIZONTAL_WALL;
 		}
 		if (r->map_x < 0 || r->map_y < 0
 			|| r->map_x >= game->map_w || r->map_y >= game->map_h)

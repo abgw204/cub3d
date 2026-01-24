@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_player_info.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vfidelis <vfidelis@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 17:00:22 by gada-sil          #+#    #+#             */
-/*   Updated: 2026/01/10 11:33:20 by vfidelis         ###   ########.fr       */
+/*   Updated: 2026/01/24 13:50:13 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	set_dir(t_game *game, char dir)
 		game->player.dir.x = 0.0;
 		game->player.dir.y = -1.0;
 		game->player.plane.x = FOV;
-		game->player.plane.y = 0.00;
+		game->player.plane.y = 0.0;
 		game->player.angle = -PI / 2;
 	}
 	else if (dir == 'S')
