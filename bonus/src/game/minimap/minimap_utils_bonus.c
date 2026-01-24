@@ -1,0 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap_utils_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gada-sil <gada-sil@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/05 03:33:10 by gada-sil          #+#    #+#             */
+/*   Updated: 2026/01/24 15:35:20 by gada-sil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../include/cub3d_bonus.h"
+
+void	init_mini(t_minimap *mini, t_game *game)
+{
+	mini->pos.x = 0;
+	mini->pos.y = 0;
+	mini->x_bg = (int)game->player.pos.x - 5;
+	mini->y_bg = (int)game->player.pos.y - 5;
+	mini->x_end = (int)game->player.pos.x + 5;
+	mini->y_end = (int)game->player.pos.y + 5;
+}
+
+int	in_bounds(int x, int y, int endx, int endy)
+{
+	return (x >= 0 && y >= 0 && x < endx && y < endy);
+}
