@@ -47,7 +47,7 @@ static char	**parse_symbol(char *str, char **symbols)
 	char	**matrix;
 	int		len;
 
-	matrix = ft_split(str, " \t");
+	matrix = ft_split(str, " ");
 	if (!matrix)
 		return (NULL);
 	len = ft_strlen(matrix[0]);
@@ -61,7 +61,7 @@ static char	**parse_symbol(char *str, char **symbols)
 		free_matrix(matrix);
 		if (check_double_comma(str) || check_commas_number(str))
 			return (NULL);
-		matrix = ft_split(str, " ,\t");
+		matrix = ft_split(str, " ,");
 		if (compare_symbols(matrix[0], symbols))
 			return (matrix);
 	}
