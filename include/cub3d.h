@@ -24,7 +24,12 @@
 # include <pthread.h>
 # include <sys/socket.h>
 # include "../server/include/server.h"
-# include "../lib/minilibx-linux/mlx.h"
+// Graphics backend headers:
+// The project is migrating from MiniLibX to raylib; keep MLX optional so we can
+// build a raylib-only binary without X11/MLX dependencies.
+# ifndef CUB3D_NO_MLX
+#  include "../lib/minilibx-linux/mlx.h"
+# endif
 # include "libft.h"
 
 # define SCREEN_WIDTH 1920
@@ -32,16 +37,20 @@
 # define CONFIG_TOKENS 6
 
 /* KEYS */
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-# define KEY_ESC 65307
+// Keycodes are MiniLibX/X11 specific. When building the raylib backend we use
+// raylib's own KeyboardKey enum (KEY_W, KEY_A, ...), so keep these disabled.
+# ifndef CUB3D_NO_MLX
+#  define KEY_W 119
+#  define KEY_A 97
+#  define KEY_S 115
+#  define KEY_D 100
+#  define KEY_ESC 65307
 
-# define LEFT_ARROW 65361
-# define RIGHT_ARROW 65363
-# define UP_ARROW 65362
-# define DOWN_ARROW 65364
+#  define LEFT_ARROW 65361
+#  define RIGHT_ARROW 65363
+#  define UP_ARROW 65362
+#  define DOWN_ARROW 65364
+# endif
 
 /* GAME STATES */
 # define MAIN_MENU 0
@@ -49,13 +58,21 @@
 # define IN_SETTINGS 2
 
 /* COLORS */
-# define BLACK 0x000000
-# define WHITE 0xFFFFFF
-# define WHITE_ISH 0xFFFFFE
+// raylib already defines BLACK/WHITE as Color literals.
+# ifndef CUB3D_NO_MLX
+#  define BLACK 0x000000
+#  define WHITE 0xFFFFFF
+#  define WHITE_ISH 0xFFFFFE
+# else
+#  define WHITE_ISH 0xFFFFFE
+# endif
 
 /* MATH */
 # define PI 3.14159265358979323846
-//# define FOV 0.66
+// Used by player camera plane and rotation.
+# ifndef FOV
+#  define FOV 0.75
+# endif
 
 /* NETWORKING */
 # define MAX_PLAYERS 4
@@ -159,6 +176,7 @@ typedef struct	s_players
 	double		x;
 	double		y;
 	int			connected;
+	int			health;
 	t_sprite	sp;
 }	t_players;
 
@@ -273,6 +291,9 @@ void	limit_fps(double target_fps);
 
 /* FILE PARSING */
 int		parse_given_file(char *file);
+// Same as parse_given_file() but assumes the fd is already open.
+// Useful for alternate frontends (e.g. raylib) that want different CLI rules.
+int		parse_given_fd(int file_fd);
 int		parse_file(int map_fd, char **config, char **symbols, int i);
 int		parse_fc_colors(char ***config);
 int		parse_map(int file_fd);

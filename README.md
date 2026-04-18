@@ -39,6 +39,15 @@ Este projeto faz parte do currículo da 42 Rio.
    ```bash
    ./cub3d maps/mapa.cub
 
+## raylib (migração do renderer)
+
+O projeto está migrando o backend gráfico de MiniLibX para raylib.
+
+- Build do raylib: `make raylib` (usa `pkg-config raylib` se estiver instalado; senão compila o submodule)
+- Build do bootstrap (janela + FPS): `make rl`
+
+As dependências de desktop Linux (X11) e o passo a passo estão em `docs/raylib.md`.
+
 ## Principais Aprendizados
 
 Durante o desenvolvimento deste projeto, foram consolidados os seguintes conhecimentos:

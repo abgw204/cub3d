@@ -83,6 +83,18 @@ static int	validate_config(int file_fd)
 	return (0);
 }
 
+int	parse_given_fd(int file_fd)
+{
+	if (validate_config(file_fd))
+		return (1);
+	if (parse_fc_colors(get_data()->config))
+		return (1);
+	trim_newline_chars(get_data()->config);
+	if (parse_map(file_fd))
+		return (1);
+	return (0);
+}
+
 int	parse_given_file(char *file)
 {
 	int	file_fd;
@@ -92,12 +104,7 @@ int	parse_given_file(char *file)
 	file_fd = open(file, O_RDONLY);
 	if (file_fd < 0)
 		return (print_perror());
-	if (validate_config(file_fd))
-		return (close_fd(file_fd));
-	if (parse_fc_colors(get_data()->config))
-		return (close_fd(file_fd));
-	trim_newline_chars(get_data()->config);
-	if (parse_map(file_fd))
+	if (parse_given_fd(file_fd))
 		return (close_fd(file_fd));
 	close(file_fd);
 	return (0);

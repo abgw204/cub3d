@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gada-sil <gada-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 18:02:43 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/29 13:55:58 by gada-sil         ###   ########.fr       */
+/*   Updated: 2026/04/18 14:37:27 by gada-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,38 @@ int add_player(t_s_player *players, struct sockaddr_in *addr, char *buffer, t_se
 void update_player_inputs(t_s_player *p, char *buffer)
 {
 	int	i;
+	char	event;
 
 	i = -1;
 	p->packet_received = true;
 	while (++i < 4)
 		p->keys[i] = buffer[i];
 	memcpy(&p->angle, buffer + 8, sizeof(double));
-	memcpy(&p->shot, buffer + 16, sizeof(char));
-	printf("p->shot=%c\n", p->shot);
+	memcpy(&event, buffer + 16, sizeof(char));
+	// Shot/respawn are treated as events: latch any non-zero value
+	// until simulation consumes it (multiple packets can arrive per tick).
+	if (event == '2')
+		p->shot = '2';
+	else if (event == '1' && p->shot != '2')
+		p->shot = '1';
 	p->dx = cos(p->angle);
 	p->dy = sin(p->angle);
 	p->plane_x = -p->dy * FOV;
 	p->plane_y =  p->dx * FOV;
+}
+
+static void	respawn_player(t_server *s, t_s_player *p)
+{
+	int	r;
+
+	if (s->valid_spawn_counter <= 0)
+		return;
+	r = rand() % s->valid_spawn_counter;
+	p->x = (double)(s->pos[r].x + 0.5);
+	p->y = (double)(s->pos[r].y + 0.5);
+	p->health = 3;
+	// Consume the request so it doesn't repeat every tick.
+	p->shot = '0';
 }
 
 void	move_w(t_s_player *player, t_server *s)
@@ -226,6 +246,8 @@ void	simulate_players(t_server *s)
     {
         if (!players[i].connected)
             continue;
+		if (players[i].shot == '2')
+			respawn_player(s, &players[i]);
         if (players[i].keys[0] == '1')
             move_w(&players[i], s);
         if (players[i].keys[1] == '1')
@@ -236,6 +258,9 @@ void	simulate_players(t_server *s)
             move_d(&players[i], s);
     }
 	check_players_shots(s);
+	// Consume one-tick events.
+	for (i = 0; i < MAX_PLAYERS; i++)
+		players[i].shot = '0';
 }
 
 void	update_idle_time(t_s_player *players)
