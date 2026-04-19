@@ -5,6 +5,20 @@
 #  ifndef WIN32_LEAN_AND_MEAN
 #   define WIN32_LEAN_AND_MEAN
 #  endif
+
+// Prevent WinAPI from defining common names that conflict with raylib.
+// - Rectangle() (GDI) conflicts with raylib's Rectangle type.
+// - CloseWindow/ShowCursor/LoadImage/DrawText (USER32) conflict with raylib APIs.
+#  ifndef NOMINMAX
+#   define NOMINMAX
+#  endif
+#  ifndef NOGDI
+#   define NOGDI
+#  endif
+#  ifndef NOUSER
+#   define NOUSER
+#  endif
+
 #  include <winsock2.h>
 #  include <ws2tcpip.h>
 

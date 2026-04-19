@@ -13,7 +13,7 @@
 #include "../../include/cub3d.h"
 
 #ifdef _WIN32
-# include <winsock2.h>
+# include "../../include/cub3d_platform.h"
 #endif
 
 int	print_error(char *error_message)

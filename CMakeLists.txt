@@ -63,6 +63,7 @@ target_link_libraries(cub3d_rl PRIVATE raylib ft)
 if (NOT WIN32)
   target_link_libraries(cub3d_rl PRIVATE m)
 else()
+  target_compile_definitions(cub3d_rl PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX NOGDI NOUSER)
   target_link_libraries(cub3d_rl PRIVATE ws2_32)
 endif()
 
