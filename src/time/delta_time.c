@@ -12,13 +12,13 @@
 
 #include "../../include/cub3d.h"
 
+#include "raylib.h"
+
 double	g_delta_time = 0.0;
 
 double	get_time_in_seconds(void)
 {
-	struct timeval	tv;
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec + tv.tv_usec / 1000000.0);
+	return (GetTime());
 }
 
 static void	get_fps(t_game *game, int frames, double fps_timer)
@@ -35,16 +35,11 @@ static void	get_fps(t_game *game, int frames, double fps_timer)
 
 void	set_delta_time(t_game *game)
 {
-	static double	last = 0.0;
 	static double	fps_timer = 0.0;
 	static int		frames = 0;
-	double			current_time;
 
-	current_time = get_time_in_seconds();
-	g_delta_time = current_time - last;
-	if (last == 0)
-		g_delta_time = 0;
-	last = current_time;
+	// Use raylib frame timing for cross-platform support.
+	g_delta_time = (double)GetFrameTime();
 	if (game->config.show_fps)
 	{
 		frames++;

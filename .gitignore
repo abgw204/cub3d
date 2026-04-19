@@ -7,6 +7,9 @@ cub3d_rl
 cub3d_bonus
 server_cub3d
 
+# build dirs
+build/
+
 # OS/editor
 .DS_Store
 *.swp

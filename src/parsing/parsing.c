@@ -12,6 +12,8 @@
 
 #include "../../include/cub3d.h"
 
+#include <stdio.h>
+
 static char	**create_symbols_matrix(void)
 {
 	char	**matrix;
@@ -98,14 +100,28 @@ int	parse_given_fd(int file_fd)
 int	parse_given_file(char *file)
 {
 	int	file_fd;
+	FILE	*f;
 
 	if (invalid_extension(file))
 		return (print_error("Invalid file extension!"));
-	file_fd = open(file, O_RDONLY);
-	if (file_fd < 0)
+	f = fopen(file, "rb");
+	if (f == NULL)
 		return (print_perror());
+#ifdef _WIN32
+	file_fd = _fileno(f);
+#else
+	file_fd = fileno(f);
+#endif
+	if (file_fd < 0)
+	{
+		fclose(f);
+		return (print_perror());
+	}
 	if (parse_given_fd(file_fd))
-		return (close_fd(file_fd));
-	close(file_fd);
+	{
+		fclose(f);
+		return (1);
+	}
+	fclose(f);
 	return (0);
 }

@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #ifndef CUB3D_RL_RENDER_SCALE
 # define CUB3D_RL_RENDER_SCALE 0.5f
@@ -27,6 +28,7 @@ static void	set_null_game(t_game *game)
 	game->local_keys = NULL;
 	game->map = NULL;
 	game->z_buffer = NULL;
+	game->soc.socket = CUB3D_INVALID_SOCKET;
 }
 
 static void	init_config_rl(t_config *config)
@@ -37,17 +39,28 @@ static void	init_config_rl(t_config *config)
 
 static int	parse_map_fd(const char *map_path)
 {
+	FILE	*f;
 	int	fd;
 
-	fd = open(map_path, O_RDONLY);
-	if (fd < 0)
+	f = fopen(map_path, "rb");
+	if (f == NULL)
 		return (print_perror());
+#ifdef _WIN32
+	fd = _fileno(f);
+#else
+	fd = fileno(f);
+#endif
+	if (fd < 0)
+	{
+		fclose(f);
+		return (print_perror());
+	}
 	if (parse_given_fd(fd))
 	{
-		close(fd);
+		fclose(f);
 		return (1);
 	}
-	close(fd);
+	fclose(f);
 	return (0);
 }
 
@@ -287,8 +300,9 @@ void	rl_app_shutdown(t_rl_ctx *ctx)
 	if (game != NULL)
 	{
 		free(game->z_buffer);
-		if (game->soc.socket > 0)
-			close(game->soc.socket);
+		if (game->soc.socket != CUB3D_INVALID_SOCKET)
+			rl_platform_socket_close(game->soc.socket);
+		rl_platform_net_cleanup();
 		free(game->keys);
 		free(game->local_keys);
 		free(game->fps);

@@ -32,21 +32,37 @@ Este projeto faz parte do currículo da 42 Rio.
    ```bash
    git clone https://github.com/abgw204/cub3d.git
    cd cub3d
- 2. Compile o client (raylib):
-   ```bash
-    make rl
+ 2. Compile o client (raylib) via CMake:
+    ```bash
+     cmake -S . -B build/cmake
+     cmake --build build/cmake
  3. Execute o jogo passando um mapa `.cub` e os argumentos de rede:
    ```bash
-    ./cub3d_rl <MAPA.cub> <PLAYER_ID> <SERVER_IP> [PORTA]
+     ./build/cmake/cub3d_rl <MAPA.cub> <PLAYER_ID> <SERVER_IP> [PORTA]
 
 ## raylib
 
 O client usa **raylib** como backend gráfico.
 
-- Build do raylib (opcional): `make raylib` (usa `pkg-config raylib` se estiver instalado; senão compila o submodule)
-- Build do client: `make rl`
+- Build (default):
+  - `cmake -S . -B build/cmake`
+  - `cmake --build build/cmake`
+
+O Makefile antigo ainda existe, mas o caminho multiplataforma (Linux/Windows) é CMake.
 
 As dependências de desktop Linux (X11) e o passo a passo estão em `docs/raylib.md`.
+
+## Windows
+
+Build (MSYS2/MinGW-w64) via CMake: `docs/windows.md`.
+
+## Distribuir (zip)
+
+Gera um zip com o binário + `res/`:
+
+```bash
+cmake --build build/cmake --target package_zip
+```
 
 ## Servidor
 

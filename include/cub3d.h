@@ -19,11 +19,9 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <math.h>
-# include <sys/time.h>
 # include <stdbool.h>
-# include <sys/socket.h>
 
-# include "../server/include/server.h"
+# include "cub3d_platform.h"
 # include "libft.h"
 
 # define SCREEN_WIDTH 1920
@@ -43,11 +41,19 @@
 # define MAX_PLAYERS 4
 # define SHOOT_DELAY 0.3
 # define COLLISION_DIST 0.3
+# define SEND_PACKET_SIZE 28
 
 extern double	g_delta_time;
 
 typedef struct s_data		t_data;
 typedef struct s_game_data	t_game;
+
+typedef struct s_socket
+{
+	cub3d_socket_t			socket;
+	struct sockaddr_in	peer;
+	cub3d_socklen_t		peer_len;
+}	t_socket;
 
 typedef struct s_int_vector
 {

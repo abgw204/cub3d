@@ -12,6 +12,10 @@
 
 #include "../../include/cub3d.h"
 
+#ifdef _WIN32
+# include <winsock2.h>
+#endif
+
 int	print_error(char *error_message)
 {
 	ft_putendl_fd("Error", 2);
@@ -22,6 +26,18 @@ int	print_error(char *error_message)
 int	print_perror(void)
 {
 	ft_putendl_fd("Error", 2);
+	#ifdef _WIN32
+	{
+		int	err;
+
+		err = WSAGetLastError();
+		if (err != 0)
+			ft_putendl_fd("cub3d: winsock error", 2);
+		else
+			perror("cub3d");
+	}
+	#else
 	perror("cub3d");
+	#endif
 	return (1);
 }

@@ -35,8 +35,12 @@ static void	net_state_from_bytes(t_net_state *st, const char *buf)
 
 int	rl_net_init(t_game *game, int my_id, const char *server_ip, int port)
 {
-	game->soc.socket = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, 0);
-	if (game->soc.socket == -1)
+	if (rl_platform_net_startup() != 0)
+		return (print_error("Winsock init failed"));
+	game->soc.socket = socket(AF_INET, SOCK_DGRAM, 0);
+	if (game->soc.socket == CUB3D_INVALID_SOCKET)
+		return (print_perror());
+	if (rl_platform_socket_set_nonblocking(game->soc.socket) != 0)
 		return (print_perror());
 	memset(&game->soc.peer, 0, sizeof(game->soc.peer));
 	game->soc.peer.sin_family = AF_INET;

@@ -14,7 +14,7 @@
 
 int		close_fd(int fd)
 {
-	close(fd);
+	(void)fd;
 	return (1);
 }
 

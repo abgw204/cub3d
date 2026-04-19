@@ -3,8 +3,8 @@
 
 # include "cub3d.h"
 
-# include <arpa/inet.h>
-# include <sys/socket.h>
+# include "cub3d_platform.h"
+# include "rl_platform.h"
 
 # include "raylib.h"
 
