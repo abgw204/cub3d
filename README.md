@@ -32,21 +32,26 @@ Este projeto faz parte do currículo da 42 Rio.
    ```bash
    git clone https://github.com/abgw204/cub3d.git
    cd cub3d
-2. Compile o projeto:
+ 2. Compile o client (raylib):
    ```bash
-   make
-3. Execute o jogo passando um mapa .cub:
+    make rl
+ 3. Execute o jogo passando um mapa `.cub` e os argumentos de rede:
    ```bash
-   ./cub3d maps/mapa.cub
+    ./cub3d_rl <MAPA.cub> <PLAYER_ID> <SERVER_IP> [PORTA]
 
-## raylib (migração do renderer)
+## raylib
 
-O projeto está migrando o backend gráfico de MiniLibX para raylib.
+O client usa **raylib** como backend gráfico.
 
-- Build do raylib: `make raylib` (usa `pkg-config raylib` se estiver instalado; senão compila o submodule)
-- Build do bootstrap (janela + FPS): `make rl`
+- Build do raylib (opcional): `make raylib` (usa `pkg-config raylib` se estiver instalado; senão compila o submodule)
+- Build do client: `make rl`
 
 As dependências de desktop Linux (X11) e o passo a passo estão em `docs/raylib.md`.
+
+## Servidor
+
+- Build do servidor: `make server`
+- Executar: `./server_cub3d [PORTA]`
 
 ## Principais Aprendizados
 

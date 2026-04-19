@@ -3,49 +3,7 @@ FLAGS = -g -Wall -Wextra -Werror -Wno-cast-function-type
 
 LIBFT = lib/libft/libft.a
 
-FUNCTIONS = src/parsing/parsing.c \
-			src/parsing/parsing_utils.c \
-			src/parsing/parse_file.c \
-			src/parsing/parse_fc_colors.c \
-			src/parsing/parse_map_flood_fill.c\
-			src/parsing/free_all.c \
-			src/parsing/compare_symbols.c \
-			src/parsing/parse_map.c \
-			src/parsing/parse_map_utils.c \
-			src/parsing/hex_int_conversions.c \
-			src/parsing/get_player_info.c \
-			src/error/error.c \
-			src/load_images/main_menu_images.c \
-			src/load_images/load_screen_image.c \
-			src/load_images/settings_images.c \
-			src/load_images/load_textures_images.c \
-			src/time/delta_time.c \
-			src/free/free_and_exit.c \
-			src/time/limit_fps.c \
-			src/game/menu_screen/main_menu.c \
-			src/game/minimap/minimap.c \
-			src/game/minimap/minimap_utils.c \
-			src/game/menu_screen/set_img_info.c \
-			src/game/menu_screen/settings.c \
-			src/hooks/mouse_handler/mouse.c \
-			src/hooks/menu.c \
-			src/hooks/keyboard_inputs/keyboard_handler.c \
-			src/render/draw/draw_pixel_in_image.c \
-			src/render/draw/draw_sprites.c \
-			src/render/raycast/raycast.c \
-			src/render/raycast/threads_cond.c \
-			src/render/raycast/cast_rays_and_draw.c \
-			src/render/raycast/getters_setters.c \
-			src/game/start/init_game.c \
-			src/game/start/init_game_utils.c \
-			src/game/game_loop/game_loop.c \
-			src/game/utils/mouse_utils.c \
-			src/game/player/move_player.c \
-			src/game/player/rotate_camera.c \
-			src/load_images/load_weapon_images.c \
-			src/render/raycast/draw_utils.c
-
-# Sources we can build in the raylib migration binary (no MLX usage).
+# Sources for the raylib client (no MLX usage).
 FUNCTIONS_RL = src/parsing/parsing.c \
 			src/parsing/parsing_utils.c \
 			src/parsing/parse_file.c \
@@ -59,24 +17,27 @@ FUNCTIONS_RL = src/parsing/parsing.c \
 			src/parsing/get_player_info.c \
 			src/time/delta_time.c \
 			src/time/limit_fps.c \
-			src/game/player/rotate_camera.c
+			src/rl/rl_error.c \
+			src/rl/rl_utils.c \
+			src/rl/rl_assets.c \
+			src/rl/rl_net.c \
+			src/rl/rl_input.c \
+			src/rl/rl_ui.c \
+			src/rl/rl_render_world.c \
+			src/rl/rl_render_sprites.c \
+			src/rl/rl_app.c
 
 OBJS_RL = $(FUNCTIONS_RL:.c=.o)
 
-FUNCTIONS_BONUS =
+# Raylib-only objects need raylib headers.
+$(OBJS_RL): FLAGS += -DCUB3D_NO_MLX $(RAYLIB_CFLAGS)
 
 FUNCTIONS_SERVER = server/src/init.c \
 					server/src/time.c \
 					server/src/parse_map_server.c \
 					server/src/parse_map_s_utils.c
 
-OBJS = $(FUNCTIONS:.c=.o)
-
-OBJS_BONUS = $(FUNCTIONS_BONUS:.c=.o)
-
 OBJS_SERVER = $(FUNCTIONS_SERVER:.c=.o)
-
-NAME = cub3d
 
 NAME_RL = cub3d_rl
 
@@ -101,19 +62,13 @@ RAYLIB_LDLIBS = $(RAYLIB_LDLIBS_SUBMODULE)
 X11_DEPS_CHECK = /usr/include/X11/extensions/Xrandr.h
 endif
 
-NAME_BONUS = cub3d_bonus
-
 SERVER_NAME = server_cub3d
 
 .c.o:
 	@echo -n "|"
 	@$(CC) $(FLAGS) -c $< -o $@
 
-all: $(NAME_LIB) $(NAME)
-
-$(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(FLAGS) src/main.c $(OBJS) -Llib/libft -lft -Llib/minilibx-linux -lmlx_Linux -lX11 -lXext -lm -o $(NAME)
-	@echo "\033[46mcub3d compiled successfully!\033[0m"
+all: rl
 
 
 ifeq ($(RAYLIB_PC_OK),yes)
@@ -136,10 +91,8 @@ $(NAME_RL): raylib $(OBJS_RL) $(LIBFT)
 
 rl: $(NAME_RL)
 
-$(NAME_BONUS): $(OBJS_BONUS) $(LIBFT)
-	@$(CC) $(FLAGS) main_bonus.c $(OBJS_BONUS) -Llib/libft -lft -o $(NAME_BONUS)
-	@echo
-	@echo "\033[46mcub3d compiled successfully!\033[0m"
+bonus:
+	@printf "bonus target removed (MLX version was deleted)\n" && false
 
 $(LIBFT):
 	@echo
@@ -152,13 +105,11 @@ $(SERVER_NAME): $(OBJS_SERVER) $(LIBFT)
 server: $(SERVER_NAME)
 
 clean:
-	@rm -f $(OBJS) $(OBJS_BONUS) $(OBJS_SERVER)
+	@rm -f $(OBJS_SERVER) $(OBJS_RL)
 	@make clean -C lib/libft --no-print-directory
 
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS) $(NAME_LIB) $(NAME_LIB_BONUS) $(SERVER_NAME) $(NAME_RL)
+	@rm -f $(SERVER_NAME) $(NAME_RL)
 	@make fclean -C lib/libft --no-print-directory
 
 re: fclean all
-
-bonus: $(NAME_BONUS)

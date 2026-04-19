@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   rl_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gada-sil <gada-sil@student.42.fr>          +#+  +:+       +#+        */
+/*   By: opencode                                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/24 17:05:28 by gada-sil          #+#    #+#             */
-/*   Updated: 2025/12/08 11:09:37 by gada-sil         ###   ########.fr       */
+/*   Created: 2026/04/19                                #+#    #+#             */
+/*   Updated: 2026/04/19                                ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,6 @@ int	print_error(char *error_message)
 {
 	ft_putendl_fd("Error", 2);
 	ft_putendl_fd(error_message, 2);
-	return (1);
-}
-
-int	print_error_free(t_game *game, char *error_message)
-{
-	if (error_message)
-		print_error(error_message);
-	free(game->map);
-	free(game->keys);
-	free_images(game);
-	if (game->mlx)
-	{
-		if (game->win)
-			mlx_destroy_window(game->mlx, game->win);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-	}
-	close(game->soc.socket);
-	ft_lstclear(&game->data->map_list, free);
-	free_stack_matrix_array(game->data->config);
 	return (1);
 }
 

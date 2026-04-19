@@ -1,7 +1,7 @@
-NO ./res/textures/wood1.xpm
-SO ./res/textures/grass.xpm
-WE ./res/textures/wood.xpm
-EA ./res/textures/brick.xpm
+NO ./res/textures_png/wood1.png
+SO ./res/textures_png/grass.png
+WE ./res/textures_png/wood.png
+EA ./res/textures_png/brick.png
 
 F 0, 0, 0
 C 0, 0, 0

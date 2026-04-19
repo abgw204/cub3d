@@ -1,0 +1,13 @@
+*.o
+*.a
+
+# binaries
+cub3d
+cub3d_rl
+cub3d_bonus
+server_cub3d
+
+# OS/editor
+.DS_Store
+*.swp
+*~

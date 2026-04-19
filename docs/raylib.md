@@ -1,6 +1,6 @@
 # raylib Integration (Linux)
 
-This repo is migrating the renderer from MiniLibX to raylib.
+This repo uses raylib as the graphics backend.
 
 ## Dependencies (desktop Linux)
 
@@ -42,7 +42,7 @@ git submodule update --init --recursive
 make raylib
 ```
 
-3. Build the migration bootstrap binary:
+3. Build the client binary:
 
 ```bash
 make rl
@@ -56,5 +56,4 @@ make rl
 
 ## Notes
 
-- `cub3d_rl` is a minimal raylib app used to validate build/link during the migration.
-- It compiles without MiniLibX by defining `CUB3D_NO_MLX`.
+- The client compiles with `-DCUB3D_NO_MLX` and does not depend on MiniLibX.

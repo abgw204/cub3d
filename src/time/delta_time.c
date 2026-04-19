@@ -57,41 +57,5 @@ void	set_delta_time(t_game *game)
 		get_fps(game, frames, fps_timer);
 	}
 
-	// DEBUG INFO
-	/*mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][0]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 60), 0xFFFFFF, game->data->config[0][1]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 80), 0xFFFFFF, game->data->config[1][0]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 80), 0xFFFFFF, game->data->config[1][1]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 100), 0xFFFFFF, game->data->config[2][0]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 100), 0xFFFFFF, game->data->config[2][1]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 120), 0xFFFFFF, game->data->config[3][0]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 120), 0xFFFFFF, game->data->config[3][1]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0xFFFFFF, game->data->config[4][0]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0xFF0000, game->data->config[4][1]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 75),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x00FF00, game->data->config[4][2]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 160), 0x6666FF, game->data->config[4][3]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 30),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 180), 0xFFFFFF, game->data->config[5][0]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 46),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 180), 0xFF0000, game->data->config[5][1]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 75),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 180), 0x00FF00, game->data->config[5][2]);
-	mlx_string_put(game->mlx, game->win, SCREEN_WIDTH - (SCREEN_WIDTH - 100),
-		SCREEN_HEIGHT - (SCREEN_HEIGHT - 180), 0x6666FF, game->data->config[5][3]);
-	t_uiv2 p1 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 147)};
-	t_uiv2 p2 = {.x = SCREEN_WIDTH - (SCREEN_WIDTH - 130), .y = SCREEN_HEIGHT - (SCREEN_HEIGHT - 167)};
-	draw_square(game, p1, 15, game->data->f_color);
-	draw_square(game, p2, 15, game->data->c_color);*/
+	(void)game;
 }
